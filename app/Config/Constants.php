@@ -92,3 +92,10 @@ define('EVENT_PRIORITY_NORMAL', 100);
  * @deprecated Use \CodeIgniter\Events\Events::PRIORITY_HIGH instead.
  */
 define('EVENT_PRIORITY_HIGH', 10);
+
+/**
+ * 
+ */
+defined('__SYS_URL_PREFIX__')               || define('__SYS_URL_PREFIX__', 'assetmanagements');
+defined('__SYS_ENVIRONMENT_FILE__')         || define('__SYS_ENVIRONMENT_FILE__', '../.env');
+defined('__SYS_LICENSE_KEY_FILE__')         || define('__SYS_LICENSE_KEY_FILE__', '../osam.lic');

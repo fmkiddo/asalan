@@ -8,6 +8,9 @@ use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
+use App\Libraries\AssetType;
+use CodeIgniter\Files\File;
+use CodeIgniter\HTTP\CURLRequest;
 
 /**
  * Class BaseController
@@ -19,8 +22,19 @@ use Psr\Log\LoggerInterface;
  *
  * For security be sure to declare any new methods as protected or private.
  */
-abstract class BaseController extends Controller
-{
+abstract class BaseController extends Controller {
+    
+    private $viewPaths;
+    private $pageData;
+    private $parser;
+    private $serverConfig;
+    
+    /**
+     * 
+     * @var CURLRequest
+     */
+    private $curl;
+    private $session;
     /**
      * Instance of the main Request object.
      *
@@ -36,23 +50,216 @@ abstract class BaseController extends Controller
      * @var list<string>
      */
     protected $helpers = [];
+    
+    protected $appConfig;
 
     /**
      * Be sure to declare properties for any property fetch you initialized.
      * The creation of dynamic property is deprecated in PHP 8.2.
      */
     // protected $session;
+    
+    protected function __isReady (): bool {
+        $env    = new File (__SYS_ENVIRONMENT_FILE__);
+        $lic    = new File (__SYS_LICENSE_KEY_FILE__);
+        return (file_exists ($env->getPathname ()) && file_exists ($lic->getPathname ()));
+    }
+    
+    protected function __getServerURL (string $relativePath='') {
+        $url    = "{$this->serverConfig->server_url}{$this->serverConfig->infix_url}";
+        $url    .=  "{$relativePath}";
+        return $url;
+    }
+    
+    protected function __getSiteURL (string $relativePath='') {
+        $url    = '';
+        if (!$this->__isReady()) $url    = base_url (__SYS_URL_PREFIX__ . "/index.php/{$relativePath}");
+        else $url    = site_url (__SYS_URL_PREFIX__ . "/{$relativePath}");
+        return $url;
+    }
+    
+    protected function __getBaseURL (string $relativePath='') {
+        return base_url (__SYS_URL_PREFIX__ . '/' . $relativePath);
+    }
 
+    /**
+     * 
+     * Method to instantiate additional components upon
+     * class instantiation. You can add more controller resources
+     * use this method.
+     */
+    protected function __initComponents () {
+        $this->addAssetResource ('assets/vendors/bootstrap-5.3.3/css/bootstrap.css')
+            ->addAssetResource ('assets/vendors/materialdesignicons-7.4.47/css/materialdesignicons.css')
+            ->addAssetResource ('assets/vendors/jquery-3.7.1/jquery-3.7.1.js', AssetType::SCRIPT)
+            ->addAssetResource ('assets/vendors/bootstrap-5.3.3/js/bootstrap.bundle.js', AssetType::SCRIPT)
+            ->addViewData ('siteURL', $this->__getSiteURL ());
+    }
+    
+    protected function __isSessionSet (): bool {
+        return !($this->session === NULL);
+    }
+    
+    /**
+     * 
+     * @return $this
+     */
+    protected function __initSession () {
+        $this->session  = \Config\Services::session ();
+        return $this;
+    }
+    
+    /**
+     * 
+     * @param string $name
+     * @param array $sessionData
+     * @return $this
+     */
+    protected function __getSessionData ($name, &$sessionData) {
+        $sessionData = $this->session->get ($name);
+        return $this;
+    }
+    
+    /**
+     * 
+     * @param array|string $sessionData
+     * @return $this
+     */
+    protected function __setSessionData ($sessionData) {
+        if ($this->session === NULL) $this->initSession ();
+        $this->session->set ($sessionData);
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return $this
+     */
+    protected function __destroySession () {
+        $this->session->destroy ();
+        return $this;
+    }
+    
+    /**
+     * 
+     * @param array|string $data
+     * @return $this
+     */
+    protected function __setFlashdata ($data) {
+        $this->session->setFlashdata ($data);
+        return $this;
+    }
+    
+    /**
+     * 
+     * @param string $name
+     * @param array $flashdata
+     * @return \App\Controllers\BaseController
+     */
+    protected function __getFlashdata ($name, &$flashdata) {
+        $flashdata = $this->session->getFlashdata($name);
+        return $this;
+    }
+    
+    /**
+     * 
+     * Convinient method to add one resource to the controller's asset.
+     * $type default to STYLE type when not provided.
+     * 
+     * @param string $assetURL
+     * @param AssetType $type
+     * @return $this
+     */
+    protected function addAssetResource (string $assetURL, AssetType $type=AssetType::STYLE) {
+        if ($type === AssetType::SCRIPT) {
+            if (!array_key_exists ('scripts', $this->pageData)) $this->pageData['scripts']   = [];
+            array_push ($this->pageData['scripts'], ['url' => $assetURL]);
+        } else {
+            if (!array_key_exists ('styles', $this->pageData)) $this->pageData['styles'] = [];
+            array_push ($this->pageData['styles'], ['url' => $assetURL]);
+        }
+        return $this;
+    }
+    
+    /**
+     * 
+     * @param string $name
+     * @param mixed $value
+     * @return $this
+     */
+    protected function addViewData (string $name, mixed $value) {
+        $this->pageData[$name]  = $value;
+        return $this;
+    }
+    
+    
+    /**
+     * 
+     * @param string $name
+     * @return $this
+     */
+    protected function addHelper (string $name) {
+        array_push ($this->helpers, $name);
+        return $this;
+    }
+    
+    /**
+     * 
+     * @param string $pathToView
+     * @return $this
+     */
+    protected function addViewPaths (string $pathToView) {
+        array_push ($this->viewPaths, $pathToView);
+        return $this;
+    }
+    
+    /**
+     * Method to render view. It will accumulate all page data and views
+     * and translate it to HTML string to be sent to user's browser for display
+     * 
+     * @return string
+     */
+    protected function renderView (): string {
+        $this->addViewData('baseURL', $this->__getBaseURL ())
+            ->addViewData('charset', $this->appConfig->charset)
+            ->addViewData('locale', $this->appConfig->defaultLocale)
+            ->addViewData('year', date ('Y'));
+        $this->parser->setData ($this->pageData);
+        $rendered = '';
+        foreach ($this->viewPaths as $viewPath) $rendered .= $this->parser->render ($viewPath, $this->pageData);
+        return $rendered;
+    }
+    
+    protected function sendRequest ($url, $options, $method='get'): ResponseInterface {
+        return $this->curl->$method ($url, $options);
+    }
+    
     /**
      * @return void
      */
-    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
-    {
+    public function initController (
+            RequestInterface $request, 
+            ResponseInterface $response, 
+            LoggerInterface $logger) {
         // Do Not Edit This Line
-        parent::initController($request, $response, $logger);
-
+        parent::initController ($request, $response, $logger);
+        $this->addHelper ('url');
+        $this->appConfig    = config ('App');
+        $this->serverConfig = config ('Server');
+        $this->curl         = \Config\Services::curlrequest ();
+        $this->parser       = \Config\Services::parser ();
+        $this->viewPaths    = [];
+        $this->pageData     = [];
+        $this->__initComponents ();
+        $isSetup    = $this->__isReady() ? 'false' : 'true';
+        $this->addAssetResource ('assets/css/asalan.css')
+            ->addAssetResource ('assets/js/asalan.js', AssetType::SCRIPT)
+            ->addViewData('setup', $isSetup);
+        helper ($this->helpers);
         // Preload any models, libraries, etc, here.
 
         // E.g.: $this->session = \Config\Services::session();
     }
+    
+    abstract public function index (): string;
 }
