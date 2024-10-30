@@ -35,6 +35,7 @@ abstract class BaseController extends Controller {
      */
     private $curl;
     private $session;
+    private $locale;
     /**
      * Instance of the main Request object.
      *
@@ -71,15 +72,33 @@ abstract class BaseController extends Controller {
         return $url;
     }
     
+    protected function __getClientLogoURL () {
+        return $this->serverConfig->brandLogoURL;
+    }
+    
     protected function __getSiteURL (string $relativePath='') {
         $url    = '';
         if (!$this->__isReady()) $url    = base_url (__SYS_URL_PREFIX__ . "/index.php/{$relativePath}");
-        else $url    = site_url (__SYS_URL_PREFIX__ . "/{$relativePath}");
+        else {
+            $url    = site_url ();
+            if (strpos ($url, __SYS_URL_PREFIX__)) $url .= $relativePath;
+            else $url .= __SYS_URL_PREFIX__ . "/{$relativePath}";
+        }
         return $url;
     }
     
     protected function __getBaseURL (string $relativePath='') {
-        return base_url (__SYS_URL_PREFIX__ . '/' . $relativePath);
+        $url    = base_url ();
+        if (strpos ($url, __SYS_URL_PREFIX__)) $url .= $relativePath;
+        else $url .= __SYS_URL_PREFIX__ . "/{$relativePath}";
+        return $url;
+    }
+    
+    protected function __readLicFile () {
+        $file       = new File (__SYS_LICENSE_KEY_FILE__);
+        $contents   = file_get_contents ($file->getPathname ());
+        $lic        = explode (':', $contents);
+        return $lic[1] ($lic[2]);
     }
 
     /**
@@ -97,7 +116,8 @@ abstract class BaseController extends Controller {
     }
     
     protected function __isSessionSet (): bool {
-        return !($this->session === NULL);
+        if ($this->session === NULL) return FALSE;
+        else return !($this->session->get (__SYS_SESSION_KEY__) === NULL);
     }
     
     /**
@@ -161,6 +181,22 @@ abstract class BaseController extends Controller {
         return $this;
     }
     
+    protected function __getLocale () {
+        return $this->locale;
+    }
+    
+    protected function __is_public_cookies_set (): bool {
+        return !(get_cookie(__SYS_PUBLIC_COOKIEKEY__) === NULL);
+    }
+    
+    protected function __set_public_cookie_data ($name, $value) {
+        $globCookieVal = unserialize (get_cookie(__SYS_PUBLIC_COOKIEKEY__));
+        if ($name === 'locale') $globCookieVal[$name] = $value;
+        else $globCookieVal['config'][$name]    = $value;
+        $cookie = cookie (__SYS_PUBLIC_COOKIEKEY__, serialize ($globCookieVal));
+        set_cookie ($cookie);
+    }
+    
     /**
      * 
      * Convinient method to add one resource to the controller's asset.
@@ -192,24 +228,27 @@ abstract class BaseController extends Controller {
         return $this;
     }
     
-    
     /**
      * 
-     * @param string $name
+     * @param string|array $helper
      * @return $this
      */
-    protected function addHelper (string $name) {
-        array_push ($this->helpers, $name);
+    protected function addHelper (string|array $helper) {
+        if (is_string ($helper)) array_push ($this->helpers, $helper);
+        else
+            foreach ($helper as $helpername) array_push ($this->helpers, $helpername);
         return $this;
     }
     
     /**
      * 
-     * @param string $pathToView
+     * @param string|array $pathToView
      * @return $this
      */
-    protected function addViewPaths (string $pathToView) {
-        array_push ($this->viewPaths, $pathToView);
+    protected function addViewPaths ($pathToView) {
+        if (is_string ($pathToView)) array_push ($this->viewPaths, $pathToView);
+        else 
+            foreach ($pathToView as $viewPath) array_push ($this->viewPaths, $viewPath); 
         return $this;
     }
     
@@ -227,6 +266,10 @@ abstract class BaseController extends Controller {
         $this->parser->setData ($this->pageData);
         $rendered = '';
         foreach ($this->viewPaths as $viewPath) $rendered .= $this->parser->render ($viewPath, $this->pageData);
+        
+        // clear views and view data after being rendered
+        $this->viewPaths    = [];
+        $this->pageData     = [];
         return $rendered;
     }
     
@@ -243,7 +286,7 @@ abstract class BaseController extends Controller {
             LoggerInterface $logger) {
         // Do Not Edit This Line
         parent::initController ($request, $response, $logger);
-        $this->addHelper ('url');
+        $this->addHelper ('url')->addHelper ('cookie');
         $this->appConfig    = config ('App');
         $this->serverConfig = config ('Server');
         $this->curl         = \Config\Services::curlrequest ();
@@ -256,6 +299,16 @@ abstract class BaseController extends Controller {
             ->addAssetResource ('assets/js/asalan.js', AssetType::SCRIPT)
             ->addViewData('setup', $isSetup);
         helper ($this->helpers);
+        if (!$this->__is_public_cookies_set ()) $this->locale = $this->appConfig->defaultLocale;    
+        else {
+            $urlLocale      = explode ('/', $this->request->getPath ());
+            $localeCookie   = unserialize (get_cookie (__SYS_PUBLIC_COOKIEKEY__));
+            if ($urlLocale[0] === '' || ($urlLocale[0] === $localeCookie['locale'])) $this->locale   = $localeCookie['locale'];
+            else {
+                $this->__set_public_cookie_data('locale', $urlLocale[0]);
+                $this->locale   = $urlLocale[0];
+            }
+        }
         // Preload any models, libraries, etc, here.
 
         // E.g.: $this->session = \Config\Services::session();

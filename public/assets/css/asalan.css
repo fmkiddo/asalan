@@ -23021,11 +23021,11 @@ body {
 }
 
 .accordion .card .card-header a[aria-expanded="true"]:before {
-	content: "\F374";
+	content: "\F0374";
 }
 
 .accordion .card .card-header a[aria-expanded="false"]:before {
-	content: "\F415";
+	content: "\F0415";
 }
 
 .accordion .card .card-body {
@@ -23058,11 +23058,11 @@ body {
 }
 
 .accordion.accordion-bordered .card .card-header a[aria-expanded="true"]:before {
-	content: "\F062";
+	content: "\F0062";
 }
 
 .accordion.accordion-bordered .card .card-header a[aria-expanded="false"]:before {
-	content: "\F04A";
+	content: "\F004A";
 }
 
 .accordion.accordion-bordered .card:first-child {
@@ -23097,12 +23097,12 @@ body {
 }
 
 .accordion.accordion-filled .card .card-header a[aria-expanded="true"]:before {
-	content: "\F143";
+	content: "\F0143";
 	color: #ffffff;
 }
 
 .accordion.accordion-filled .card .card-header a[aria-expanded="false"]:before {
-	content: "\F140";
+	content: "\F0140";
 }
 
 .accordion.accordion-filled .card .card-body {
@@ -23139,12 +23139,12 @@ body {
 }
 
 .accordion.accordion-solid-header .card .card-header a[aria-expanded="true"]:before {
-	content: "\F143";
+	content: "\F0143";
 	color: #ffffff;
 }
 
 .accordion.accordion-solid-header .card .card-header a[aria-expanded="false"]:before {
-	content: "\F140";
+	content: "\F0140";
 }
 
 .accordion.accordion-solid-header .card .card-body {
@@ -23178,11 +23178,11 @@ body {
 }
 
 .accordion.accordion-solid-content .card .card-header a[aria-expanded="true"]:before {
-	content: "\F143";
+	content: "\F0143";
 }
 
 .accordion.accordion-solid-content .card .card-header a[aria-expanded="false"]:before {
-	content: "\F140";
+	content: "\F0140";
 }
 
 .accordion.accordion-solid-content .card .card-body {
@@ -23222,11 +23222,11 @@ body {
 }
 
 .accordion.accordion-multi-colored .card .card-header a[aria-expanded="true"]:before {
-	content: "\F143";
+	content: "\F0143";
 }
 
 .accordion.accordion-multi-colored .card .card-header a[aria-expanded="false"]:before {
-	content: "\F140";
+	content: "\F0140";
 }
 
 /* Badges */
@@ -26161,7 +26161,7 @@ body {
 	border-left: 0;
 	border-bottom: 0;
 	font: normal normal normal 24px/1 "Material Design Icons";
-	content: "\F140";
+	content: "\F0140";
 	width: auto;
 	height: auto;
 	vertical-align: middle;
@@ -27437,17 +27437,17 @@ dl li {
 }
 
 .list-ticked li:before {
-	content: '\F12D';
+	content: '\F012D';
 	color: #f02632;
 }
 
 .list-arrow li:before {
-	content: '\F142';
+	content: '\F0142';
 	color: #0fc036;
 }
 
 .list-star li:before {
-	content: '\F4CE';
+	content: '\F04CE';
 	color: #ffc300;
 }
 
@@ -30399,27 +30399,27 @@ body.avgrund-active {
 }
 
 .context-menu-icon.context-menu-icon-cut:before {
-	content: '\F190';
+	content: '\F0190';
 }
 
 .context-menu-icon.context-menu-icon-edit:before {
-	content: '\F3EF';
+	content: '\F03EF';
 }
 
 .context-menu-icon.context-menu-icon-copy:before {
-	content: '\F18F';
+	content: '\F018F';
 }
 
 .context-menu-icon.context-menu-icon-paste:before {
-	content: '\F613';
+	content: '\F0613';
 }
 
 .context-menu-icon.context-menu-icon-delete:before {
-	content: '\F6CB';
+	content: '\F06CB';
 }
 
 .context-menu-icon.context-menu-icon-quit:before {
-	content: '\F156';
+	content: '\F0156';
 }
 
 .context-menu-list {
@@ -30497,7 +30497,7 @@ body.avgrund-active {
 .dataTables_wrapper .dataTable thead .sorting_desc:before,
 .dataTables_wrapper .dataTable thead .sorting_asc_disabled:before,
 .dataTables_wrapper .dataTable thead .sorting_desc_disabled:before {
-	content: "\F05D";
+	content: "\F005D";
 	right: 1.2em;
 }
 
@@ -30506,7 +30506,7 @@ body.avgrund-active {
 .dataTables_wrapper .dataTable thead .sorting_desc:after,
 .dataTables_wrapper .dataTable thead .sorting_asc_disabled:after,
 .dataTables_wrapper .dataTable thead .sorting_desc_disabled:after {
-	content: "\F045";
+	content: "\F0045";
 	right: 0.2em;
 }
 
@@ -31015,7 +31015,7 @@ body.avgrund-active {
 	text-rendering: auto;
 	line-height: inherit;
 	-webkit-font-smoothing: antialiased;
-	content: '\F552';
+	content: '\F0552';
 	color: #2e294e;
 	font-size: 1.25rem;
 }
@@ -31108,11 +31108,11 @@ body.avgrund-active {
 }
 
 .fc button .fc-icon-right-single-arrow:after {
-	content: "\F142";
+	content: "\F0142";
 }
 
 .fc button .fc-icon-left-single-arrow:after {
-	content: "\F141";
+	content: "\F0141";
 }
 
 .fc .fc-button-group .fc-button {
@@ -32800,8 +32800,10 @@ div.tagsinput span.tag a {
 /* === Landing screens === */
 /* Auth */
 .auth .login-half-bg {
-	background: url("../../images/auth/login-bg.jpg");
+	background: url("https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/f49e9371-d784-4bbd-a6db-286fb2601e1e/dg7np6j-6fcf85e0-6089-4ddb-b98e-ff51d32760f2.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2Y0OWU5MzcxLWQ3ODQtNGJiZC1hNmRiLTI4NmZiMjYwMWUxZVwvZGc3bnA2ai02ZmNmODVlMC02MDg5LTRkZGItYjk4ZS1mZjUxZDMyNzYwZjIucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.5kgyXgvZpserTcTQyIbFBGBAFuYM5iX0FGOeGf_pL_o");
 	background-size: cover;
+	background-repeat:no-repeat;
+	background-position: center center;
 }
 
 .auth .register-half-bg {
@@ -33213,7 +33215,7 @@ div.tagsinput span.tag a {
 }
 
 .sidebar .nav .nav-item .nav-link i.menu-arrow:before {
-	content: "\F142";
+	content: "\F0142";
 	font-family: "Material Design Icons";
 	font-style: normal;
 	display: block;
@@ -35335,4 +35337,12 @@ div.tagsinput span.tag a {
 	#settings-trigger {
 		display: none;
 	}
+}
+
+.lang-flag img {
+	width: 22px;
+}
+
+.lang-flag span {
+	vertical-align: middle;
 }

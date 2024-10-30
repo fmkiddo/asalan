@@ -47,52 +47,218 @@ class SetupSystem extends BaseController {
         else {
             $post   = $this->request->getPost ();
             if (array_key_exists ('input-licensee', $post)) {
-                $opts   = [
-                    'headers'   => [
-                        'Content-Type'  => 'application/json',
-                        'Accept'        => 'application/json'
+                $rules  = [
+                    'input-licensee'    => [
+                        'rules'             => 'required',
+                        'errors'            => [
+                            'required'          => ''
+                        ]
                     ],
-                    'json'      => [
-                        'code'  => $post['input-licensee'],
-                        'sn'    => $post['input-licensecode']
+                    'input-licensecode' => [
+                        'rules'             => 'required',
+                        'errors'            => [
+                            'required'          => ''
+                        ]
                     ]
                 ];
-                $response   = $this->sendRequest ($this->__getServerURL ('uniqore/validator'), $opts, 'post');
-                $json       = json_decode ($response->getBody (), TRUE);
-                if ($json['status'] !== 200) $message = $json['messages']['error'];
-                else {
-                    $this->addViewData ('sdata', $json['data']['payload']);
-                    $this->addViewPaths ('tpl-html')->addViewPaths ('tpl-header')
-                        ->addViewPaths ('setup/setup-system')->addViewPaths ('tpl-footer');
+                
+                if (!$this->validate($rules)) {
+                    $this->response->redirect ($this->__getSiteURL ('osam/setup'));
+                    return "";
+                } else {
+                    $opts   = [
+                        'headers'   => [
+                            'Content-Type'  => 'application/json',
+                            'Accept'        => 'application/json'
+                        ],
+                        'json'      => [
+                            'code'  => $post['input-licensee'],
+                            'sn'    => $post['input-licensecode']
+                        ]
+                    ];
+                    $response   = $this->sendRequest ($this->__getServerURL ('uniqore/validator'), $opts, 'post');
+                    $json       = json_decode ($response->getBody (), TRUE);
+                    if ($json['status'] !== 200) $message = $json['messages']['error'];
+                    else {
+                        $jsonData   = $json['data'];
+                        $payloads   = unserialize (base64_decode ($jsonData['payload']));
+                        $this->addViewData ('sdata0', $payloads['data0']);
+                        $this->addViewData ('sdata1', base64_encode (serialize ($payloads['data1'])));
+                        $this->addViewPaths ('tpl-html')->addViewPaths ('tpl-header')
+                            ->addViewPaths ('setup/setup-system')->addViewPaths ('tpl-footer');
+                    }
                 }
             }
             
             if (array_key_exists ('serverdata', $post)) {
-                /**
-                $serverdata = explode ('$', $post['serverdata']);
-                $data       = hex2bin ($serverdata[0]);
-                $pubKey     = hex2bin ($serverdata[1]);
+                $rules  = [
+                    'input-newurl'      => [
+                        'rules'             => 'required',
+                        'errors'            => [
+                            'required'          => ''
+                        ]
+                    ],
+                    'input-newadmin'    => [
+                        'rules'             => 'required',
+                        'errors'            => [
+                            'required'          => ''
+                        ]
+                    ],
+                    'input-newapswd'    => [
+                        'rules'             => 'required',
+                        'errors'            => [
+                            'required'          => ''
+                        ]
+                    ],
+                    'input-newcpswd'    => [
+                        'rules'             => 'required|matches[input-newapswd]',
+                        'errors'            => [
+                            'matches'           => ''
+                        ]
+                    ]
+                ];
                 
-                if (!$this->__decrypt_server_data ($data, $pubKey, $serverdata)) ;
-                else {
-                    $code           = base64_decode ($serverdata['data0']);
-                    $csrfTokenName  = "crosssite_{$code}";
-                    $csrfCookieName = "crosssite_{$code}_cookies";
-                    $this->addViewPaths ('setup/setup-env')
-                        ->addViewData ('environment', (array_key_exists('input-isdevelopment', $post) ? 'development' : 'production'))
-                        ->addViewData ('system_url', $post['input-newurl'])
-                        ->addViewData ('system_index', (array_key_exists ('input-useindexphp', $post) ? 'index.php' : ''))
-                        ->addViewData ('csrf_token', $csrfTokenName)
-                        ->addViewData ('csrf_cookie', $csrfCookieName)
-                        ->addViewData ('session_driver', 'CodeIgniter\Session\Handlers\FileHandler')
-                        ->addViewData ('session_cookie_name', '');
-                    $envData        = $this->renderView ();
-                    $licData        = "{$serverdata['data1']}#{$serverdata['data0']}";
-                    if (write_file (__SYS_ENVIRONMENT_FILE__, $envData, 'wb') &&
-                            write_file (__SYS_LICENSE_KEY_FILE__, $licData, 'wb'))
-                        $this->response->redirect ($this->__getBaseURL ());
+                if (!$this->validate ($rules)) {
+                    $this->response->redirect ($this->__getSiteURL ('osam/setup'));
+                    return "";
+                } else {
+                    $serverdata = explode ('$', $post['serverdata']);
+                    $data       = hex2bin ($serverdata[0]);
+                    $pubKey     = hex2bin ($serverdata[1]);
+                    if (!$this->__decrypt_server_data ($data, $pubKey, $serverdata)) ;
+                    else {
+                        $auth       = "{$serverdata['data1']}#{$serverdata['data0']}";
+                        $curlOpts   = [
+                            'delay'     => 500,
+                            'auth'      => [
+                                $auth,
+                                '',
+                                'basic'
+                            ],
+                            'headers'   => [
+                                'Accept'        => 'application/json',
+                                'Content-Type'  => 'application/json'
+                            ],
+                            'json'      => []
+                        ];
+                        
+                        $json   = [
+                            'controlcode'           => 'control-admin',
+                            'controlname'           => 'Administrators',
+                            'control-canapprove'    => TRUE,
+                            'control-canremove'     => TRUE,
+                            'control-cansend'       => TRUE
+                        ];
+                        
+                        $curlOpts['json']   = $json;
+                        $response   = $this->sendRequest ($this->__getServerURL ('osam/controller'), $curlOpts, 'post');
+                        $response   = json_decode ($response->getBody (), TRUE);
+                        
+                        if ($response['status'] !== 200) {
+                            $this->response->redirect ($this->__getBaseURL ());
+                            return "";
+                        } 
+                        
+                        $data       = $response['data'];
+                        $payload    = unserialize (base64_decode ($data['payload']));
+                        $group_id   = $payload['returnid'];
+                        
+                        $json       = [
+                            'group-id'          => $group_id,
+                            'group-privileges'  => 'all'
+                        ];
+                        $curlOpts['json']   = $json;
+                        $response   = $this->sendRequest ($this->__getServerURL ('osam/acl'), $curlOpts, 'post');
+                        $response   = json_decode ($response->getBody (), TRUE);
+                        
+                        if ($response['status'] !== 200) {
+                            $this->response->redirect ($this->__getBaseURL ());
+                            return "";
+                        } 
+                        
+                        $json       = [
+                            'newuser-groupid'   => $group_id,
+                            'newuser-name'      => $post['input-newadmin'],
+                            'newuser-email'     => '',
+                            'newuser-password'  => $post['input-newapswd'],
+                        ];
+                        
+                        $curlOpts['json']   = $json;
+                        $response   = $this->sendRequest ($this->__getServerURL ('osam/users'), $curlOpts, 'post');
+                        $response   = json_decode ($response->getBody (), TRUE);
+                        
+                        if ($response['status'] !== 200) {
+                            $this->response->redirect ($this->__getBaseURL ());
+                            return "";
+                        }
+                        
+                        $data       = $response['data'];
+                        $payload    = unserialize (base64_decode ($data['payload']));
+                        $userid     = $payload['returnid'];
+                        $json       = [
+                            'user-id'       => $userid,
+                            'user-fname'    => '',
+                            'user-mname'    => '',
+                            'user-lname'    => '',
+                            'user-addr1'    => '',
+                            'user-addr2'    => '',
+                            'user-phone'    => '',
+                            'user-email'    => '',
+                            'user-image'    => [
+                                'image-name'        => '',
+                                'image-ext'         => '',
+                                'image-mime'        => '',
+                                'image-contents'    => ''
+                            ],
+                        ];
+                        
+                        $curlOpts['json']   = $json;
+                        $response   = $this->sendRequest ($this->__getServerURL('osam/user-profile'), $curlOpts, 'post');
+                        $response   = json_decode ($response->getBody(), TRUE);
+                        
+                        if ($response['status'] !== 200) {
+                            $this->response->redirect ($this->__getBaseURL ());
+                            return "";
+                        }
+                        
+                        $code           = base64_decode ($serverdata['data0']);
+                        $fix            = explode ('_', $code)[0];
+                        $csrfTokenName  = "crosssite_{$code}";
+                        $csrfCookieName = "crosssite_{$code}_cookies";
+                        $sessionCookie  = "session_{$fix}_cookies";
+                        $cookiePrefix   = "osam_";
+                        
+                        $extras     = unserialize (base64_decode ($post['extras']));
+                        $brandURL   = "assets/imgs/brand-logo.{$extras[1]}";
+                        
+                        $systemURL  = $post['input-newurl'];
+                        $domain     = parse_url ($systemURL);
+                        
+                        $this->addViewPaths ('setup/setup-env')
+                            ->addViewData ('environment', (array_key_exists('input-isdevelopment', $post) ? 'development' : 'production'))
+                            ->addViewData ('system_url', $systemURL)
+                            ->addViewData ('cookie_prefix', $cookiePrefix)
+                            ->addViewData ('cookie_domain', $domain['host'])
+                            ->addViewData ('brand_url', $brandURL)
+                            ->addViewData ('system_index', (array_key_exists ('input-useindexphp', $post) ? 'index.php' : ''))
+                            ->addViewData ('csrf_token', $csrfTokenName)
+                            ->addViewData ('csrf_cookie', $csrfCookieName)
+                            ->addViewData ('session_driver', 'CodeIgniter\Session\Handlers\FileHandler')
+                            ->addViewData ('session_cookie_name', $sessionCookie);
+                        $envData    = $this->renderView ();
+                        $lic        = bin2hex ("{$serverdata['data1']}#{$serverdata['data0']}");
+                        
+                        $this->addViewPaths ('setup/setup-licfile')
+                            ->addViewData ('licdata', "hex2bin:{$lic}");
+                        $licData    = $this->renderView ();
+                        
+                        if (write_file (__SYS_ENVIRONMENT_FILE__, $envData, 'wb') &&
+                                write_file (__SYS_LICENSE_KEY_FILE__, $licData, 'wb') &&
+                                write_file ("./{$brandURL}", $extras[0], 'wb'))
+                            $this->response->redirect ($this->__getBaseURL ());
+                        return "";
+                    }
                 }
-                return ""; **/
             }
         } 
         

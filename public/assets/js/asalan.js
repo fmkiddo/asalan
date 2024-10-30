@@ -1,9 +1,9 @@
 'use strict';
 
 (function ($) {
-	$.siteURL	= function ($url) {
+	$.siteURL	= function ($relativePath) {
 		var $dataURL 	= $('body').attr ('data-siteurl');
-		var $siteURL	= $dataURL + '/' + $url;
+		var $siteURL	= $dataURL + '/' + $relativePath;
 		return $siteURL;
 	};
 })(jQuery);

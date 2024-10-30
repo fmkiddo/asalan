@@ -96,6 +96,8 @@ define('EVENT_PRIORITY_HIGH', 10);
 /**
  * 
  */
-defined('__SYS_URL_PREFIX__')               || define('__SYS_URL_PREFIX__', 'assetmanagements');
+defined('__SYS_URL_PREFIX__')               || define('__SYS_URL_PREFIX__', 'asset-manager');
+defined('__SYS_PUBLIC_COOKIEKEY__')         || define('__SYS_PUBLIC_COOKIEKEY__', 'alv_local_data'); 
+defined('__SYS_SESSION_KEY__')              || define('__SYS_SESSION_KEY__', 'user-session');
 defined('__SYS_ENVIRONMENT_FILE__')         || define('__SYS_ENVIRONMENT_FILE__', '../.env');
 defined('__SYS_LICENSE_KEY_FILE__')         || define('__SYS_LICENSE_KEY_FILE__', '../osam.lic');

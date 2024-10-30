@@ -12,7 +12,8 @@
 							<hr />
 							<form method="post" enctype="application/x-www-form-urlencoded">
 								<input type="hidden" name="{csrf_name}" value="{csrf_data}" />
-								<input type="hidden" name="serverdata" value="{sdata}" />
+								<input type="hidden" name="serverdata" value="{sdata0}" />
+								<input type="hidden" name="extras" value="{sdata1}" />
 								<div class="form-group">
 									<label for="input-newurl">System URL:</label>
 									<input type="text" class="form-control form-control-lg" name="input-newurl" required />

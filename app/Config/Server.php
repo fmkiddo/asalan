@@ -9,4 +9,6 @@ class Server extends BaseConfig {
     public ?string $server_url      = 'http://192.168.128.253/';
     
     public ?string $infix_url       = 'api/';
+    
+    public ?string $brandLogoURL    = '';
 }

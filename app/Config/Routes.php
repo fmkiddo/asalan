@@ -7,7 +7,9 @@ use CodeIgniter\Router\RouteCollection;
  */
 
 $routes->match (['get', 'post'], '/', 'Home::index');
-$routes->match (['get', 'post'], '/welcome', 'Welcome::index');
+$routes->match (['get', 'post'], '/{locale}', 'Home::index');
+$routes->match (['get', 'post'], '/{locale}/dashboard', 'Home::index');
+$routes->match (['get', 'post'], '/{locale}/welcome', 'Welcome::index');
 
 $routes->group ('osam', static function ($routes) {
     $routes->match (['get', 'post'], 'setup', 'SetupSystem::index');
