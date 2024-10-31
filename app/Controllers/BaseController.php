@@ -36,6 +36,9 @@ abstract class BaseController extends Controller {
     private $curl;
     private $session;
     private $locale;
+    
+    protected $is_dashboard   = FALSE;
+    
     /**
      * Instance of the main Request object.
      *
@@ -261,7 +264,7 @@ abstract class BaseController extends Controller {
     protected function renderView (): string {
         $this->addViewData('baseURL', $this->__getBaseURL ())
             ->addViewData('charset', $this->appConfig->charset)
-            ->addViewData('locale', $this->appConfig->defaultLocale)
+            ->addViewData('locale', $this->locale)
             ->addViewData('year', date ('Y'));
         $this->parser->setData ($this->pageData);
         $rendered = '';
@@ -297,7 +300,8 @@ abstract class BaseController extends Controller {
         $isSetup    = $this->__isReady() ? 'false' : 'true';
         $this->addAssetResource ('assets/css/asalan.css')
             ->addAssetResource ('assets/js/asalan.js', AssetType::SCRIPT)
-            ->addViewData('setup', $isSetup);
+            ->addViewData ('setup', $isSetup)
+            ->addViewData ('is_home', $this->is_dashboard);
         helper ($this->helpers);
         if (!$this->__is_public_cookies_set ()) $this->locale = $this->appConfig->defaultLocale;    
         else {

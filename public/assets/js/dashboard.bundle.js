@@ -12,34 +12,28 @@
 		//Active class can be hard coded directly in html file also as required
 	
 		function addActiveClass(element) {
-		    if (current === "") {
-		        //for root url
-		        if (element.attr("href").indexOf("index.html") !== -1) {
-		            element.parents(".nav-item").last().addClass("active");
-		            if (element.parents(".sub-menu").length) {
-		                element.closest(".collapse").addClass("show");
-		                element.addClass("active");
-		            }
-		        }
-		    } else {
-		        //for other url
-		        if (element.attr("href").indexOf(current) !== -1) {
-		            element.parents(".nav-item").last().addClass("active");
-		            if (element.parents(".sub-menu").length) {
-		                element.closest(".collapse").addClass("show");
-		                element.addClass("active");
-		            }
-		            if (element.parents(".submenu-item").length) {
-		                element.addClass("active");
-		            }
-		        }
-		    }
+			if (element.attr ("data-redirect") === current) {
+				element.parents (".nav-item").last ().addClass ("active");
+				if (element.parents (".sub-menu").length) {
+					element.closest (".collapse").addClass ("active");
+					element.addClass ("active");
+				}
+				
+				if (element.parents (".submenu-item").length) element.addClass ("active");
+			}
 		}
 	
-		var current = location.pathname
-		    .split("/")
-		    .slice(-1)[0]
-		    .replace(/^\/|\/$/g, "");
+		const params = window.location.search
+				.replace ("?", "")
+				.split ("&");
+		var current = "";
+		$.each (params, function (k, v) {
+			var param = v.split ("=");
+			if (param[0] == "alv") {
+				current = param[1];
+				return;
+			}
+		});
 		$(".nav li a", sidebar).each(function () {
 		    var $this = $(this);
 		    addActiveClass($this);
@@ -195,6 +189,27 @@
 	        $(".tiles").removeClass("selected");
 	        $(this).addClass("selected");
 	    });
+		$('#doSignOut').on("click", function () {
+			$.doDashboardRedirect ('sign-out');
+		});
+		
+		$(document).on ('click', '[data-redirect]', function ($evt) {
+			$evt.preventDefault ();
+			var $redirect	= $($evt.currentTarget).attr ('data-redirect');
+			if ($redirect !== 'sign-out') $.doDashboardRedirect ($redirect);
+			else {
+				Swal.fire ({
+					title: $.lang ('signOutTitle'),
+					text: $.lang ('signOutText'),
+					icon: "warning",
+					showCancelButton: true,
+					confirmButtonText: $.lang ('signOutConfirm'),
+					cancelButtonText: $.lang ('signOutCancel'),
+				}).then (function (result) {
+					if (result.isConfirmed) $.doDashboardRedirect ($redirect);
+				});
+			}// $('.modal#logoutConfirmation').modal ('show');
+		});
 		
 		$(document).on ('mouseenter mouseleave', '.sidebar .nav-item', function ($ev) {
 			var body = $("body");
@@ -208,7 +223,7 @@
 			            }
 			        } else {
 			            var $menuItem = $(this);
-			            if (ev.type === "mouseenter") {
+			            if ($ev.type === "mouseenter") {
 			                $menuItem.addClass("hover-open");
 			            } else {
 			                $menuItem.removeClass("hover-open");

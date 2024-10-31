@@ -116,10 +116,11 @@ class Welcome extends BaseController {
                     'login',
                     'tpl-footer'
                 ];
+                
                 $this->addViewPaths ($viewPaths)
                     ->addViewData ('lang', ($this->__getLocale() === 'en' ? 'gb' : $this->__getLocale()))
                     ->addViewData ('brand_url', $this->__getClientLogoURL ())
-                    ->addViewData ('appTitle', 'Asset Management System | Welcome - Login')
+                    ->addViewData ('appTitle', lang ('Welcome.title', [], $this->__getLocale()))
                     ->addViewData ('messageOfTheDay', $MOTD->getMOTD($this->__getLocale ()))
                     ->addViewData ('csrf_name', csrf_token ())->addViewData ('csrf_data', csrf_hash());
                 $render = $this->renderView ();

@@ -1,0 +1,55 @@
+@charset "UTF-8";
+
+.redirect-href,
+.redirect-href:link,
+.redirect-href:visited {
+	color: var(--indigo);
+}
+
+.redirect-href:hover {
+	color: var(--blue);
+	text-decoration: none;
+}
+
+.nav-title {
+	color: #6f7580;
+	font-weight: 500;
+	font-size: 12px;
+	padding-left: 32px;
+}
+
+.sidebar-icon-only .nav-title {
+	display: none !important;
+}
+
+.sidebar .nav-item {
+	border-radius: 25px;
+}
+
+.sidebar .nav .nav-item > .nav-link .menu-title {
+	font-weight: 700 !important;
+}
+
+.sidebar .nav .nav-item:has(.nav-link):not(.sub-menu).active {
+	background-color: var(--gray-light);
+}
+
+.sidebar .nav .nav-item:has(.nav-link):not(.sub-menu).active:hover {
+	background-color: var(--gray-light);
+}
+
+.sidebar-dark .sidebar .nav .nav-item:has(.nav-link):not(.sub-menu):hover {
+	background-color: var(--gray);
+}
+
+.sidebar-dark .sidebar .nav .nav-item:has(.nav-link):not(.sub-menu).active {
+	background-color: var(--gray-lighter);
+}
+
+.text-green {
+	color: var(--bs-green);
+}
+
+.swal2-modal .swal2-icon {
+	margin-top: 40px;
+}

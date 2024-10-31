@@ -1,50 +1,61 @@
-	<div class="container-scroller" data-bs-theme="{themes}">
-		<nav class="navbar col-lg-12 col-12 p-0 d-flex d-flex-row">
-			<div class="navbar-brand-wrapper d-flex align-items-center justify-content-start">
-				<a class="navbar-brand brand-logo-mini" href="{baseURL}">
-					<img src="{baseURL}{brand_logo}" alt="Logo" />
-				</a>
-			</div>
-			<div class="navbar-menu-wrapper d-flex align-items-center justify-content-between">
-				<div class="d-flex align-items-center">
-					<button class="navbar-toggler align-self-center" type="button" data-toggle="minimize">
-						<span class="mdi mdi-menu"></span>
-					</button>
-					<div class="welcome-message d-lg-flex d-none">
-						Hi, {urname}, welcome back!
-					</div>
-				</div>
-				<ul class="navbar-nav navbar-nav-right">
-					<li class="nav-item dropdown">
-						<a class="nav-link count-indicator dropdown-toggle" role="button" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-							<i class="mdi mdi-bell mx-0"></i>
-						</a>
-						<div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list">
-							<h6 class="p-3 mb-0"></h6>
-							<hr class="dropdown-divider">
-							<hr class="dropdown-divider">
-							<a class="dropdown-item">
-								<p class="p-1 mb-0 text-center">See all notifications</p>
-							</a>
-						</div>
+    	<div class="container-fluid page-body-wrapper">
+            <div class="theme-setting-wrapper">
+                <div id="settings-trigger">
+                	<i class="mdi mdi-cog"></i>
+            	</div>
+                <div id="theme-settings" class="settings-panel">
+                    <i class="settings-close mdi mdi-close"></i>
+                    <p class="settings-heading">Bahasa</p>
+                    <ul>
+                    	<li><a class="lang-flag"><img src="https://flagicons.lipis.dev/flags/4x3/id.svg" alt="id" /> Bahasa</a></li>
+                    	<li><a class="lang-flag"><img src="https://flagicons.lipis.dev/flags/4x3/gb.svg" alt="en" /> Inggris</a></li>
+                    	<li><a class="lang-flag"><img src="https://flagicons.lipis.dev/flags/4x3/fr.svg" alt="fr" /> Perancis</a></li>
+                    </ul>
+                    <p class="settings-heading">Tema</p>
+                    <div class="sidebar-bg-options" id="sidebar-light-theme">
+                    	<div class="img-ss rounded-circle bg-light border mr-3"></div>Terang
+                	</div>
+                    <div class="sidebar-bg-options selected" id="sidebar-dark-theme">
+                    	<div class="img-ss rounded-circle bg-dark border mr-3"></div>Gelap
+                	</div>
+                    <p class="settings-heading mt-2">Warna Utama</p>
+                    <div class="color-tiles mx-0 px-4">
+                        <div class="tiles success"></div>
+                        <div class="tiles warning"></div>
+                        <div class="tiles danger"></div>
+                        <div class="tiles light"></div>
+                        <div class="tiles info"></div>
+                        <div class="tiles dark"></div>
+                        <div class="tiles default"></div>
+                    </div>
+                </div>
+            </div>
+    		<nav id="sidebar" class="sidebar sidebar-offcanvas">
+    			<ul class="nav">
+    				<li class="nav-item text-light">
+    					<a role="button" class="navbar-brand brand-logo-mini" data-rediret="welcome">
+    						<img src="" alt="logo" />	
+    					</a>
+    					<a role="button" class="navbar-brand brand-logo" data-rediret="welcome">
+    						<img src="" alt="logo" />
+    					</a>
+    				</li>
+    				<li class="nav-title">
+    					<div class="menu-heading mt-0">NAVIGASI</div>
 					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link count-indicator dropdown-toggle" role="button" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-							<i class="mdi mdi-email-open mx-0"></i>
+					<li class="nav-item">
+						<a role="button" class="nav-link" data-redirect="welcome">
+							<i class="mdi mdi-locker-multiple menu-icon"></i>
+							<span class="menu-title">Dashboard</span>
 						</a>
-						<div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list">
-						</div>
 					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link count-indicator dropdown-toggle" role="button" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-							<i class="mdi mdi-account-circle mx-0"></i>
+					<li class="nav-item">
+						<a role="button" class="nav-link" data-redirect="documentation">
+							<i class="mdi mdi-book-open-page-variant menu-icon"></i>
+							<span class="menu-title">Dokumentasi</span>
 						</a>
-						<div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list">
-						</div>
 					</li>
-				</ul>
-				<button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-                	<span class="mdi mdi-menu"></span>
-                </button>
-			</div>
-		</nav>
+    			</ul>
+    		</nav>
+    		<div class="main-panel">
+    			<div class="content-wrapper">
