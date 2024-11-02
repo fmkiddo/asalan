@@ -53,3 +53,156 @@
 .swal2-modal .swal2-icon {
 	margin-top: 40px;
 }
+
+@media (max-width: 992px) {
+	.border-right.border-sm-hidden {
+		border-right: 0px solid !important;
+	}
+}
+
+@media (min-width: 576px) {
+	.modal-dialog {
+    	max-width: var(--bs-modal-width);
+	}
+}
+
+@media (min-width: 992px) {
+	.modal-lg {
+		--bs-modal-width: 800px;
+	}
+}
+
+.modal .modal-dialog.modal-xxl {
+	max-width: 90%;
+}
+
+.d-hidden {
+	display: none;
+}
+
+.thumbnail {
+	width: 80px;
+	margin: 0 auto;
+}
+
+.pict-preview {
+	height: 0;
+	padding-bottom: 100%;
+}
+
+.pict-preview.blank {
+	background: url("../imgs/blank-profile-picture-973460_1280.png") center no-repeat;
+	background-size: cover;
+}
+
+.pict-preview.rounded {
+	border-radius: 50% !important;
+}
+
+.pick-image {
+	margin-top: 1rem;
+}
+
+.pick-image input[type="file"] {
+	display: none;
+}
+
+@media (max-width: 767px) {
+	.cols-to-tabs .device-big {
+		display: none;
+	}
+	.cols-to-tabs .device-small {
+		display: flex;
+	}
+	.cols-to-tabs .tab-content.row {
+		margin-left: 0px;
+		margin-right: 0px;
+	}
+}
+
+@media only screen and (min-width: 768px) {
+	.cols-to-tabs .device-big, .cols-to-tabs .tab-content > .tab-pane {
+		display: flex;
+	}
+	.cols-to-tabs .device-small {
+		display: none;
+	}
+	.cols-to-tabs .tab-content {
+		border: 0px solid;
+	}
+	.cols-to-tabs .tab-content > .tab-pane {
+		display: block;
+		opacity: 1;
+	}
+	.cols-to-tabs .tab-content > .tab-pane:first-child {
+		border-right: 1px solid #eeeef0;
+	}
+}
+
+.lang-options {
+	padding-left: 0;
+	list-style-type: none;
+}
+
+.lang-options .lang-item {
+	padding: 5px 35px;
+}
+
+.lang-options .lang-item:hover {
+	background-color: var(--gray-lighter);
+}
+
+.lang-options .lang-item.selected {
+	background-color: #e6e9ed;
+}
+
+.lang-options .lang-flag img {
+	margin-right: 1rem;
+}
+
+.sidebar-bg-options:hover {
+	background-color: var(--gray-lighter);
+}
+
+.table thead th {
+	font-weight: 800;
+}
+
+.table thead th:first-child {
+	padding: 10px 15px;
+}
+
+.table.table-center-head thead th {
+	text-align: center;
+}
+
+.table.table-centered thead th,
+.table.table-centered tbody td {
+	text-align: center;
+}
+
+.table.table-fixed {
+	table-layout: fixed;
+}
+
+.table.user-details thead {
+	display: none !important;
+}
+
+.table.user-details tbody td {
+	vertical-align: top;
+}
+
+.table.user-details tbody td:first-child {
+	width: 20%;
+}
+
+.table.user-details tbody td:nth-child(2) {
+	text-align: center;
+	width: 10%;
+}
+
+.table.user-details tbody td:last-child {
+	width: 60%;
+	word-wrap: break-word;
+}

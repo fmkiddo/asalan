@@ -7,10 +7,24 @@
 		var scroller = $(".container-scroller");
 		var footer = $(".footer");
 		var sidebar = $(".sidebar");
+		var locale = $.getLocale ();
+		const params = window.location.search
+				.replace ("?", "")
+				.split ("&");
 	
 		//Add active class to nav-link based on url dynamically
 		//Active class can be hard coded directly in html file also as required
-	
+		$(".lang-options li").each (function () {
+			if ($(this).find ("img").attr ("alt") === locale) $(this).addClass ("selected");
+		});
+		$(".lang-item").on ("click", function (evt) {
+			var currURL = window.location.href;
+			var isDashboard = currURL.indexOf ('dashboard');
+			if (isDashboard) {
+				var targetLocale = $(this).find ("img").attr ("alt");
+				window.location.href = $.siteURL (targetLocale + "/dashboard?" + params[0]);
+			}
+		});
 		function addActiveClass(element) {
 			if (element.attr ("data-redirect") === current) {
 				element.parents (".nav-item").last ().addClass ("active");
@@ -22,10 +36,6 @@
 				if (element.parents (".submenu-item").length) element.addClass ("active");
 			}
 		}
-	
-		const params = window.location.search
-				.replace ("?", "")
-				.split ("&");
 		var current = "";
 		$.each (params, function (k, v) {
 			var param = v.split ("=");
@@ -68,6 +78,20 @@
 		            }
 		        }
 		    }
+			
+			if (body.hasClass ("sidebar-dark")) $("div#sidebar-dark-theme").addClass ("selected");
+			else  $("div#sidebar-light-theme").addClass ("selected");
+			
+			var navbar = body.find ("nav.navbar");
+			var color = "default";
+			if (navbar.hasClass ('navbar-light')) color = "light";
+			if (navbar.hasClass ('navbar-dark')) color = "dark";
+			if (navbar.hasClass ('navbar-success')) color = "success";
+			if (navbar.hasClass ('navbar-warning')) color = "warning";
+			if (navbar.hasClass ('navbar-danger')) color = "danger";
+			if (navbar.hasClass ('navbar-info')) color = "info";
+			if (navbar.hasClass ('navbar-primary')) color = "primary";
+			body.find ("div.color-tiles .tiles." + color).addClass ("selected");
 		}
 	
 		$('[data-toggle="minimize"]').on("click", function () {
@@ -76,6 +100,8 @@
 		    } else {
 		        body.toggleClass("sidebar-icon-only");
 		    }
+			var minimized = body.hasClass ("sidebar-icon-only");
+			$.changeConfig ('minimized', minimized);
 		});
 	
 		//checkbox and radios
@@ -125,20 +151,21 @@
 	    //background constants
 	    var navbar_classes = "navbar-danger navbar-success navbar-warning navbar-dark navbar-light navbar-primary navbar-info navbar-pink";
 	    var sidebar_classes = "sidebar-light sidebar-dark";
-	    var $body = $("body");
 
 	    //sidebar backgrounds
 	    $("#sidebar-light-theme").on("click", function () {
-	        $body.removeClass(sidebar_classes);
-	        $body.addClass("sidebar-light");
+	        body.removeClass(sidebar_classes);
+	        body.addClass("sidebar-light");
 	        $(".sidebar-bg-options").removeClass("selected");
 	        $(this).addClass("selected");
+			$.changeConfig ('theme', 'light');
 	    });
 	    $("#sidebar-dark-theme").on("click", function () {
-	        $body.removeClass(sidebar_classes);
-	        $body.addClass("sidebar-dark");
+	        body.removeClass(sidebar_classes);
+	        body.addClass("sidebar-dark");
 	        $(".sidebar-bg-options").removeClass("selected");
 	        $(this).addClass("selected");
+			$.changeConfig ('theme', 'dark');
 	    });
 
 	    //Navbar Backgrounds
@@ -147,50 +174,58 @@
 	        $(".navbar").addClass("navbar-primary");
 	        $(".tiles").removeClass("selected");
 	        $(this).addClass("selected");
+			$.changeConfig ('topbar', 'primary');
 	    });
 	    $(".tiles.success").on("click", function () {
 	        $(".navbar").removeClass(navbar_classes);
 	        $(".navbar").addClass("navbar-success");
 	        $(".tiles").removeClass("selected");
 	        $(this).addClass("selected");
+			$.changeConfig ('topbar', 'success');
 	    });
 	    $(".tiles.warning").on("click", function () {
 	        $(".navbar").removeClass(navbar_classes);
 	        $(".navbar").addClass("navbar-warning");
 	        $(".tiles").removeClass("selected");
 	        $(this).addClass("selected");
+			$.changeConfig ('topbar', 'warning');
 	    });
 	    $(".tiles.danger").on("click", function () {
 	        $(".navbar").removeClass(navbar_classes);
 	        $(".navbar").addClass("navbar-danger");
 	        $(".tiles").removeClass("selected");
 	        $(this).addClass("selected");
+			$.changeConfig ('topbar', 'danger');
 	    });
 	    $(".tiles.light").on("click", function () {
 	        $(".navbar").removeClass(navbar_classes);
 	        $(".navbar").addClass("navbar-light");
 	        $(".tiles").removeClass("selected");
 	        $(this).addClass("selected");
+			$.changeConfig ('topbar', 'light');
 	    });
 	    $(".tiles.info").on("click", function () {
 	        $(".navbar").removeClass(navbar_classes);
 	        $(".navbar").addClass("navbar-info");
 	        $(".tiles").removeClass("selected");
 	        $(this).addClass("selected");
+			$.changeConfig ('topbar', 'info');
 	    });
 	    $(".tiles.dark").on("click", function () {
 	        $(".navbar").removeClass(navbar_classes);
 	        $(".navbar").addClass("navbar-dark");
 	        $(".tiles").removeClass("selected");
 	        $(this).addClass("selected");
+			$.changeConfig ('topbar', 'dark');
 	    });
 	    $(".tiles.default").on("click", function () {
 	        $(".navbar").removeClass(navbar_classes);
 	        $(".tiles").removeClass("selected");
 	        $(this).addClass("selected");
+			$.changeConfig ('topbar', 'default');
 	    });
-		$('#doSignOut').on("click", function () {
-			$.doDashboardRedirect ('sign-out');
+		$("#pickImage").on ("click", function () {
+			$(this).closest ('div.pick-image').find ('[type="file"]').click ();
 		});
 		
 		$(document).on ('click', '[data-redirect]', function ($evt) {
@@ -208,7 +243,7 @@
 				}).then (function (result) {
 					if (result.isConfirmed) $.doDashboardRedirect ($redirect);
 				});
-			}// $('.modal#logoutConfirmation').modal ('show');
+			}
 		});
 		
 		$(document).on ('mouseenter mouseleave', '.sidebar .nav-item', function ($ev) {

@@ -6,16 +6,28 @@
                 <div id="theme-settings" class="settings-panel">
                     <i class="settings-close mdi mdi-close"></i>
                     <p class="settings-heading">Bahasa</p>
-                    <ul>
-                    	<li><a class="lang-flag"><img src="https://flagicons.lipis.dev/flags/4x3/id.svg" alt="id" /> Bahasa</a></li>
-                    	<li><a class="lang-flag"><img src="https://flagicons.lipis.dev/flags/4x3/gb.svg" alt="en" /> Inggris</a></li>
-                    	<li><a class="lang-flag"><img src="https://flagicons.lipis.dev/flags/4x3/fr.svg" alt="fr" /> Perancis</a></li>
+                    <ul class="lang-options">
+                    	<li class="lang-item" role="button" >
+                    		<span class="lang-flag">
+                    			<img src="https://flagicons.lipis.dev/flags/4x3/id.svg" alt="id" /> Bahasa
+                			</span>
+                		</li>
+                    	<li class="lang-item" role="button" >
+                    		<span class="lang-flag">
+                    			<img src="https://flagicons.lipis.dev/flags/4x3/gb.svg" alt="en" /> Inggris
+                			</span>
+                    	</li>
+                    	<li class="lang-item" role="button" >
+                    		<span class="lang-flag">
+                    			<img src="https://flagicons.lipis.dev/flags/4x3/fr.svg" alt="fr" /> Perancis
+                			</span>
+                    	</li>
                     </ul>
                     <p class="settings-heading">Tema</p>
-                    <div class="sidebar-bg-options" id="sidebar-light-theme">
+                    <div role="button" class="sidebar-bg-options" id="sidebar-light-theme">
                     	<div class="img-ss rounded-circle bg-light border mr-3"></div>Terang
                 	</div>
-                    <div class="sidebar-bg-options selected" id="sidebar-dark-theme">
+                    <div role="button" class="sidebar-bg-options" id="sidebar-dark-theme">
                     	<div class="img-ss rounded-circle bg-dark border mr-3"></div>Gelap
                 	</div>
                     <p class="settings-heading mt-2">Warna Utama</p>
@@ -26,6 +38,7 @@
                         <div class="tiles light"></div>
                         <div class="tiles info"></div>
                         <div class="tiles dark"></div>
+                        <div class="tiles primary"></div>
                         <div class="tiles default"></div>
                     </div>
                 </div>

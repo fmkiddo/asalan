@@ -35,8 +35,49 @@ class Home extends BaseController {
         return $color;
     }
     
+    /**
+     * 
+     * @param string $part
+     * @return boolean
+     */
     private function canAccess ($part) {
         return TRUE;
+    }
+    
+    /**
+     * 
+     * @return string|mixed
+     */
+    private function getUsername () {
+        $sessionData    = [];
+        $this->__getSessionData(__SYS_SESSION_KEY__, $sessionData);
+        $sessionData    = unserialize (base64_decode($sessionData));
+        $urname         = (trim ($sessionData['logged']['profile']['user-fname']) === '') ?
+                            $sessionData['logged']['user'] : $sessionData['logged']['profile']['user-fname'];
+        return $urname;
+    }
+    
+    /**
+     * 
+     * @param string $urname
+     * @param array $viewPaths
+     */
+    private function loadPage ($urname, $viewPaths=array ()) {
+        $sideBarIconOnly = (!$this->isSideBarHidden ()) ? '' : 'sidebar-icon-only';
+        $this->addViewPaths ($viewPaths)
+            ->addViewData ('brand_logo', $this->__getClientLogoURL ())
+            ->addViewData ('urname', $urname)
+            ->addViewData ('appTitle', lang ('Dashboard.title', [date ('d M Y')], $this->__getLocale()))
+            ->addViewData ('theme', $this->getSidebarColor ())
+            ->addViewData ('topbar', $this->getTopbarColor ())
+            ->addViewData ('sidebar', $sideBarIconOnly)
+            ->addViewData ('sidebar_theme', "sidebar-{$this->getSidebarColor ()}")
+            ->addAssetResource ('assets/vendors/sweetalert2-11.14.4/css/sweetalert2.css')
+            ->addAssetResource ('assets/vendors/datatables-2.1.6/css/datatables.css')
+            ->addAssetResource ('assets/css/dashboard.css')
+            ->addAssetResource ('assets/vendors/sweetalert2-11.14.4/js/sweetalert2.all.js', AssetType::SCRIPT)
+            ->addAssetResource ('assets/vendors/datatables-2.1.6/js/datatables.js', AssetType::SCRIPT)
+            ->addAssetResource ('assets/js/dashboard.bundle.js', AssetType::SCRIPT);
     }
     
     /**
@@ -79,11 +120,7 @@ class Home extends BaseController {
                     return "";
                 }
                 
-                $sessionData    = [];
-                $this->__getSessionData(__SYS_SESSION_KEY__, $sessionData);
-                $sessionData    = unserialize (base64_decode($sessionData));
-                $urname         = (trim ($sessionData['logged']['profile']['user-fname']) === '') ? 
-                                    $sessionData['logged']['user'] : $sessionData['logged']['profile']['user-fname'];
+                $urname         = $this->getUsername ();
                 
                 $part   = $this->pageMap->mapRoute ($route);
                 if (!$part) $part = 'not-found';
@@ -99,21 +136,9 @@ class Home extends BaseController {
                     'dashboard/dashboard-footer',
                 ];
                 
-                $sideBarIconOnly = (!$this->isSideBarHidden ()) ? '' : 'sidebar-icon-only';
-                $this->addViewPaths ($viewPaths)
-                    ->addViewData ('brand_logo', $this->__getClientLogoURL ())
-                    ->addViewData ('urname', $urname)
-                    ->addViewData ('appTitle', lang ('Dashboard.title', [date ('d M Y')], $this->__getLocale()))
-                    ->addViewData ('theme', $this->getSidebarColor ())
-                    ->addViewData ('topbar', $this->getTopbarColor ())
-                    ->addViewData ('sidebar', $sideBarIconOnly)
-                    ->addViewData ('sidebar_theme', "sidebar-{$this->getSidebarColor ()}")
-                    ->addAssetResource ('assets/vendors/sweetalert2-11.14.4/css/sweetalert2.css')
-                    ->addAssetResource ('assets/vendors/datatables-2.1.6/css/datatables.css')
-                    ->addAssetResource ('assets/css/dashboard.css')
-                    ->addAssetResource ('assets/vendors/sweetalert2-11.14.4/js/sweetalert2.all.js', AssetType::SCRIPT)
-                    ->addAssetResource ('assets/vendors/datatables-2.1.6/js/datatables.js', AssetType::SCRIPT)
-                    ->addAssetResource ('assets/js/dashboard.bundle.js', AssetType::SCRIPT);
+                $blank_urpict   = TRUE ? 'blank' : '';
+                $this->loadPage ($urname, $viewPaths);
+                $this->addViewData('blank_pict', $blank_urpict);
                 $render = $this->renderView ();
             }
         }
@@ -121,6 +146,56 @@ class Home extends BaseController {
     }
     
     public function configChanger () {
+        if (!$this->request->is ('post') || $this->request->header("Content-Type")->getValue () !== 'application/json') {
+            $this->__initSession ();
+            $urname     = $this->getUsername ();
+            $viewPaths  = [
+                'tpl-html',
+                'tpl-header',
+                'dashboard/dashboard-topbar',
+                'dashboard/dashboard-navigation',
+                "dashboard/not-found",
+                'dashboard/dashboard-footer',
+            ];
+            
+            $this->loadPage ($urname, $viewPaths);
+            return $this->renderView ();
+        }
         
+        $json   = json_decode ($this->request->getBody (), TRUE);
+        $updateConfig   = TRUE;
+        if (!array_key_exists ('change', $json)) $updateConfig = FALSE;
+        
+        if ($updateConfig) {
+            $type   = $json['change']['type'];
+            $updateConfig = ($type === 'theme' || $type === 'topbar' || $type === 'minimized');
+            
+            if (!$updateConfig) 
+                $response = array (
+                    'status'    => 404,
+                    'error'     => 404,
+                    'messages'  => [
+                        'error'     => 'The page you requested is not found!'
+                    ] 
+                );
+            else {
+                $configUpdate   = $json['change']['value'];
+                if ($type === 'theme') $configName  = 'sidebar';
+                elseif ($type === 'topbar') $configName = 'navigator';
+                else $configName = 'hidden';
+                $this->__set_public_cookie_data($configName, $configUpdate);
+                
+                $response   = array (
+                    'status'    => 200,
+                    'error'     => NULL,
+                    'messages'  => [
+                        'success'   => 'Config data updated!'
+                    ]
+                );
+            }
+        }
+        $this->response->setHeader ('Content-Type', 'application/json');
+        $this->response->setJSON ($response);
+        $this->response->send ();
     }
 }

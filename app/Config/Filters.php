@@ -72,7 +72,10 @@ class Filters extends BaseFilters
             // 'honeypot',
             'csrf'  => [
                 'except'    => [
-                    'osam/setup'
+                    'osam/setup',
+                    'id/change-config',
+                    'en/change-config',
+                    'fr/change-config',
                 ]
             ],
             // 'invalidchars',

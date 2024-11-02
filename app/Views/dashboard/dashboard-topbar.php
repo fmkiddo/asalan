@@ -1,5 +1,5 @@
-	<div class="container-scroller" data-bs-sidebar="{theme}" data-bs-topbar="{topbar}">
-		<nav class="navbar col-lg-12 col-12 p-0 d-flex d-flex-row">
+	<div class="container-scroller">
+		<nav class="navbar col-lg-12 col-12 p-0 d-flex d-flex-row {topbar}">
 			<div class="navbar-brand-wrapper d-flex align-items-center justify-content-start">
 				<a class="navbar-brand brand-logo-mini" href="{baseURL}">
 					<img src="{baseURL}{brand_logo}" alt="Logo" />
