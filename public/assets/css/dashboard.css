@@ -11,6 +11,15 @@
 	text-decoration: none;
 }
 
+.dropdown-item.item-empty {
+	padding: 17px 40px !important;
+	background-color: var(--gray-lighter);
+}
+
+.dropdown-item.item-empty:hover {
+	background-color: var(--gray-light);
+}
+
 .nav-title {
 	color: #6f7580;
 	font-weight: 500;
@@ -22,6 +31,19 @@
 	display: none !important;
 }
 
+.sidebar .menu-heading {
+	text-transform: uppercase;
+}
+
+.sidebar .nav.sub-menu .nav-title {
+	padding: 0;
+}
+
+.sidebar .nav.sub-menu .nav-title .submenu-heading {
+	color: white;
+	font-weight: 800;
+}
+
 .sidebar .nav-item {
 	border-radius: 25px;
 }
@@ -30,20 +52,42 @@
 	font-weight: 700 !important;
 }
 
-.sidebar .nav .nav-item:has(.nav-link):not(.sub-menu).active {
-	background-color: var(--gray-light);
+.sidebar .nav .nav-item div.collapse {
+	padding-bottom: .75rem;
 }
 
-.sidebar .nav .nav-item:has(.nav-link):not(.sub-menu).active:hover {
-	background-color: var(--gray-light);
-}
-
-.sidebar-dark .sidebar .nav .nav-item:has(.nav-link):not(.sub-menu):hover {
+.sidebar-dark .sidebar .nav .nav-item:has(.nav-link):hover {
 	background-color: var(--gray);
 }
 
-.sidebar-dark .sidebar .nav .nav-item:has(.nav-link):not(.sub-menu).active {
-	background-color: var(--gray-lighter);
+.sidebar-dark .sidebar .nav .nav-item:has(.nav-link).active {
+	background-color: var(--gray-light);
+}
+
+.sidebar-dark .sidebar .nav .nav-item:has(.nav-link).active:hover {
+	background-color: var(--gray-light);
+}
+
+.sidebar-dark .sidebar .nav.sub-menu .nav-item {
+	border-radius: 0;
+}
+
+.sidebar-dark .sidebar .nav.sub-menu .nav-item .nav-link.active {
+	color: var(--gray-light);
+	font-weight: 800 !important;
+}
+
+.sidebar-dark .sidebar .nav.sub-menu .nav-item .nav-link.active:hover {
+	color: white;
+}
+
+.sidebar-dark .sidebar .nav.sub-menu .nav-item:hover {
+	background-color: #131924;
+}
+
+.sidebar-dark .sidebar .nav.sub-menu .nav-divider {
+	margin: .25rem 0;
+	border-top: 1px solid var(--gray-lighter);
 }
 
 .text-green {
@@ -91,8 +135,7 @@
 }
 
 .pict-preview.blank {
-	background: url("../imgs/blank-profile-picture-973460_1280.png") center no-repeat;
-	background-size: cover;
+	background: url("../imgs/blank-profile-picture-973460_1280.png") center center / cover no-repeat;
 }
 
 .pict-preview.rounded {

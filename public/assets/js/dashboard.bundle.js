@@ -29,11 +29,10 @@
 			if (element.attr ("data-redirect") === current) {
 				element.parents (".nav-item").last ().addClass ("active");
 				if (element.parents (".sub-menu").length) {
-					element.closest (".collapse").addClass ("active");
+					element.closest (".collapse").prev ().attr ("aria-expanded", true)
+					element.closest (".collapse").addClass ("show");
 					element.addClass ("active");
 				}
-				
-				if (element.parents (".submenu-item").length) element.addClass ("active");
 			}
 		}
 		var current = "";
@@ -102,6 +101,18 @@
 		    }
 			var minimized = body.hasClass ("sidebar-icon-only");
 			$.changeConfig ('minimized', minimized);
+		});
+		$("#urPict").on ("change", function ($evt) {
+			var image	= this.files[0];
+			var reader	= new FileReader ();
+			reader.onloadend	= function () {
+				var preview	= $($evt.target).closest (".tab-pane").find (".pict-preview");
+				preview.toggleClass ("blank");
+				preview.css ({
+					"background": 'url("' + reader.result + '") center center / cover no-repeat',
+				});
+			};
+			if (image) reader.readAsDataURL (image);
 		});
 	
 		//checkbox and radios

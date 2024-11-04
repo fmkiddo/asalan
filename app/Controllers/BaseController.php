@@ -184,6 +184,10 @@ abstract class BaseController extends Controller {
         return $this;
     }
     
+    /**
+     * 
+     * @return string
+     */
     protected function __getLocale () {
         return $this->locale;
     }

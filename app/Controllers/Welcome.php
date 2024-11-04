@@ -78,11 +78,11 @@ class Welcome extends BaseController {
                                         $profile    = [
                                             'user-fname'    => $payload['fname'],
                                             'user-mname'    => $payload['mname'],
-                                            'user-lname'    => $payload['fname'],
-                                            'user-addr1'    => $payload['fname'],
-                                            'user-addr2'    => $payload['fname'],
-                                            'user-phone'    => $payload['fname'],
-                                            'user-email'    => $payload['fname'],
+                                            'user-lname'    => $payload['lname'],
+                                            'user-addr1'    => $payload['addr1'],
+                                            'user-addr2'    => $payload['addr2'],
+                                            'user-phone'    => $payload['phone'],
+                                            'user-email'    => $payload['email'],
                                         ];
                                     }
                                     

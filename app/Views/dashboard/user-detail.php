@@ -73,7 +73,10 @@
 											<h5 class="modal-title">Perbaru Profil Pengguna</h5>
 											<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 										</div>
-										<form method="post">
+										<form method="post" enctype="multipart/form-data">
+											<input type="hidden" name="{csrf_name}" value="{csrf_data}" />
+											<input type="hidden" name="request-type" value="profile|edit" />
+											<input type="hidden" name="user-uuid" value="{target_uuid}" />
 											<div class="modal-body">
 												<div class="cols-to-tabs">
     												<ul class="nav nav-tabs nav-justified device-small" role="tablist">
@@ -107,7 +110,7 @@
     															<div class="col-md-4">
     																<div class="form-group">
     																	<label class="d-hidden" for="input-lname">Nama Belakang:</label>
-    																	<input type="text" class="form-control" name="input-lname" placeholder="Soleh" required />
+    																	<input type="text" class="form-control" name="input-lname" placeholder="Soleh" />
     																</div>
     															</div>
     														</div>
@@ -139,7 +142,7 @@
     														<div class="pict-preview {blank_pict}">
     														</div>
     														<div class="pick-image">
-    															<input type="file" name="input-urpic" accept="image/png,image/webp,image/jpeg" />
+    															<input type="file" id="urPict" name="input-urpic" accept="image/png,image/webp,image/jpeg" />
     															<button type="button" class="btn btn-primary btn-block" id="pickImage">
     																<span>Pilih Gambar</span>
     															</button>
