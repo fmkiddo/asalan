@@ -45,7 +45,13 @@
 
 .sidebar .nav.sub-menu .nav-divider {
 	margin: .25rem 0;
-	border-top: 1px solid var(--gray);
+	border-top: 1px solid var(--gray-light);
+}
+
+.sidebar .nav .nav-item.active {
+	background: var(--gray-lighter);
+	box-shadow: inset 2px 1px 3px 0 rgba(200, 186, 186, 0.5);
+	-webkit-box-shadow: inset 2px 1px 3px 0 rgba(200, 186, 186, 0.5);
 }
 
 .sidebar .nav.sub-menu .nav-title .submenu-heading {
@@ -97,7 +103,7 @@
 
 .sidebar-dark .sidebar .nav.sub-menu .nav-divider {
 	margin: .25rem 0;
-	border-top: 1px solid var(--gray-lighter);
+	border-top: 1px solid var(--gray-light);
 }
 
 .text-green {

@@ -63,25 +63,10 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a role="button" class="nav-link" data-bs-toggle="collapse" data-bs-target="#assetMenu" aria-expanded="false" aria-controls="assetMenu">
+						<a role="button" class="nav-link" data-redirect="master-asset">
 							<i class="mdi mdi-database menu-icon"></i>
 							<span class="menu-title">{tm_asset}</span>
-							<i class="menu-arrow"></i>
 						</a>
-						<div id="assetMenu" class="collapse">
-							<ul class="nav flex-column sub-menu">
-								<li class="nav-title">
-									<div class="submenu-heading mt-0">{tsm_asset_title0}</div>
-								</li>
-								<li class="nav-divider"></li>
-								<li class="nav-item">
-									<a role="button" class="nav-link" data-redirect="categories">{ts_categories}</a>
-								</li>
-								<li class="nav-item">
-									<a role="button" class="nav-link" data-redirect="master-asset">{ts_asset}</a>
-								</li>
-							</ul>
-						</div>
 					</li>
 					<li class="nav-item">
 						<a role="button" class="nav-link" data-redirect="locations">
@@ -127,6 +112,30 @@
 						</a>
 					</li>
 					<li class="nav-item">
+						<a role="button" class="nav-link" data-bs-toggle="collapse" data-bs-target="#settingsMenu" aria-expanded="false" aria-controls="settingsMenu">
+							<i class="mdi mdi-cogs menu-icon"></i>
+							<span class="menu-title">{tm_settings}</span>
+							<i class="menu-arrow"></i>
+						</a>
+						<div id="settingsMenu" class="collapse">
+							<ul class="nav flex-column sub-menu">
+								<li class="nav-title">
+									<div class="submenu-heading mt-0">{tsm_setting_title}</div>
+								</li>
+								<li class="nav-divider"></li>
+								<li class="nav-item">
+									<a role="button" class="nav-link" data-redirect="properties">{ts_settings0}</a>
+								</li>
+								<li class="nav-item">
+									<a role="button" class="nav-link" data-redirect="categories">{ts_settings1}</a>
+								</li>
+								<li class="nav-item">
+									<a role="button" class="nav-link" data-redirect="settings">{ts_settings2}</a>
+								</li>
+							</ul>
+						</div>
+					</li>
+					<li class="nav-item">
 						<a role="button" class="nav-link" data-bs-toggle="collapse" data-bs-target="#usersMenu" aria-expanded="false" aria-controls="usersMenu">
 							<i class="mdi mdi-account-group menu-icon"></i>
 							<span class="menu-title">{tm_users}</span>
@@ -151,12 +160,6 @@
 						<a role="button" class="nav-link" data-redirect="file-manager">
 							<i class="mdi mdi-file-cabinet menu-icon"></i>
 							<span class="menu-title">{tm_file_manager}</span>
-						</a>
-					</li>
-					<li class="nav-item">
-						<a role="button" class="nav-link" data-redirect="system-settings">
-							<i class="mdi mdi-cogs menu-icon"></i>
-							<span class="menu-title">{tm_settings}</span>
 						</a>
 					</li>
 					<li class="nav-item">

@@ -18,11 +18,6 @@ return array (
         't_sidebar'     => 'Navigation',
         'dashboard'     => 'Dashboard',
         'fixedasset'    => 'Fixed Assets',
-        'sm_fixedasset' => array (
-            'title'         => 'Fixed Asset Menu',
-            'asset_cats'    => 'Categories',
-            'assets'        => 'Assets'
-        ),
         'location'      => 'Locations',
         'flow_asset'    => 'Asset Flows',
         'sm_flow_asset' => array (
@@ -41,7 +36,13 @@ return array (
             'action1'       => 'Users',
         ),
         'file_manager'  => 'File Management',
-        'settings'      => 'System Settings',
+        'settings'      => 'Settings',
+        'sm_settings'   => array (
+            'title'         => 'Configuration Menu',
+            'settings0'     => 'Properties',
+            'settings1'     => 'Categories',
+            'settings2'     => 'Configurations'
+        ),
         'manual'        => 'Documentation'
     ),
     'settings'  => array (

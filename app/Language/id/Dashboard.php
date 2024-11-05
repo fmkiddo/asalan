@@ -18,11 +18,6 @@ return array (
         't_sidebar'     => 'Navigasi',
         'dashboard'     => 'Dashboard',
         'fixedasset'    => 'Aset Tetap',
-        'sm_fixedasset' => array (
-            'title'         => 'Menu Aset Tetap',
-            'asset_cats'    => 'Kategori',
-            'assets'        => 'Aset-aset'
-        ),
         'location'      => 'Lokasi',
         'flow_asset'    => 'Pergerakan Aset',
         'sm_flow_asset' => array (
@@ -41,7 +36,13 @@ return array (
             'action1'       => 'Pengguna',
         ),
         'file_manager'  => 'Pengelola File',
-        'settings'      => 'Pengaturan Sistem',
+        'settings'      => 'Pengaturan',
+        'sm_settings'   => array (
+            'title'         => 'Menu Konfigurasi',
+            'settings0'     => 'Komponen',
+            'settings1'     => 'Kategori',
+            'settings2'     => 'Konfigurasi'
+        ),
         'manual'        => 'Dokumentasi',
     ),
     'settings'  => array (
