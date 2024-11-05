@@ -1,4 +1,4 @@
-    	<div class="container-fluid page-body-wrapper">
+    	<div class="container-fluid page-body-wrapper"><!-- Start of configuration panel on the right side of the screen -->
             <div class="theme-setting-wrapper">
                 <div id="settings-trigger">
                 	<i class="mdi mdi-cog"></i>
@@ -42,7 +42,7 @@
                         <div class="tiles default"></div>
                     </div>
                 </div>
-            </div>{/config}
+            </div>{/config}<!-- Start of sidebar -->
     		<nav id="sidebar" class="sidebar sidebar-offcanvas">
     			<ul class="nav">
     				<li class="nav-item text-light">
@@ -73,15 +73,12 @@
 								<li class="nav-title">
 									<div class="submenu-heading mt-0">{tsm_asset_title0}</div>
 								</li>
-								<hr class="nav-divider" />
+								<li class="nav-divider"></li>
 								<li class="nav-item">
 									<a role="button" class="nav-link" data-redirect="categories">{ts_categories}</a>
 								</li>
 								<li class="nav-item">
 									<a role="button" class="nav-link" data-redirect="master-asset">{ts_asset}</a>
-								</li>
-								<li class="nav-item">
-									<a role="button" class="nav-link" data-redirect="reg-asset">{ts_regasset}</a>
 								</li>
 							</ul>
 						</div>
@@ -103,25 +100,31 @@
 								<li class="nav-title">
 									<div class="submenu-heading mt-0">{tsm_flow_title0}</div>
 								</li>
-								<hr class="nav-divider" />
+								<li class="nav-divider"></li>
 								<li class="nav-item">
-									<a role="button" class="nav-link" data-redirect="">{tsm_flow_action0}</a>
+									<a role="button" class="nav-link" data-redirect="flow-request">{tsm_flow_action0}</a>
 								</li>
 								<li class="nav-title pt-2">
 									<div class="submenu-heading mt-0">{tsm_flow_title1}</div>
 								</li>
-								<hr class="nav-divider" />
+								<li class="nav-divider"></li>
 								<li class="nav-item">
-									<a role="button" class="nav-link" data-redirect="">{tsm_flow_action1}</a>
+									<a role="button" class="nav-link" data-redirect="flow-asset-out">{tsm_flow_action1}</a>
 								</li>
 								<li class="nav-item">
-									<a role="button" class="nav-link" data-redirect="">{tsm_flow_action2}</a>
+									<a role="button" class="nav-link" data-redirect="flow-asset-in">{tsm_flow_action2}</a>
 								</li>
 								<li class="nav-item">
-									<a role="button" class="nav-link" data-redirect="">{tsm_flow_action3}</a>
+									<a role="button" class="nav-link" data-redirect="flow-asset-del">{tsm_flow_action3}</a>
 								</li>
 							</ul>
 						</div>
+					</li>
+					<li class="nav-item">
+						<a  role="button" class="nav-link" data-redirect="maintenance">
+							<i class="mdi mdi-wrench-clock menu-icon"></i>
+							<span class="menu-title">{tm_maintenance}</span>
+						</a>
 					</li>
 					<li class="nav-item">
 						<a role="button" class="nav-link" data-bs-toggle="collapse" data-bs-target="#usersMenu" aria-expanded="false" aria-controls="usersMenu">
@@ -130,12 +133,30 @@
 							<i class="menu-arrow"></i>
 						</a>
 						<div id="usersMenu" class="collapse">
+							<ul class="nav flex-column sub-menu">
+								<li class="nav-title">
+									<div class="submenu-heading mt-0">{tsm_user_title}</div>
+								</li>
+								<li class="nav-divider"></li>
+								<li class="nav-item">
+									<a role="button" class="nav-link" data-redirect="acl">{tsm_user_action0}</a>
+								</li>
+								<li class="nav-item">
+									<a role="button" class="nav-link" data-redirect="users">{tsm_user_action1}</a>
+								</li>
+							</ul>
 						</div>
 					</li>
 					<li class="nav-item">
-						<a role="button" class="nav-link" data-redirect="">
-							<i class=" menu-icon"></i>
-							<span class="menu-title"></span>
+						<a role="button" class="nav-link" data-redirect="file-manager">
+							<i class="mdi mdi-file-cabinet menu-icon"></i>
+							<span class="menu-title">{tm_file_manager}</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a role="button" class="nav-link" data-redirect="system-settings">
+							<i class="mdi mdi-cogs menu-icon"></i>
+							<span class="menu-title">{tm_settings}</span>
 						</a>
 					</li>
 					<li class="nav-item">
@@ -147,4 +168,4 @@
     			</ul>
     		</nav>
     		<div class="main-panel">
-    			<div class="content-wrapper">
+				<div class="content-wrapper"><!-- Start of main panel content -->

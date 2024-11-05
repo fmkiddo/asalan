@@ -4,6 +4,7 @@ namespace App\Controllers;
 use App\Libraries\AssetType;
 use App\Libraries\CURLRequestMapper;
 use App\Libraries\RuleSets;
+use App\Libraries\LangLoader;
 
 class Home extends BaseController {
     
@@ -122,36 +123,16 @@ class Home extends BaseController {
     private function loadPage ($urname, $viewPaths=array ()) {
         $sideBarIconOnly    = (!$this->isSideBarHidden ()) ? '' : 'sidebar-icon-only';
         $selectedLocale     = $this->__getLocale ();
-        $topbarLang         = array (
-            'welcome_tagline'   => lang ('Dashboard.topbar.welcome', [$urname], $selectedLocale),
-            'top_notif_heading' => lang ('Dashboard.topbar.notif_title', [], $selectedLocale),
-            'top_notif_seeall'  => lang ('Dashboard.topbar.notif_seeall', [], $selectedLocale),
-            'top_msgs_heading'  => lang ('Dashboard.topbar.msgs_title', [], $selectedLocale),
-            'top_msgs_empty'    => lang ('Dashboard.topbar.msgs_empty', [], $selectedLocale),
-            'top_msgs_seeall'   => lang ('Dashboard.topbar.msgs_seeall', [], $selectedLocale),
-            'top_acc_heading'   => lang ('Dashboard.topbar.acc_title', [], $selectedLocale),
-            'top_acc_menu1'     => lang ('Dashboard.topbar.profile', [], $selectedLocale),
-            'top_acc_menu2'     => lang ('Dashboard.topbar.about', [], $selectedLocale),
-            'top_acc_signout'   => lang ('Dashboard.topbar.sign_out', [], $selectedLocale),
-        );
-        $sidebarLang        = array (
-            'tm_sidebar'        => lang ('Dashboard.nav.t_sidebar', [], $selectedLocale),
-            'tm_dashboard'      => lang ('Dashboard.nav.dashboard', [], $selectedLocale),
-            'tm_manual'         => lang ('Dashboard.nav.manual', [], $selectedLocale),
-        );
-        $settings           = array (
-            'lang_text'         => lang ('Dashboard.settings.language', [], $selectedLocale),
-            'theme_text'        => lang ('Dashboard.settings.theme', [], $selectedLocale),
-            'light_text'        => lang ('Dashboard.settings.theme_color.light', [], $selectedLocale),
-            'dark_text'         => lang ('Dashboard.settings.theme_color.dark', [], $selectedLocale),
-            'primary_text'      => lang ('Dashboard.settings.topbar', [], $selectedLocale),
-        );
+        $langLoader         = new LangLoader ($selectedLocale);
+        
         $notifs             = array (
             
         );
+        
         $messages           = array (
             
         );
+        
         $this->addViewPaths ($viewPaths)
             ->addViewData ('brand_logo', $this->__getClientLogoURL ())
             ->addViewData ('urname', $urname)
@@ -162,9 +143,9 @@ class Home extends BaseController {
             ->addViewData ('sidebar_theme', "sidebar-{$this->getSidebarColor ()}")
             ->addViewData ('csrf_name', csrf_token ())->addViewData ('csrf_data', csrf_hash())
             ->addViewData ('fullname', $this->getUserFullname ())
-            ->addViewData ('topbar', array ($topbarLang))
-            ->addViewData ('sidebar', array ($sidebarLang))
-            ->addViewData ('config', array ($settings))
+            ->addViewData ('topbar', array ($langLoader->getLanguage ('topbar', $urname)))
+            ->addViewData ('sidebar', array ($langLoader->getLanguage ('nav')))
+            ->addViewData ('config', array ($langLoader->getLanguage ('settings')))
             ->addViewData ('notifs', $notifs)
             ->addViewData ('notif_count', count ($notifs))
             ->addViewData ('messages', $messages)

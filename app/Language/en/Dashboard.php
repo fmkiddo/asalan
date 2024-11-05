@@ -17,6 +17,31 @@ return array (
     'nav'       => array (
         't_sidebar'     => 'Navigation',
         'dashboard'     => 'Dashboard',
+        'fixedasset'    => 'Fixed Assets',
+        'sm_fixedasset' => array (
+            'title'         => 'Fixed Asset Menu',
+            'asset_cats'    => 'Categories',
+            'assets'        => 'Assets'
+        ),
+        'location'      => 'Locations',
+        'flow_asset'    => 'Asset Flows',
+        'sm_flow_asset' => array (
+            'title0'        => 'Request Menu',
+            'title1'        => 'Asset Flow Menu',
+            'action0'       => 'Asset Flow Request',
+            'action1'       => 'Asset Transfer',
+            'action2'       => 'Asset Receive',
+            'action3'       => 'Asset Disposal'
+        ),
+        'maintenance'   => 'Maintenance',
+        'm_users'       => 'Users',
+        'sm_users'      => array (
+            'title'         => 'Users Menu',
+            'action0'       => 'Access Control',
+            'action1'       => 'Users',
+        ),
+        'file_manager'  => 'File Management',
+        'settings'      => 'System Settings',
         'manual'        => 'Documentation'
     ),
     'settings'  => array (

@@ -17,6 +17,31 @@ return array (
     'nav'       => array (
         't_sidebar'     => 'Navigasi',
         'dashboard'     => 'Dashboard',
+        'fixedasset'    => 'Aset Tetap',
+        'sm_fixedasset' => array (
+            'title'         => 'Menu Aset Tetap',
+            'asset_cats'    => 'Kategori',
+            'assets'        => 'Aset-aset'
+        ),
+        'location'      => 'Lokasi',
+        'flow_asset'    => 'Pergerakan Aset',
+        'sm_flow_asset' => array (
+            'title0'        => 'Menu Permintaan',
+            'title1'        => 'Menu Pergerakan Aset',
+            'action0'       => 'Permintaan',
+            'action1'       => 'Transfer Aset',
+            'action2'       => 'Terima Aset',
+            'action3'       => 'Pemusnahan Aset'
+        ),
+        'maintenance'   => 'Pemeliharaan',
+        'm_users'       => 'Pengguna',
+        'sm_users'      => array (
+            'title'         => 'Menu Pengguna',
+            'action0'       => 'Kontrol Akses',
+            'action1'       => 'Pengguna',
+        ),
+        'file_manager'  => 'Pengelola File',
+        'settings'      => 'Pengaturan Sistem',
         'manual'        => 'Dokumentasi',
     ),
     'settings'  => array (

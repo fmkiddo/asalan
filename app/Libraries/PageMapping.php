@@ -6,7 +6,13 @@ class PageMapping {
     
     private $pageMap    = array (
         'welcome'           => 'frontpage',
+        'categories'        => 'asset-categories',
+        'master-asset'      => 'system-assets',
+        'locations'         => 'registered-locations',
+        'acl'               => 'access',
+        'users'             => 'users-table',
         'profile'           => 'user-detail',
+        'file-manager'      => 'fmanager',
         'about'             => 'system-information',
         'documentation'     => 'manual'
     );
