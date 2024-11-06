@@ -265,3 +265,15 @@
 	width: 60%;
 	word-wrap: break-word;
 }
+
+.border-gray {
+	border-color: var(--gray) !important;
+}
+
+.border-grayl { /** border with light gray color**/
+	border-color: var(--gray-light) !important;
+}
+
+.border-graylr {
+	border-color: var(--gray-lighter) !important;
+}

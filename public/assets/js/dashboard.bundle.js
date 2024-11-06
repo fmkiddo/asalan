@@ -278,5 +278,12 @@
 			    }
 			}
 		});
+		
+		var datatables	= $(document).find ('[data-table="true"]');
+		if (datatables.length) {
+			datatables.each (function () {
+				$(this).DataTable ();
+			});
+		}
 	});
 })(jQuery);
