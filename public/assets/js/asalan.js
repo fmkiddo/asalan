@@ -2,6 +2,7 @@
 
 (function ($) {
 	$.siteURL = function ($relativePath) {
+		$relativePath	= $relativePath || '';
 		var $dataURL 	= $('body').attr ('data-siteurl');
 		var $concat		= $dataURL.endsWith ('/');
 		var $siteURL	= $dataURL + ($concat ? '' : '/') + $relativePath;
@@ -60,5 +61,35 @@
 			});
 		}
 		return changed;
+	};
+	$.getAlv = function () {
+		var search = window.location.search
+			.replace ('?', '')
+			.split ('&');
+		if (!search.length) return false;
+		var alv = '';
+		$.each (search, function (k, v) {
+			var explode = v.split ('=');
+			if (explode[0] === 'alv') {
+				alv = explode[1];
+				return false;
+			}
+		});
+		return alv;
+	};
+	$.fn.delayedDataTableInit = function (options, delay=400) {
+		var dt = $(this),
+			attr = dt.attr ('data-table');
+		$.fn.dataTable.ext.errMode = 'throw';
+		if (typeof attr === 'undefined' && attr === false) return false;
+		dt.find ("thead th:first-child").attr ('data-orderable', false);
+		setTimeout (function () {
+			options.order		= [[1, 'asc']];
+			options.responsive	= true;
+			options.processing	= true;
+			options.serverSide	= true;	
+			dt.addClass ('table-100').DataTable (options);
+		}, delay);
+		return true;
 	};
 })(jQuery);

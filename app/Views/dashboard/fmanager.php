@@ -4,7 +4,7 @@
 								<div class="card">
 									<div class="card-body">
 										<div class="border-bottom border-grayl mb-3 py-2">
-											<h5 class="card-title">{fmanager_title}</h5>
+											<h3 class="card-title">{fmanager_title}</h3>
 										</div>
 										<ul class="nav nav-tabs nav-justified">
 											<li class="nav-item">
@@ -23,17 +23,17 @@
 												</a>
 											</li>
 										</ul>
-										<div class="tab-content">
+										<div class="tab-content border-0 px-0 pb-0">
 											<div class="tab-pane fade show active" id="image-list" role="tabpanel" aria-labelledby="image-list-tab">
 												<div class="border border-grayl border-top-0 border-left-0 border-right-0 mb-2 py-2">
 													<div class="d-flex align-items-center justify-content-between">
 														<h5 class="card-title mb-0">{picstable_title}</h5>
 														<div>
-        													<button type="button" id="btnUpload" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-fuploads">
+        													<button type="button" id="btnUpload" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalFileUploads" title="{btn_upload}">
         														<i class="mdi mdi-file-upload"></i>
         														<span>{btn_upload}</span>
         													</button>
-        													<button type="button" id="btnDelete" class="btn btn-primary">
+        													<button type="button" id="btnDelete" class="btn btn-primary" title="{btn_remove_image}">
         														<i class="mdi mdi-file-image-remove"></i>
         														<span>{btn_remove_image}</span>
         													</button>
@@ -52,7 +52,7 @@
 													<tbody>
 													</tbody>
 												</table>
-												<div id="modal-fuploads" role="dialog" class="modal fade" tabindex="-1" aria-labelledby="modalFileUploads" aria-hidden="true">
+												<div id="modalFileUploads" role="dialog" class="modal fade" tabindex="-1" aria-labelledby="modalFileUploads" aria-hidden="true">
 													<div class="modal-dialog modal-lg">
 														<div class="modal-content">
 															<div class="modal-header">
@@ -64,11 +64,11 @@
 																<div class=""></div>
 															</div>
 															<div class="modal-footer text-end">
-																<button type="button" class="btn btn-primary">
+																<button type="button" class="btn btn-primary" title="{btn_upload}">
 																	<i class="mdi mdi-file-upload"></i>
 																	<span>{btn_upload}</span>
 																</button>
-																<button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+																<button type="button" class="btn btn-primary" data-bs-dismiss="modal" title="{btn_cancel}">
 																	<i class="mdi mdi-close"></i>
 																	<span>{btn_cancel}</span>
 																</button>

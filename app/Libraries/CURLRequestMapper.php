@@ -21,7 +21,9 @@ class CURLRequestMapper {
     );
     
     private $apiMapping = array (
-        'profile'   => 'user-profile'
+        'profile'   => 'user-profile',
+        'acl'       => 'controller',
+        'users'     => 'users'
     );
     
     public function __construct () { }
@@ -54,5 +56,45 @@ class CURLRequestMapper {
     public function getTargetAPI (string $router) {
         if (!array_key_exists ($router, $this->apiMapping)) return FALSE;
         return $this->apiMapping[$router];
+    }
+    
+    /**
+     * 
+     * @param array $input
+     * @param array $tableData
+     * @param string $target
+     */
+    public function dataTableFormatter (array $input, array &$tableData, string $target): void {
+        switch ($target) {
+            default:
+                break;
+            case 'acl':
+                foreach ($input as $k => $row) {
+                    $tableData[$k]  = array (
+                        "<input type=\"checkbox\" data-single=\"true\" value=\"{$row['uuid']}\" />",
+                        $row['code'],
+                        $row['name'],
+                        ($row['can_approve'] ? "<i class=\"mdi mdi-check-circle text-success\"></i>" : "<i class=\"mdi mdi-close-circle text-danger\"></i>"),
+                        ($row['can_remove'] ? "<i class=\"mdi mdi-check-circle text-success\"></i>" : "<i class=\"mdi mdi-close-circle text-danger\"></i>"),
+                        ($row['can_send'] ? "<i class=\"mdi mdi-check-circle text-success\"></i>" : "<i class=\"mdi mdi-close-circle text-danger\"></i>"),
+                        $this->generateCreatedColumn($row['created_at'])
+                    );
+                }
+                break;
+            case 'users':
+                foreach ($input as $k => $row) 
+                    $tableData[$k]  = array (
+                        "<input type=\"checkbox\" data-single=\"true\" value=\"{$row['uuid']}\" />",
+                        $row['username'],
+                        $row['group_name'],
+                        $row['email'],
+                        $this->generateCreatedColumn($row['created_at'])
+                    );
+                break;
+        }
+    }
+    
+    private function generateCreatedColumn ($param) {
+        return "<span title=\"{$param->toDateTimeString ()}\">{$param->humanize ()}</span>";
     }
 }

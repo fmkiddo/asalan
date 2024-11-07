@@ -284,6 +284,13 @@ abstract class BaseController extends Controller {
         return $this->curl->$method ($url, $options);
     }
     
+    protected function getUserUUID () {
+        $sessData   = array ();
+        $this->__getSessionData (__SYS_SESSION_KEY__, $sessData);
+        $sessData   = unserialize (base64_decode ($sessData));
+        return base64_encode ((array_key_exists ('logged', $sessData) ? $sessData['logged']['uuid'] : NULL));
+    }
+    
     /**
      * @return void
      */

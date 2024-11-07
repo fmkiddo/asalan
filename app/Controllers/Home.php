@@ -110,11 +110,6 @@ class Home extends BaseController {
         else return "{$profile['user-fname']} {$profile['user-mname']} {$profile['user-lname']}";
     }
     
-    private function getUserUUID () {
-        $sessData   = $this->getSessionData ();
-        return base64_encode ($sessData['logged']['uuid']);
-    }
-    
     /**
      * 
      * @param string $urname
@@ -191,17 +186,18 @@ class Home extends BaseController {
                     ],
                     'headers'   => [
                         'Content-Type'  => 'application/json',
-                        'Accept'        => 'application/json'
+                        'Accept'        => 'application/json',
+                        'User-Agent'    => $this->request->getUserAgent ()
                     ],
                     'json'      => $json
                 ];
                 
                 $method     = "get";
-                $url        = $this->__getServerURL ("osam/{$api_target}?atom={$this->getUserUUID ()}");
+                $url        = $this->__getServerURL ("{$api_target}?atom={$this->getUserUUID ()}");
                 if ($type === 'edit') {
                     $segment    = $post['user-uuid'];
                     $method     = 'put';
-                    $url        = $this->__getServerURL ("osam/{$api_target}/{$segment}?atom={$this->getUserUUID ()}");
+                    $url        = $this->__getServerURL ("{$api_target}/{$segment}?atom={$this->getUserUUID ()}");
                 } elseif ($type === 'new') $method = 'post';
                 
                 $response       = $this->sendRequest ($url, $curlOpts, $method);
@@ -216,7 +212,7 @@ class Home extends BaseController {
                         array (
                             __SYS_SESSION_KEY__ => base64_encode (serialize ($sessData))
                         )
-                        );
+                    );
                     
                     $imageFile  = $this->request->getFile ("input-urpic");
                 }
@@ -240,7 +236,7 @@ class Home extends BaseController {
      */
     public function index (): string {
         $render = '';
-        if (!$this->__isReady ()) $this->response->redirect ($this->__getSiteURL ('osam/setup'));
+        if (!$this->__isReady ()) $this->response->redirect ($this->__getSiteURL ('setup'));
         else {
             if (!$this->__is_public_cookies_set()) {
                 $publicData = [

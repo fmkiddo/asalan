@@ -63,7 +63,7 @@ class SetupSystem extends BaseController {
                 ];
                 
                 if (!$this->validate($rules)) {
-                    $this->response->redirect ($this->__getSiteURL ('osam/setup'));
+                    $this->response->redirect ($this->__getSiteURL ('setup'));
                     return "";
                 } else {
                     $opts   = [
@@ -119,7 +119,7 @@ class SetupSystem extends BaseController {
                 ];
                 
                 if (!$this->validate ($rules)) {
-                    $this->response->redirect ($this->__getSiteURL ('osam/setup'));
+                    $this->response->redirect ($this->__getSiteURL ('setup'));
                     return "";
                 } else {
                     $serverdata = explode ('$', $post['serverdata']);
@@ -137,7 +137,8 @@ class SetupSystem extends BaseController {
                             ],
                             'headers'   => [
                                 'Accept'        => 'application/json',
-                                'Content-Type'  => 'application/json'
+                                'Content-Type'  => 'application/json',
+                                'User-Agent'    => $this->request->getUserAgent ()
                             ],
                             'json'      => []
                         ];
@@ -151,7 +152,7 @@ class SetupSystem extends BaseController {
                         ];
                         
                         $curlOpts['json']   = $json;
-                        $response   = $this->sendRequest ($this->__getServerURL ('osam/controller'), $curlOpts, 'post');
+                        $response   = $this->sendRequest ($this->__getServerURL ('controller'), $curlOpts, 'post');
                         $response   = json_decode ($response->getBody (), TRUE);
                         
                         if ($response['status'] !== 200) {
@@ -168,7 +169,7 @@ class SetupSystem extends BaseController {
                             'group-privileges'  => 'all'
                         ];
                         $curlOpts['json']   = $json;
-                        $response   = $this->sendRequest ($this->__getServerURL ('osam/acl'), $curlOpts, 'post');
+                        $response   = $this->sendRequest ($this->__getServerURL ('acl'), $curlOpts, 'post');
                         $response   = json_decode ($response->getBody (), TRUE);
                         
                         if ($response['status'] !== 200) {
@@ -184,7 +185,7 @@ class SetupSystem extends BaseController {
                         ];
                         
                         $curlOpts['json']   = $json;
-                        $response   = $this->sendRequest ($this->__getServerURL ('osam/users'), $curlOpts, 'post');
+                        $response   = $this->sendRequest ($this->__getServerURL ('users'), $curlOpts, 'post');
                         $response   = json_decode ($response->getBody (), TRUE);
                         
                         if ($response['status'] !== 200) {
@@ -213,7 +214,7 @@ class SetupSystem extends BaseController {
                         ];
                         
                         $curlOpts['json']   = $json;
-                        $response   = $this->sendRequest ($this->__getServerURL('osam/user-profile'), $curlOpts, 'post');
+                        $response   = $this->sendRequest ($this->__getServerURL('user-profile'), $curlOpts, 'post');
                         $response   = json_decode ($response->getBody(), TRUE);
                         
                         if ($response['status'] !== 200) {

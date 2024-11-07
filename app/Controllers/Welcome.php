@@ -45,11 +45,12 @@ class Welcome extends BaseController {
                             ],
                             'headers'   => [
                                 'Content-Type'  => 'application/json',
-                                'Accept'        => 'application/json'
+                                'Accept'        => 'application/json',
+                                'User-Agent'    => $this->request->getUserAgent ()
                             ],
                         ];
                         
-                        $response   = $this->sendRequest ($this->__getServerURL('osam/users'), $curlOpts, 'get');
+                        $response   = $this->sendRequest ($this->__getServerURL('users'), $curlOpts, 'get');
                         $response   = json_decode ($response->getBody (), TRUE);
                         if ($response['status'] === 200) {
                             $payload    = unserialize (base64_decode ($response['data']['payload']));
@@ -68,7 +69,7 @@ class Welcome extends BaseController {
                                 if (!password_verify ($password, $hash)) ;
                                 else {
                                     $baseUUID   = base64_encode ($theUser['uuid']);
-                                    $response   = $this->sendRequest ($this->__getServerURL("osam/user-profile/{$baseUUID}"), $curlOpts, 'get');
+                                    $response   = $this->sendRequest ($this->__getServerURL("user-profile/{$baseUUID}"), $curlOpts, 'get');
                                     $response   = json_decode ($response->getBody (), TRUE);
                                     
                                     $profile    = [];

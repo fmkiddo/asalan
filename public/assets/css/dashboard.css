@@ -48,6 +48,10 @@
 	border-top: 1px solid var(--gray-light);
 }
 
+.sidebar .nav.sub-menu .nav-item .nav-link.active {
+	font-weight: 800;
+}
+
 .sidebar .nav .nav-item.active {
 	background: var(--gray-lighter);
 	box-shadow: inset 2px 1px 3px 0 rgba(200, 186, 186, 0.5);
@@ -223,6 +227,10 @@
 	background-color: var(--gray-lighter);
 }
 
+.table.table-100 {
+	width: 100% !important;
+}
+
 .table thead th {
 	font-weight: 800;
 }
@@ -237,6 +245,11 @@
 
 .table.table-centered thead th,
 .table.table-centered tbody td {
+	text-align: center;
+}
+
+.table.center-first-column thead th:first-child,
+.table.center-first-column tbody td:first-child {
 	text-align: center;
 }
 
