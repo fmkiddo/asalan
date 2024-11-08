@@ -21,13 +21,13 @@
 										<table id="tableAcl" class="table table-hover table-striped table-centered" data-table="true">
 											<thead>
 												<tr>
-													<th><i class="mdi mdi-checkbox-marked"</th>
+													<th><i class="mdi mdi-checkbox-marked"></i></th>
 													<th>{th_code}</th>
 													<th>{th_name}</th>
 													<th>{th_caprv}</th>
 													<th>{th_crmv}</th>
 													<th>{th_csend}</th>
-													<th>{th_created}</th>
+													<th class="small">{th_created}</th>
 												</tr>
 											</thead>
 											<tbody>

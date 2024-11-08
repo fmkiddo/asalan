@@ -87,7 +87,7 @@
 			options.order		= [[1, 'asc']];
 			options.responsive	= true;
 			options.processing	= true;
-			options.serverSide	= true;	
+			options.serverSide	= true;
 			dt.addClass ('table-100').DataTable (options);
 		}, delay);
 		return true;

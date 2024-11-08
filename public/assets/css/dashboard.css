@@ -279,6 +279,10 @@
 	word-wrap: break-word;
 }
 
+.table thead th.small {
+	width: 15%;
+}
+
 .border-gray {
 	border-color: var(--gray) !important;
 }
@@ -289,4 +293,35 @@
 
 .border-graylr {
 	border-color: var(--gray-lighter) !important;
+}
+
+.created-at {
+	display: block;
+}
+
+.created-at .left {
+	width: 70%;
+	float: left;
+	text-align: center;
+}
+
+.created-at .right {
+	width: 30%;
+	float: right;
+	text-align: right;
+}
+
+.dt-scroll:has(.dropdown) .dt-scroll-head,
+.dt-scroll:has(.dropup) .dt-scroll-head,
+.dt-scroll:has(.dropstart) .dt-scroll-head,
+.dt-scroll:has(.dropend) .dt-scroll-head,
+.dt-scroll:has(.dropdown) .dt-scroll-body,
+.dt-scroll:has(.dropup) .dt-scroll-body,
+.dt-scroll:has(.dropstart) .dt-scroll-body,
+.dt-scroll:has(.dropend) .dt-scroll-body,
+.dt-scroll:has(.dropdown) .dt-scroll-foot,
+.dt-scroll:has(.dropup) .dt-scroll-foot,
+.dt-scroll:has(.dropstart) .dt-scroll-foot,
+.dt-scroll:has(.dropend) .dt-scroll-foot {
+	overflow: visible !important;
 }
