@@ -96,6 +96,7 @@ define('EVENT_PRIORITY_HIGH', 10);
 /**
  * 
  */
+defined('__SYS_ALPHA_NUMERIC__')            || define('__SYS_ALPHA_NUMERIC__', 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890');
 defined('__SYS_URL_PREFIX__')               || define('__SYS_URL_PREFIX__', 'asset-manager');
 defined('__SYS_PUBLIC_COOKIEKEY__')         || define('__SYS_PUBLIC_COOKIEKEY__', 'alv_local_data'); 
 defined('__SYS_SESSION_KEY__')              || define('__SYS_SESSION_KEY__', 'user-session');

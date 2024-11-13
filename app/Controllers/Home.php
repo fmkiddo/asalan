@@ -168,16 +168,14 @@ class Home extends BaseController {
         $rt     = explode ('|', $post['request-type']);
         $router = $rt[0];
         $type   = $rt[1];
-        $rules  = $this->ruleSets->getRuleSets ($router);
+        $rules  = $this->ruleSets->getRuleSets ($router)[$type];
         if (!$this->validate ($rules)) {
-            
         } else {
             $mapper     = new CURLRequestMapper ();
             $json       = $mapper->getCURLparams ($router, $this->request);
             $api_target = $mapper->getTargetAPI ($router);
-            if (!($json && $api_target)) ;
-            else {
-                $post       = $this->request->getPost ();
+            if (!($json && $api_target)) {
+            } else {
                 $curlOpts   = [
                     'auth'      => [
                         $this->__readLicFile(),
@@ -191,14 +189,13 @@ class Home extends BaseController {
                     ],
                     'json'      => $json
                 ];
-                
-                $method     = "get";
-                $url        = $this->__getServerURL ("{$api_target}?atom={$this->getUserUUID ()}");
+                $method = "get";
+                $url    = $this->__getServerURL ("{$api_target}?atom={$this->getUserUUID ()}");
                 if ($type === 'edit') {
-                    $segment    = $post['user-uuid'];
+                    $segment    = $post['atom'];
                     $method     = 'put';
                     $url        = $this->__getServerURL ("{$api_target}/{$segment}?atom={$this->getUserUUID ()}");
-                } elseif ($type === 'new') $method = 'post';
+                } elseif ($type === 'new') $method  = "post";
                 
                 $response       = $this->sendRequest ($url, $curlOpts, $method);
                 $json_output    = json_decode ($response->getBody (), TRUE);

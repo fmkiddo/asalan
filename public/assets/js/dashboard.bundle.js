@@ -285,7 +285,7 @@
 				var tableId = $(this).prop ("id");
 				var options	= {
 					ajax: {
-						url: $.siteURL ('data-pool'),
+						url: $.siteURL ($.getLocale () + '/data-pool'),
 						type: 'POST',
 						data: function ($d) {
 							$d.fetch = $.getAlv ()
@@ -303,9 +303,100 @@
 			$("input:checkbox[data-single=\"true\"]").not (this).prop ("checked", false);
 		});
 		$("[data-bs-reload=\"table\"]").on ("click", function () {
-			var targetTable = $(this).attr ("data-bs-target");
+			var theDt		= $($(this).attr ("data-bs-target")).DataTable ();
 			$(this).prop ('disabled', true);
-			$(targetTable).DataTable ().ajax.reload ();
+			theDt.ajax.reload ();
+		});
+		$("input#allAccess").on ("change", function () {
+			var partialAccess	= $("#partialAccess"),
+				props			= {
+					disabled: false,
+					checked: false
+				};
+			if ($(this).is (":checked")) {
+				props.disabled	= true;
+				props.checked	= true;
+			}
+			partialAccess.find (":checkbox").each (function () {
+				$(this).prop (props);
+			});
+		});
+		body.on ("click", "[data-bs-target=\".modal\"]", function (event) {
+			if (!$(event.currentTarget).is ("[data-target]")) return false;
+			var modalForm	= body.find (".modal form"),
+				reqType		= modalForm.find ("[name=\"request-type\"]");
+			var tVal	= reqType.val ().split ("|");
+			if (tVal[0] !== "profile") {
+				modalForm.find ("[name=\"atom\"]").val ($(this).attr ("data-target"));
+				tVal[1]		= "edit";
+				reqType.val (tVal.join ("|"));
+				modalForm.find ("[data-readonlyonedit]").prop ("readonly", true);
+				modalForm.find ("[data-notrequiredonedit]").prop ("required", false);
+			}
+		});
+		
+		function loadDataToForm (eventOwner) {
+			var evParent = $(eventOwner.relatedTarget).closest ("tr");
+			evParent.find ("[data-loadsource]").each (function () {
+				var target	= $(this).attr ("data-loadsource"),
+					content	= $(this).text (),
+					ltarget	= $(":input[data-loadtarget=\"" + target + "\"]");
+				if (ltarget.is ("select")) 
+					ltarget.children ().each (function () {
+						if ($(this).val () === content) $(this).attr ("selected", true);
+					});
+				else if (ltarget.is (":checkbox") || ltarget.is (":radio")) ltarget.prop ('checked', $.parseJSON (content));	
+				else ltarget.val (content);
+			});
+		}
+		
+		$(".modal").on ("shown.bs.modal", function (event) {
+			var modalForm	= $(event.currentTarget).find ("form");
+			if (!modalForm.length) return false;
+			var theModal	= $(event.currentTarget),
+				ajaxRun		= theModal.is ("[data-ajax-run]");
+			if (ajaxRun) {
+				var ajaxTarget	= theModal.attr ("data-ajax-target"),
+					ajaxUrl		= $.siteURL ($.getLocale () + "/data-pool"),
+					ajaxData	= {
+						fetch: ajaxTarget
+					};
+				$.ajax ({
+					url: ajaxUrl,
+					method: "post",
+					data: $.param (ajaxData),
+				}).done (function (result) {
+					if (result.length > 0) {
+						$.each (result.data, function (target, data) {
+							var el = $("[data-ajax-load=\"" + target + "\"]");
+							if (el.is ("select")) {
+								el.find ("option:not(:first-child)").remove ();
+								$.each (data, function (k, v) {
+									var prop = {
+										text: v.name,
+										value: v.uuid
+									};
+									el.createOptions (prop);
+								});
+							}
+						});
+						loadDataToForm (event);
+					}
+				}).fail (function () {
+					
+				});
+			}
+		});
+		$(".modal").on ("hidden.bs.modal", function (event) {
+			var modalForm	= $(event.target).find ("form");
+			if (!modalForm.length) return false;
+			var reqType		= modalForm.find ("[name=\"request-type\"]"),
+				tVal		= reqType.val ().split ("|");
+			if (tVal[0] !== "profile") {
+				tVal[1]			= "new";
+				reqType.val (tVal.join ("|"));
+				modalForm.resetForm ();
+			}
 		});
 	});
 })(jQuery);

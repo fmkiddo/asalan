@@ -92,4 +92,23 @@
 		}, delay);
 		return true;
 	};
+	$.fn.createOptions = function (prop) {
+		if (!$(this).is ("select")) return false;
+		$("<option/>", prop).appendTo ($(this));
+	};
+	$.fn.resetForm	= function () {
+		if (!$(this).is ("form")) return false;
+		var modalForm = $(this);
+		modalForm.find ("[name=\"atom\"]").val ("");
+		modalForm.find ("[data-readonlyonedit]").prop ("readonly", false);
+		modalForm.find ("[data-notrequiredonedit]").prop ("required", true);
+		modalForm.find (":input").not ("[type=\"hidden\"]").each (function () {
+			var input = $(this);
+			if (input.is ("select")) {
+				input.find ("option:first-child").attr ("selected", true);
+				input.find ("option:not(:first-child)").remove ();
+			} else if (input.is (":checkbox") || input.is (":radio")) input.prop ("checked", true);
+			else input.val ("");
+		});
+	};
 })(jQuery);

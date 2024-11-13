@@ -21,7 +21,7 @@
 										<table id="tableAcl" class="table table-hover table-striped table-centered" data-table="true">
 											<thead>
 												<tr>
-													<th><i class="mdi mdi-checkbox-marked"></i></th>
+													<th>#</th>
 													<th>{th_code}</th>
 													<th>{th_name}</th>
 													<th>{th_caprv}</th>
@@ -47,6 +47,8 @@
 								</div>
 								<form method="post">
 									<input type="hidden" name="{csrf_name}" value="{csrf_data}" />
+									<input type="hidden" name="request-type" value="acl|new" />
+									<input type="hidden" name="atom" value="" />
     								<div class="modal-body">
     									<div class="row">
     										<div class="col-md-6 border-right border-graylr">
@@ -70,16 +72,16 @@
     												</div>
     												<div class="col-sm-6">
     													<div class="form-check">
-    														<label class="form-check-label" for="input-groupcaprv">
-    															<input type="checkbox" class="form-check-input" name="input-groupcaprv" value="true">
+    														<label class="form-check-label" for="input-groupcremv">
+    															<input type="checkbox" class="form-check-input" name="input-groupcremv" value="true">
     															{label_canremove}
 															</label>
     													</div>
 													</div>
     												<div class="col-sm-6">
     													<div class="form-check">
-    														<label class="form-check-label" for="input-groupcaprv">
-    															<input type="checkbox" class="form-check-input" name="input-groupcaprv" value="true">
+    														<label class="form-check-label" for="input-groupcsend">
+    															<input type="checkbox" class="form-check-input" name="input-groupcsend" value="true">
     															{label_cansend}
 															</label>
     													</div>
@@ -88,85 +90,91 @@
     										</div>
     										<div class="col-md-6">
     											<p>{label_access}</p>
-    											<div class="row">
+    											<div class="form-check">
+    												<label for="input-groupaclall" class="form-check-label">
+    													<input type="checkbox" id="allAccess" name="input-groupaclall" class="form-check-input" value="mdl_all" />
+    													{label_accessall}
+    												</label>
+    											</div>
+    											<div id="partialAccess" class="row">
     												<div class="col-sm-6">
             											<div class="form-check">
-            												<label for="input-groupacl0" class="form-check-label">
-            													<input type="checkbox" for="input-groupacl0" value="true"/>
+            												<label class="form-check-label">
+            													<input type="checkbox" name="input-groupacl[]" class="form-check-input" value="mdl_0"/>
             													{label_access0}
             												</label>
             											</div>
             											<div class="form-check">
-            												<label for="input-groupacl1" class="form-check-label">
-            													<input type="checkbox" for="input-groupacl1" value="true" />
+            												<label class="form-check-label">
+            													<input type="checkbox" name="input-groupacl[]" class="form-check-input" value="mdl_1" />
             													{label_access1}
             												</label>
         												</div>
             											<div class="form-check">
-            												<label for="input-groupacl2" class="form-check-label">
-            													<input type="checkbox" for="input-groupacl2" value="true" />
+            												<label class="form-check-label">
+            													<input type="checkbox" name="input-groupacl[]" class="form-check-input" value="mdl_2" />
             													{label_access2}
             												</label>
         												</div>
             											<div class="form-check">
-            												<label for="input-groupacl3" class="form-check-label">
-            													<input type="checkbox" for="input-groupacl3" value="true" />
+            												<label class="form-check-label">
+            													<input type="checkbox" name="input-groupacl[]" class="form-check-input" value="mdl_3" />
             													{label_access3}
             												</label>
         												</div>
             											<div class="form-check">
-            												<label for="input-groupacl4" class="form-check-label">
-            													<input type="checkbox" for="input-groupacl4" value="true"  />
+            												<label class="form-check-label">
+            													<input type="checkbox" name="input-groupacl[]" class="form-check-input" value="mdl_4"  />
             													{label_access4}
             												</label>
         												</div>
             											<div class="form-check">
-            												<label for="input-groupacl5" class="form-check-label">
-            													<input type="checkbox" for="input-groupacl5" value="true"  />
+            												<label class="form-check-label">
+            													<input type="checkbox" name="input-groupacl[]" class="form-check-input" value="mdl_5"  />
             													{label_access5}
             												</label>
         												</div>
             											<div class="form-check">
-            												<label for="input-groupacl6" class="form-check-label">
-            													<input type="checkbox" for="input-groupacl6" value="true"  />
+            												<label class="form-check-label">
+            													<input type="checkbox" name="input-groupacl[]" class="form-check-input" value="mdl_6"  />
             													{label_access6}
             												</label>
         												</div>
     												</div>
     												<div class="col-sm-6">
             											<div class="form-check">
-            												<label for="input-groupacl0" class="form-check-label">
-            													<input type="checkbox" for="input-groupacl7" value="true"  />
+            												<label class="form-check-label">
+            													<input type="checkbox" name="input-groupacl[]" class="form-check-input" value="mdl_7"  />
             													{label_access7}
             												</label>
         												</div>
             											<div class="form-check">
-            												<label for="input-groupacl8" class="form-check-label">
-            													<input type="checkbox" for="input-groupacl8" value="true"  />
+            												<label class="form-check-label">
+            													<input type="checkbox" name="input-groupacl[]" class="form-check-input" value="mdl_8"  />
             													{label_access8}
             												</label>
         												</div>
             											<div class="form-check">
-            												<label for="input-groupacl9" class="form-check-label">
-            													<input type="checkbox" for="input-groupacl9" value="true" />
+            												<label class="form-check-label">
+            													<input type="checkbox" name="input-groupacl[]" class="form-check-input" value="mdl_9" />
             													{label_access9}
             												</label>
         												</div>
             											<div class="form-check">
-            												<label for="input-groupacl10" class="form-check-label">
-            													<input type="checkbox" for="input-groupacl10" value="true" />
+            												<label class="form-check-label">
+            													<input type="checkbox" name="input-groupacl[]" class="form-check-input" value="mdl_10" />
             													{label_access10}
             												</label>
         												</div>
             											<div class="form-check">
-            												<label for="input-groupacl11" class="form-check-label">
-            													<input type="checkbox" for="input-groupacl11" value="true" />
+            												<label class="form-check-label">
+            													<input type="checkbox" name="input-groupacl[]" class="form-check-input" value="mdl_11" />
             													{label_access11}
             												</label>
         												</div>
             											<div class="form-check">
-            												<label for="input-groupacl12" class="form-check-label">
-            													<input type="checkbox" for="input-groupacl12" value="true" />
+            												<label class="form-check-label">
+            													<input type="checkbox" name="input-groupacl[]" class="form-check-input" value="mdl_12" />
             													{label_access12}
             												</label>
             											</div>

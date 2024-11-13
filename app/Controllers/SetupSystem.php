@@ -162,7 +162,7 @@ class SetupSystem extends BaseController {
                         
                         $data       = $response['data'];
                         $payload    = unserialize (base64_decode ($data['payload']));
-                        $group_id   = $payload['returnid'];
+                        $group_id   = base64_encode ($payload['uuid']);
                         
                         $json       = [
                             'group-id'          => $group_id,
@@ -182,6 +182,7 @@ class SetupSystem extends BaseController {
                             'newuser-name'      => $post['input-newadmin'],
                             'newuser-email'     => '',
                             'newuser-password'  => $post['input-newapswd'],
+                            'newuser-active'    => TRUE,
                         ];
                         
                         $curlOpts['json']   = $json;

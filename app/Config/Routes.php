@@ -7,7 +7,7 @@ use CodeIgniter\Router\RouteCollection;
  */
 
 $routes->match (['get', 'post'], '/', 'Home::index');
-$routes->match (['get', 'post'], '/data-pool', 'Pooling::index');
+$routes->match (['get', 'post'], '/{locale}/data-pool', 'Pooling::index');
 $routes->match (['get', 'post'], '/{locale}', 'Home::index');
 $routes->match (['get', 'post'], '/{locale}/dashboard', 'Home::index');
 $routes->match (['get', 'post'], '/{locale}/change-config', 'Home::configChanger');

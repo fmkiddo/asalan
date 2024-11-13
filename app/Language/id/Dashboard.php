@@ -53,5 +53,8 @@ return array (
             'light'         => 'Tema Terang'
         ),
         'topbar'        => 'Warna Bar'
+    ),
+    'Errors'    => array (
+        '404'           => '404 - Halaman yang anda cari tidak ditemukan!'
     )
 );

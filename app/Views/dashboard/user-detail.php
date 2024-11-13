@@ -76,7 +76,7 @@
 										<form method="post" enctype="multipart/form-data">
 											<input type="hidden" name="{csrf_name}" value="{csrf_data}" />
 											<input type="hidden" name="request-type" value="profile|edit" />
-											<input type="hidden" name="user-uuid" value="{target_uuid}" />
+											<input type="hidden" name="atom" value="{target_uuid}" />
 											<div class="modal-body">
 												<div class="cols-to-tabs">
     												<ul class="nav nav-tabs nav-justified device-small" role="tablist">
