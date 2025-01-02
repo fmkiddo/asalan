@@ -37,7 +37,7 @@ class SetupSystem extends BaseController {
      * {@inheritDoc}
      * @see \App\Controllers\BaseController::index()
      */
-    public function index(): string {
+    public function index (): string {
         if ($this->__isReady()) {
             $this->response->redirect ($this->__getSiteURL ());
             return "";
@@ -76,7 +76,7 @@ class SetupSystem extends BaseController {
                             'sn'    => $post['input-licensecode']
                         ]
                     ];
-                    $response   = $this->sendRequest ($this->__getServerURL ('uniqore/validator'), $opts, 'post');
+                    $response   = $this->sendRequest ($this->__getServerURL ('uniqore/validator', FALSE), $opts, 'post');
                     $json       = json_decode ($response->getBody (), TRUE);
                     if ($json['status'] !== 200) $message = $json['messages']['error'];
                     else {

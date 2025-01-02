@@ -12,7 +12,17 @@
 error_reporting(E_ALL & ~E_DEPRECATED);
 // If you want to suppress more types of errors.
 // error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT & ~E_USER_NOTICE & ~E_USER_DEPRECATED);
-ini_set('display_errors', '0');
+ini_set('display_errors', '1');
+
+/*
+ |--------------------------------------------------------------------------
+ | DEBUG BACKTRACES
+ |--------------------------------------------------------------------------
+ | If true, this constant will tell the error screens to display debug
+ | backtraces along with the other error information. If you would
+ | prefer to not see this, set this value to false.
+ */
+defined('SHOW_DEBUG_BACKTRACE') || define('SHOW_DEBUG_BACKTRACE', true);
 
 /*
  |--------------------------------------------------------------------------
@@ -22,4 +32,4 @@ ini_set('display_errors', '0');
  | the system. It's not widely used currently, and may not survive
  | release of the framework.
  */
-defined('CI_DEBUG') || define('CI_DEBUG', false);
+defined('CI_DEBUG') || define('CI_DEBUG', TRUE);

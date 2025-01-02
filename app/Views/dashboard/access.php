@@ -1,3 +1,4 @@
+					{commons} {dash_acl_texts}
 					<div class="row">
 						<div class="col-md-12">
 							<div class="card">
@@ -6,15 +7,13 @@
 										<div class="border-bottom border-grayl mb-3 py-2">
 											<div class="d-flex align-items-center justify-content-between">
     											<h3 class="card-title mb-0">{acl_title}</h3>
-    											<div>
-    												<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalFormControl" title="{btn_add}">
-    													<i class="mdi mdi-plus-circle"></i>
-    													<span>{btn_add}</span>
-    												</button>
-    												<button type="button" class="btn btn-primary" data-bs-reload="table" data-bs-target="#tableAcl" title="{btn_reload}">
+    											<div class="card-control">
+    												<a role="button" href="#modalFormControl" data-bs-toggle="modal" title="{btn_add}">
+    													<i class="mdi mdi-plus"></i>
+    												</a>
+    												<a role="button" href="#tableAcl" data-bs-reload="table" title="{btn_reload}">
     													<i class="mdi mdi-reload"></i>
-    													<span>{btn_reload}</span>
-    												</button>
+    												</a>
     											</div>
     										</div>
 										</div>
@@ -54,18 +53,18 @@
     										<div class="col-md-6 border-right border-graylr">
     											<div class="form-group">
     												<label for="input-groupcode">{label_gcode}:</label>
-    												<input type="text" class="form-control" name="input-groupcode" required />
+    												<input type="text" class="form-control" name="input-groupcode" data-readonlyonedit="true" data-loadtarget="gcode" required />
     											</div>
     											<div class="form-group">
     												<label for="input-groupdscript">{label_gdscript}:</label>
-    												<input type="text" class="form-control" name="input-groupdscript" required />
+    												<input type="text" class="form-control" name="input-groupdscript" data-loadtarget="gname" required />
     											</div>
     											<p>{label_control}</p>
     											<div class="row">
     												<div class="col-sm-6">
     													<div class="form-check">
     														<label class="form-check-label" for="input-groupcaprv">
-    															<input type="checkbox" class="form-check-input" name="input-groupcaprv" value="true">
+    															<input type="checkbox" class="form-check-input" name="input-groupcaprv" data-loadtarget="gcanapprove" value="true">
     															{label_canapprove}
 															</label>
     													</div>
@@ -73,7 +72,7 @@
     												<div class="col-sm-6">
     													<div class="form-check">
     														<label class="form-check-label" for="input-groupcremv">
-    															<input type="checkbox" class="form-check-input" name="input-groupcremv" value="true">
+    															<input type="checkbox" class="form-check-input" name="input-groupcremv" data-loadtarget="gcandispose" value="true">
     															{label_canremove}
 															</label>
     													</div>
@@ -81,7 +80,7 @@
     												<div class="col-sm-6">
     													<div class="form-check">
     														<label class="form-check-label" for="input-groupcsend">
-    															<input type="checkbox" class="form-check-input" name="input-groupcsend" value="true">
+    															<input type="checkbox" class="form-check-input" name="input-groupcsend" data-loadtarget="gcantransfer" value="true">
     															{label_cansend}
 															</label>
     													</div>
@@ -196,4 +195,4 @@
 								</form>
 							</div>
 						</div>
-					</div>
+					</div>{/dash_acl_texts} {/commons}

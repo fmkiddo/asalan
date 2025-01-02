@@ -1,3 +1,4 @@
+					{commons} {dash_users_texts}
 					<div class="row">
 						<div class="col-md-12">
 							<div class="card">
@@ -6,15 +7,13 @@
 										<div class="border-bottom border-grayl mb-3 py-2">
 											<div class="d-flex align-items-center justify-content-between">
     											<h3 class="card-title mb-0">{users_title}</h3>
-    											<div>
-    												<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalFormUser" title="{btn_add}">
-    													<i class="mdi mdi-plus-circle"></i>
-    													<span>{btn_add}</span>
-    												</button>
-    												<button type="button" class="btn btn-primary" data-bs-reload="table" data-bs-target="#tableUsers" title="{btn_reload}">
+    											<div class="card-control">
+    												<a role="button" href="#modalFormUser" data-bs-toggle="modal" title="{btn_add}">
+    													<i class="mdi mdi-plus"></i>
+    												</a>
+    												<a role="button" href="#tableUsers" data-bs-reload="table" title="{btn_reload}">
     													<i class="mdi mdi-reload"></i>
-    													<span>{btn_reload}</span>
-    												</button>
+    												</a>
 												</div>
     										</div>
 										</div>
@@ -54,7 +53,7 @@
 												<label for="input-uname">{label_username}:</label>
         										<div class="form-check my-0">
         											<label for="input-useractive" class="form-check-label">
-        												<input type="checkbox" class="form-check-input" name="input-useractive" data-loadtarget="active" value="true" checked /> {label_active}
+        												<input type="checkbox" class="form-check-input" name="input-useractive" data-loadtarget="active" value="true" data-defstate="checked" checked /> {label_active}
         											</label>
         										</div>	
     										</div>
@@ -108,4 +107,4 @@
 								</form>
 							</div>
 						</div>
-					</div>
+					</div>{/dash_users_texts} {/commons}

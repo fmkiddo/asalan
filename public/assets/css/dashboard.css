@@ -325,3 +325,116 @@
 .dt-scroll:has(.dropend) .dt-scroll-foot {
 	overflow: visible !important;
 }
+
+ul.component-list {
+	list-style: none;
+	padding-left: 0;
+}
+
+ul.component-list li.component-item {
+	cursor: pointer;
+	padding-top: .4rem;
+	padding-bottom: .4rem;
+}
+
+ul.component-list li.component-item:hover {
+	background-color: var(--gray-lighter);
+}
+
+ul.component-list li.empty {
+	cursor: pointer;
+	padding-top: .4rem;
+	padding-bottom: .4rem;
+	background-color: var(--gray-lighter);
+	text-align: center;
+}
+
+.prelist-components {
+	display: none;
+	max-height: 180px;
+	overflow-y: auto;
+}
+
+.prelist-controls {
+	font-size: 11px;
+}
+
+.card .card-control a {
+	color: var(--primary);
+	font-size: 24px;
+	font-weight: 800;
+}
+
+.card .card-control a:hover {
+	color: var(--primary);
+	text-decoration: none;
+}
+
+.card .card-control a:active {
+	color: var(--primary);
+}
+
+ul.dropdown-menu.function-menu li a.dropdown-item {
+	border-bottom: 1px solid var(--gray-lighter);
+}
+
+ul.dropdown-menu.function-menu li:last-child a.dropdown-item {
+	border-bottom: 0px;
+}
+
+.separator {
+	border-bottom: 1px solid #eeeef0;
+}
+
+.control-section {
+	display: flex;
+	align-items: center;
+	justify-content: space-between !important;
+	margin: .5rem 0;
+}
+
+.control-section :is(h1,h2,h3,h4,h5,h6) {
+	margin: 0;
+}
+
+.control-section a {
+	color: var(--primary);
+}
+
+.control-section a:hover {
+	text-decoration: none;
+}
+
+.form-slider .form-slider-item {
+	display: none;
+}
+
+.form-slider .form-slider-item.show {
+	display: block;
+}
+
+.location-note:empty {
+	margin-top: 1.25rem;
+	margin-bottom: 1.25rem;
+}
+
+.faded > div {
+	display: none;
+}
+
+.faded > div:first-child {
+	display: block;
+}
+
+.slided .slide-item {
+	display: none;
+}
+
+.form-image input[type="file"] {
+	display: none;
+}
+
+.form-image .form-image-container {
+	width: 100%;
+	padding-top: 100%;
+}

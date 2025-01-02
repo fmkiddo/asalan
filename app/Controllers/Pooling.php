@@ -8,7 +8,7 @@ class Pooling extends BaseController {
     
     private $columnMapper   = array ();
     
-    public function index(): string {
+    public function index (): string {
         $this->__initSession ();
         if (!($this->__isSessionSet () && $this->request->is ('post'))) {
             $retVal = array (
@@ -22,23 +22,9 @@ class Pooling extends BaseController {
             $post       = $this->request->getPost ();
             $mapper     = new CURLRequestMapper ();
             $draw       = (array_key_exists ('draw', $post)) ? $post['draw'] : 0;
-            
-            $curlOpts   = array (
-                'auth'      => array (
-                    $this->__readLicFile (),
-                    '',
-                    'basic'
-                ),
-                'headers'   => array (
-                    'Content-Type'  => 'application/json',
-                    'Accept'        => 'application/json',
-                    'User-Agent'    => $this->request->getUserAgent ()
-                )
-            );
-            
             $retVal = array ();
-            if (!$draw) $retVal = $this->loadPageContents ($post, $mapper, $curlOpts);    
-            else $retVal = $this->loadDataTableContents ($draw, $post, $mapper, $curlOpts);
+            if (!$draw) $retVal = $this->loadPageContents ($post, $mapper);    
+            else $retVal = $this->loadDataTableContents ($draw, $post, $mapper);
         }
         $this->response->setHeader ('Content-Type', 'application/json');
         $this->response->setBody (json_encode ($retVal));
@@ -54,26 +40,14 @@ class Pooling extends BaseController {
      * @param array $curlOpts
      * @return array
      */
-    private function loadDataTableContents (int $draw, array $post, CURLRequestMapper $mapper, array $curlOpts): array {
+    private function loadDataTableContents (int $draw, array $post, CURLRequestMapper $mapper): array {
         $fetch      = $post['fetch'];
-        $api        = $mapper->getTargetAPI ($fetch);
-        $searchVal  = (array_key_exists ('search', $post) ? $post['search']['value'] : '');
-        $sortTarget = 0;
-        $sort       = "";
-        $get        = "find%23{$searchVal}&colsort={$sortTarget}&typesort={$sort}";
-        if (array_key_exists ('order', $post)) {
-            
-        }
-        
-        $data       = array ();
-        $url        = $this->__getServerURL ("{$api}?payload={$get}&atom={$this->getUserUUID ()}");
-        $response   = $this->sendRequest ($url, $curlOpts);
-        $json       = json_decode ($response->getBody (), TRUE);
-        if ($json['status'] === 200 && array_key_exists ('data', $json)) {
-            $responsePayload    = unserialize (base64_decode ($json['data']['payload']));
-            $mapper->dataTableFormatter ($responsePayload, $data, $fetch);
-        }
-            
+        $modelName  = $mapper->getTargetModelName ($fetch);
+        $model      = new $modelName ($this->__readLicFile(), $this->request);
+        $payload    = array ();
+        $status     = $model->getData ($payload, $post, $this->getUserUUID (), TRUE);
+        if ($status === 200) $data = $payload;
+        else $data = array ();
         return array (
             'draw'              => $draw,
             'recordsTotal'      => count ($data),
@@ -89,7 +63,7 @@ class Pooling extends BaseController {
      * @param array $curlOpts
      * @return array
      */
-    private function loadPageContents (array $post, CURLRequestMapper $mapper, array $curlOpts): array {
+    private function loadPageContents (array $post, CURLRequestMapper $mapper): array {
         $toLoad = explode ("|", $post['fetch']);
         $retVal = array (
             'length'    => 0,
@@ -97,26 +71,21 @@ class Pooling extends BaseController {
         );
         foreach ($toLoad as $fetch) {
             if (!array_key_exists($fetch, $retVal['data'])) $retVal['data'][$fetch] = array ();
-            $api        = $mapper->getTargetAPI ($fetch);
-            $url        = $this->__getServerURL("{$api}");
-            $response   = json_decode ($this->sendRequest ($url, $curlOpts)->getBody (), TRUE);
-            if ($response['status'] === 200) {
-                $payloads   = $response['data']['payload'];
-                $payloads   = unserialize (base64_decode ($payloads));
+            $modelName  = $mapper->getTargetModelName ($fetch);
+            $model      = new $modelName ($this->__readLicFile(), $this->request);
+            $payloads   = array ();
+            $status     = $model->getData ($payloads, $post, $this->getUserUUID ());
+            if ($status === 200) {
                 $result     = array ();
                 foreach ($payloads as $payload) {
                     foreach ($payload as $k => $v) 
-                        if (!$mapper->isIgnoredKeys($k)) $result[$k] = ($k === 'uuid') ? base64_encode ($v) : $v;
-                    array_push ($retVal['data'][$fetch], $result);
+                        if (!$mapper->isIgnoredKeys ($k)) $result[$k] = ($k === 'uuid') ? base64_encode ($v) : $v;
+                    array_push ($retVal["data"][$fetch], $result);
                 }
             }
         }
-        $retVal['length'] = count ($retVal['data']);
+        $retVal['length'] = count ($retVal['data'][$fetch]);
         return $retVal;
-    }
-    
-    private function columnSortMapper () {
-        
     }
     
 }

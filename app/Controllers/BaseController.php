@@ -69,8 +69,9 @@ abstract class BaseController extends Controller {
         return (file_exists ($env->getPathname ()) && file_exists ($lic->getPathname ()));
     }
     
-    protected function __getServerURL (string $relativePath='') {
+    protected function __getServerURL (string $relativePath='', bool $usePostFix=TRUE) {
         $url    = "{$this->serverConfig->server_url}{$this->serverConfig->infix_url}";
+        if ($usePostFix) $url .= $this->serverConfig->postfix_url;
         $url    .=  "{$relativePath}";
         return $url;
     }

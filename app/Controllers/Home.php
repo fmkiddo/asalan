@@ -3,7 +3,6 @@ namespace App\Controllers;
 
 use App\Libraries\AssetType;
 use App\Libraries\CURLRequestMapper;
-use App\Libraries\RuleSets;
 use App\Libraries\LangLoader;
 
 class Home extends BaseController {
@@ -99,12 +98,13 @@ class Home extends BaseController {
      */
     private function getUserFirstname () {
         $profile    = $this->getProfileData ();
-        if (trim ($profile['user-fname']) === '') return $this->getUsername ();
+        if (!array_key_exists ('user-fname', $profile)) return $this->getUsername ();
         return $profile['user-fname'];
     }
     
     private function getUserFullname () {
         $profile    = $this->getProfileData ();
+        if (!array_key_exists('user-fname', $profile)) return 'Not available';
         $firstname  = $profile['user-fname'];
         if ($firstname === '') return 'Not available';
         else return "{$profile['user-fname']} {$profile['user-mname']} {$profile['user-lname']}";
@@ -114,8 +114,9 @@ class Home extends BaseController {
      * 
      * @param string $urname
      * @param array $viewPaths
+     * @param string $routes
      */
-    private function loadPage ($urname, $viewPaths=array ()) {
+    private function loadPage ($urname, $viewPaths=array (), $route='') {
         $sideBarIconOnly    = (!$this->isSideBarHidden ()) ? '' : 'sidebar-icon-only';
         $selectedLocale     = $this->__getLocale ();
         $langLoader         = new LangLoader ($selectedLocale);
@@ -141,16 +142,29 @@ class Home extends BaseController {
             ->addViewData ('topbar', array ($langLoader->getLanguage ('topbar', $urname)))
             ->addViewData ('sidebar', array ($langLoader->getLanguage ('nav')))
             ->addViewData ('config', array ($langLoader->getLanguage ('settings')))
+            ->addViewData ('commons', array ($langLoader->getLanguage ('commons')))
             ->addViewData ('notifs', $notifs)
             ->addViewData ('notif_count', count ($notifs))
             ->addViewData ('messages', $messages)
             ->addViewData ('msgs_count', count ($messages))
             ->addAssetResource ('assets/vendors/sweetalert2-11.14.4/css/sweetalert2.css')
             ->addAssetResource ('assets/vendors/datatables-2.1.6/css/datatables.css')
+            ->addAssetResource ('assets/vendors/bootstrap-datepicker-1.10.0/css/bootstrap-datepicker.css')
             ->addAssetResource ('assets/css/dashboard.css')
             ->addAssetResource ('assets/vendors/sweetalert2-11.14.4/js/sweetalert2.all.js', AssetType::SCRIPT)
             ->addAssetResource ('assets/vendors/datatables-2.1.6/js/datatables.js', AssetType::SCRIPT)
-            ->addAssetResource ('assets/js/dashboard.bundle.js', AssetType::SCRIPT);
+            ->addAssetResource ('assets/vendors/bootstrap-datepicker-1.10.0/js/bootstrap-datepicker.js', AssetType::SCRIPT)
+            ->addAssetResource ('assets/vendors/bootstrap-datepicker-1.10.0/locales/bootstrap-datepicker.id.min.js', AssetType::SCRIPT)
+            ->addAssetResource ('assets/vendors/bootstrap-datepicker-1.10.0/locales/bootstrap-datepicker.en-US.min.js', AssetType::SCRIPT)
+            ->addAssetResource ('assets/vendors/bootstrap-datepicker-1.10.0/locales/bootstrap-datepicker.fr.min.js', AssetType::SCRIPT)
+            ->addAssetResource ('assets/js/dashboard.bundle.js', AssetType::SCRIPT)
+            ->addAssetResource ('assets/js/dashboard.control.js', AssetType::SCRIPT);
+            
+        if ($route !== '') {
+            $var    = $langLoader->getVariableMapping ($route);
+            if ($var !== FALSE) $this->addViewData ($var, array ($langLoader->getLanguage ($route)));
+        }
+            
     }
     
     private function loadProfileData () {
@@ -158,49 +172,55 @@ class Home extends BaseController {
         $this->addViewData ('blank_pict', $blank_urpict)
                 ->addViewData ('username', $this->getUsername ())
                 ->addViewData ('target_uuid', $this->getUserUUID ())
-                ->addViewData ('phone', $this->getProfileData ()['user-phone'])
-                ->addViewData ('email', $this->getProfileData ()['user-email']);
+                ->addViewData ('phone', (count ($this->getProfileData ()) == 0 ? "Not available" : $this->getProfileData ()['user-phone']))
+                ->addViewData ('email', (count ($this->getProfileData ()) == 0 ? "Not available" : $this->getProfileData ()['user-email']));
     }
     
     private function processPost () {
         if (!$this->request->is ('post')) return;
-        $post   = $this->request->getPost ();
-        $rt     = explode ('|', $post['request-type']);
-        $router = $rt[0];
-        $type   = $rt[1];
-        $rules  = $this->ruleSets->getRuleSets ($router)[$type];
-        if (!$this->validate ($rules)) {
+        
+        $mapper     = new CURLRequestMapper ();
+        $post       = $this->request->getPost ();
+        $rt         = explode ('|', $post['request-type']);
+        $router     = $rt[0];
+        $type       = $rt[1];
+        $modelName  = $mapper->getTargetModelName ($router);
+        $model      = new $modelName ($this->__readLicFile(), $this->request);
+        $rules      = $model->getRuleSets ($type);
+        
+        if (!$rules) return;
+        
+        if ($router === 'users' && $type === 'edit' && $post['input-pswd'] !== '') {
+            $rules['input-pswd']    = array (
+                'rules'         => 'required|strong_password|min_length[8]',
+                'errors'        => array (
+                    'required'          => '',
+                    'strong_password'   => '',
+                    'min_length'        => ''
+                )
+            );
+            $rules['input-cpswd']   = array (
+                'rules'         => 'required|matches[input-pswd]',
+                'errors'        => array (
+                    'required'      => '',
+                    'matches'       => '',
+                ),
+            );
+        }
+        
+        $validation = $this->validate ($rules);
+        if (!$validation) {
         } else {
-            $mapper     = new CURLRequestMapper ();
-            $json       = $mapper->getCURLparams ($router, $this->request);
-            $api_target = $mapper->getTargetAPI ($router);
-            if (!($json && $api_target)) {
+            $json       = $model->createParams ($this->request);
+            if (!($json && $modelName)) {
             } else {
-                $curlOpts   = [
-                    'auth'      => [
-                        $this->__readLicFile(),
-                        '',
-                        'basic'
-                    ],
-                    'headers'   => [
-                        'Content-Type'  => 'application/json',
-                        'Accept'        => 'application/json',
-                        'User-Agent'    => $this->request->getUserAgent ()
-                    ],
-                    'json'      => $json
-                ];
-                $method = "get";
-                $url    = $this->__getServerURL ("{$api_target}?atom={$this->getUserUUID ()}");
-                if ($type === 'edit') {
-                    $segment    = $post['atom'];
-                    $method     = 'put';
-                    $url        = $this->__getServerURL ("{$api_target}/{$segment}?atom={$this->getUserUUID ()}");
-                } elseif ($type === 'new') $method  = "post";
+                $response   = array ();
+                $segment    = $post["atom"];
+                if ($type === "edit") $status = $model->updateData ($json, $response, $segment, $this->getUserUUID());
+                elseif ($type === "new") $status = $model->createData ($json, $response, $this->getUserUUID());
+                else $status = $model->getData ($response);
                 
-                $response       = $this->sendRequest ($url, $curlOpts, $method);
-                $json_output    = json_decode ($response->getBody (), TRUE);
-                
-                if ($router === 'profile' && $json_output['status'] === 200) {
+                if ($router === "profile" && $status === 200) {
                     $sessData   = $this->getSessionData ();
                     $profile    = $this->getProfileData ();
                     foreach ($profile as $k => $v) $profile[$k] = $json[$k];
@@ -210,7 +230,7 @@ class Home extends BaseController {
                             __SYS_SESSION_KEY__ => base64_encode (serialize ($sessData))
                         )
                     );
-                    
+
                     $imageFile  = $this->request->getFile ("input-urpic");
                 }
             }
@@ -223,7 +243,6 @@ class Home extends BaseController {
      */
     protected function __initComponents () {
         parent::__initComponents ();
-        $this->ruleSets = new RuleSets ();
         $this->addHelper ('text');
     }
     
@@ -233,7 +252,7 @@ class Home extends BaseController {
      */
     public function index (): string {
         $render = '';
-        if (!$this->__isReady ()) $this->response->redirect ($this->__getSiteURL ('setup'));
+        if (!$this->__isReady ()) $this->response->redirect ($this->__getSiteURL ('osam/setup'));
         else {
             if (!$this->__is_public_cookies_set()) {
                 $publicData = [
@@ -254,7 +273,7 @@ class Home extends BaseController {
             else {
                 $path   = explode ('/', $this->request->getPath ());
                 if (count ($path) < 2) {
-                    $this->response->redirect ($this->__getSiteURL ("{$this->__getLocale()}/dashboard?alv=welcome"));
+                    $this->response->redirect ($this->__getSiteURL ("{$this->__getLocale ()}/dashboard?alv=welcome"));
                     return '';
                 }
                 
@@ -284,7 +303,7 @@ class Home extends BaseController {
                     'dashboard/dashboard-footer',
                 ];
                 
-                $this->loadPage ($urname, $viewPaths);
+                $this->loadPage ($urname, $viewPaths, $route);
                 
                 switch ($part) {
                     default:

@@ -94,13 +94,16 @@
 								</li>
 								<li class="nav-divider"></li>
 								<li class="nav-item">
-									<a role="button" class="nav-link" data-redirect="flow-asset-out">{tsm_flow_action1}</a>
+									<a role="button" class="nav-link" data-redirect="flow-asset-procure">{tsm_flow_action1}</a>
 								</li>
 								<li class="nav-item">
-									<a role="button" class="nav-link" data-redirect="flow-asset-in">{tsm_flow_action2}</a>
+									<a role="button" class="nav-link" data-redirect="flow-asset-out">{tsm_flow_action2}</a>
 								</li>
 								<li class="nav-item">
-									<a role="button" class="nav-link" data-redirect="flow-asset-del">{tsm_flow_action3}</a>
+									<a role="button" class="nav-link" data-redirect="flow-asset-in">{tsm_flow_action3}</a>
+								</li>
+								<li class="nav-item">
+									<a role="button" class="nav-link" data-redirect="flow-asset-del">{tsm_flow_action4}</a>
 								</li>
 							</ul>
 						</div>
@@ -124,13 +127,10 @@
 								</li>
 								<li class="nav-divider"></li>
 								<li class="nav-item">
-									<a role="button" class="nav-link" data-redirect="properties">{ts_settings0}</a>
+									<a role="button" class="nav-link" data-redirect="categories">{ts_settings0}</a>
 								</li>
 								<li class="nav-item">
-									<a role="button" class="nav-link" data-redirect="categories">{ts_settings1}</a>
-								</li>
-								<li class="nav-item">
-									<a role="button" class="nav-link" data-redirect="settings">{ts_settings2}</a>
+									<a role="button" class="nav-link" data-redirect="settings">{ts_settings1}</a>
 								</li>
 							</ul>
 						</div>

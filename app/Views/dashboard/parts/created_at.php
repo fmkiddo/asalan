@@ -4,12 +4,22 @@
 												<a class="dropdown-toggle" role="button" data-bs-toggle="dropdown" href="#" aria-expanded="false">
 													<span>{more}</span>
 												</a>
-												<ul class="dropdown-menu" style="overflow: auto;">
+												<ul class="dropdown-menu function-menu" style="overflow: auto;">
 													<li>
-														<a class="dropdown-item open-modal" role="button" data-target="{uuid}" data-bs-toggle="modal" data-bs-target=".modal">
-															<i class="mdi mdi-edit"></i> <span>{btn_update}</span>
+														<a class="dropdown-item" id="openModalEdit" role="button" data-target="{uuid}" data-bs-toggle="modal" data-bs-target="#{modal_target}">
+															<i class="mdi mdi-content-save-edit"></i> <span>{btn_update}</span>
 														</a> 
-													</li>
+													</li>{if $showDetail}
+													<li>
+														<a class="dropdown-item" id="openModalDetails" role="button" data-bs-target="#modalDetail" data-bs-toggle="modal" data-target="{uuid}">
+															<i class="mdi mdi-file-eye"></i> <span>{btn_details}</span>
+														</a>
+													</li>{endif}{if $showDelete}
+													<li>
+														<a class="dropdown-item" role="button" href="#">
+															<i class="mdi mdi-file-eye"></i> <span>{btn_delete}</span>
+														</a>
+													</li>{endif}
 												</ul>
 											</div>
 										</div>
