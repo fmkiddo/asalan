@@ -1,4 +1,4 @@
-					{commons} {dash_locations_text}
+					{commons} {dash_locations_texts}
 					<div class="card">
 						<div class="card">
 							<div class="card-body">
@@ -182,7 +182,7 @@
                         												</div>
                         												<div class="form-group">
                         													<label for="input-newcode">{text_label8}:</label>
-                        													<input type="text" class="form-control" name="input-newcode" data-readonlyonedit="true"  data-loadtarget="sblcode" required />
+                        													<input type="text" class="form-control" name="input-newcode" data-readonlyonedit="true" data-loadtarget="sblcode" required />
                         												</div>
                         												<div class="form-group">
                         													<label for="input-newname">{text_label9}:</label>
@@ -192,7 +192,7 @@
         																	<button type="submit" class="btn btn-primary">
         																		<i class="mdi mdi-content-save"></i>
         																	</button>
-        																	<button type="button" class="btn btn-primary" data-action="fade" data-fade-target="#faded-sublocations" data-faded-target="#sublocationDataTable">
+        																	<button type="button" class="btn btn-primary" data-action="fade" data-cancel-form="true" data-fade-target="#faded-sublocations" data-faded-target="#sublocationDataTable">
         																		<i class="mdi mdi-close"></i>
         																	</button>
         																</div>
@@ -238,4 +238,4 @@
 								</div>
     						</div>
     					</div>
-    				</div>{/dash_locations_text} {/commons}
+    				</div>{/dash_locations_texts} {/commons}

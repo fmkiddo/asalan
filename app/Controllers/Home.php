@@ -117,9 +117,12 @@ class Home extends BaseController {
      * @param string $routes
      */
     private function loadPage ($urname, $viewPaths=array (), $route='') {
+        $sessData           = $this->getSessionData ();
+        $userUID            = base64_encode ($sessData['logged']['uuid']);
         $sideBarIconOnly    = (!$this->isSideBarHidden ()) ? '' : 'sidebar-icon-only';
         $selectedLocale     = $this->__getLocale ();
         $langLoader         = new LangLoader ($selectedLocale);
+        $now                = date ("d F Y");
         
         $notifs             = array (
             
@@ -131,7 +134,10 @@ class Home extends BaseController {
         
         $this->addViewPaths ($viewPaths)
             ->addViewData ('brand_logo', $this->__getClientLogoURL ())
+            ->addViewData ('supplicant', $userUID)
+            ->addViewData ('username', $this->getUsername ())
             ->addViewData ('urname', $urname)
+            ->addViewData ('now', $now)
             ->addViewData ('appTitle', lang ('Dashboard.title', [date ('d M Y')], $selectedLocale))
             ->addViewData ('theme', $this->getSidebarColor ())
             ->addViewData ('topbar', $this->getTopbarColor ())
@@ -161,10 +167,9 @@ class Home extends BaseController {
             ->addAssetResource ('assets/js/dashboard.control.js', AssetType::SCRIPT);
             
         if ($route !== '') {
-            $var    = $langLoader->getVariableMapping ($route);
+            $var        = $langLoader->getVariableMapping ($route);
             if ($var !== FALSE) $this->addViewData ($var, array ($langLoader->getLanguage ($route)));
         }
-            
     }
     
     private function loadProfileData () {
@@ -174,6 +179,22 @@ class Home extends BaseController {
                 ->addViewData ('target_uuid', $this->getUserUUID ())
                 ->addViewData ('phone', (count ($this->getProfileData ()) == 0 ? "Not available" : $this->getProfileData ()['user-phone']))
                 ->addViewData ('email', (count ($this->getProfileData ()) == 0 ? "Not available" : $this->getProfileData ()['user-email']));
+    }
+    
+    private function loadAssetMovementDashboard ($parts) {
+        $dcVal0     = 0;
+        $dcVal1     = 0;
+        $dcVal2     = 0;
+        
+        $this->addViewData ('dc_value0', $dcVal0)
+            ->addViewData ('dc_value1', $dcVal1)
+            ->addViewData ('dc_value2', $dcVal2);
+            
+        if ($parts === 'asset-requests') {
+            $payload    = $this->request->getGet("payload") !== NULL ? TRUE : FALSE;
+            $dcVal3     = 0;
+            $this->addViewData ('openProcure', $payload)->addViewData ('dc_value3', $dcVal3);
+        }
     }
     
     private function processPost () {
@@ -216,14 +237,13 @@ class Home extends BaseController {
             } else {
                 $response   = array ();
                 $segment    = $post["atom"];
-                if ($type === "edit") $status = $model->updateData ($json, $response, $segment, $this->getUserUUID());
-                elseif ($type === "new") $status = $model->createData ($json, $response, $this->getUserUUID());
-                else $status = $model->getData ($response);
+                if ($type === "edit") $status = $model->updateData ($json, $response, $segment, $this->getUserUUID ());
+                else $status = $model->createData ($json, $response, $this->getUserUUID ());
                 
                 if ($router === "profile" && $status === 200) {
                     $sessData   = $this->getSessionData ();
                     $profile    = $this->getProfileData ();
-                    foreach ($profile as $k => $v) $profile[$k] = $json[$k];
+                    foreach ($json as $k => $v) $profile[$k] = $json[$k];
                     $sessData['logged']['profile'] = $profile;
                     $this->__setSessionData (
                         array (
@@ -287,7 +307,7 @@ class Home extends BaseController {
                 
                 $this->processPost ();
                 
-                $urname         = $this->getUserFirstname();
+                $urname         = $this->getUserFirstname ();
                 
                 $part   = $this->pageMap->mapRoute ($route);
                 if (!$part) $part = 'not-found';
@@ -310,6 +330,13 @@ class Home extends BaseController {
                         break;
                     case 'user-detail':
                         $this->loadProfileData ();
+                        break;
+                    case 'asset-requests':
+                    case 'asset-procure':
+                    case 'asset-transfer':
+                    case 'asset-receive':
+                    case 'asset-removal':
+                        $this->loadAssetMovementDashboard ($part);
                         break;
                 }
                 

@@ -7,10 +7,10 @@
 								<div id="requestSection">
 									<ul class="nav nav-tabs nav-justified">
 										<li class="nav-item">
-											<a class="nav-link active" href="#requestSummary" role="tab" data-bs-toggle="tab" tabindex="-1" aria-selected="true">{tab_button0}</a>
+											<a class="nav-link {if !$openProcure}active{endif}" href="#requestSummary" role="tab" data-bs-toggle="tab" tabindex="-1" aria-selected="true">{tab_button0}</a>
 										</li>
 										<li class="nav-item">
-											<a class="nav-link" href="#requestProcure" role="tab" data-bs-toggle="tab" tabindex="-1" aria-selected="false">{tab_button1}</a>
+											<a class="nav-link {if $openProcure}active{endif}" href="#requestProcure" role="tab" data-bs-toggle="tab" tabindex="-1" aria-selected="false">{tab_button1}</a>
 										</li>
 										<li class="nav-item">
 											<a class="nav-link" href="#requestTransfer" role="tab" data-bs-toggle="tab" tabindex="-1" aria-selected="false">{tab_button2}</a>
@@ -22,6 +22,55 @@
 									<div class="tab-content">
 										<div class="tab-pane fade show active" id="requestSummary" role="tabpanel" tabindex="-1">
 											<h5>{tab_title0}</h5>
+											<hr class="separator" />
+											<div class="scrollable">
+												<div class="row">
+													<div class="col-3">
+        												<div class="card card-reset shadow-none bg-primary rounded-0 text-white">
+        													<div class="card-body">
+        														<h5 class="card-title text-white">{ctitle_0}</h5>
+        														<p class="display-3 my-4">{dc_value0}</p>
+        														<a role="button">
+        															<span class="mdi mdi-refresh">{btn_reload}</span>
+        														</a>
+        													</div>
+        												</div>
+													</div>
+													<div class="col-3">
+        												<div class="card card-reset shadow-none bg-primary rounded-0 text-white">
+        													<div class="card-body">
+        														<h5 class="card-title text-white">{ctitle_1}</h5>
+        														<p class="display-3 my-4">{dc_value1}</p>
+        														<a role="button">
+        															<span class="mdi mdi-refresh">{btn_reload}</span>
+        														</a>
+        													</div>
+        												</div>
+													</div>
+													<div class="col-3">
+        												<div class="card card-reset shadow-none bg-primary rounded-0 text-white">
+        													<div class="card-body">
+        														<h5 class="card-title text-white">{ctitle_2}</h5>
+        														<p class="display-3 my-4">{dc_value2}</p>
+        														<a role="button">
+        															<span class="mdi mdi-refresh">{btn_reload}</span>
+        														</a>
+        													</div>
+        												</div>
+													</div>
+													<div class="col-3">
+        												<div class="card card-reset shadow-none bg-primary rounded-0 text-white">
+        													<div class="card-body">
+        														<h5 class="card-title text-white">{ctitle_3}</h5>
+        														<p class="display-3 my-4">{dc_value3}</p>
+        														<a role="button">
+        															<span class="mdi mdi-refresh">{btn_reload}</span>
+        														</a>
+        													</div>
+        												</div>
+													</div>
+												</div>
+											</div>
 											<hr class="separator" />
 											<table id="tableRequestProcure" class="table table-hover table-striped table-centered" data-table="true">
 												<thead>
@@ -50,7 +99,7 @@
 												<div id="procureNew" class="slide-item">
 													<form method="post" enctype="multipart/form-data" autocomplete="off">
         												<input type="hidden" name="{csrf_name}" value="{csrf_data}" />
-        												<input type="hidden" name="request-type" value="transfer|new" />
+        												<input type="hidden" name="request-type" value="faprocuren|new" />
         												<input type="hidden" name="atom" value="" />
             											<hr class="separator" />
             											<div class="control-section">
@@ -142,7 +191,7 @@
 												<div id="procureExist" class="slide-item">
 													<form method="post" autocomplete="off">
         												<input type="hidden" name="{csrf_name}" value="{csrf_data}" />
-        												<input type="hidden" name="request-type" value="transfer|new" />
+        												<input type="hidden" name="request-type" value="faprocurex|new" />
         												<input type="hidden" name="atom" value="" />
             											<hr class="separator" />
 														<h6>{tab1_formtitle1}</h6>
@@ -170,13 +219,13 @@
             											</div>
         												<div class="form-group">
         													<div class="input-group">
-            													<input type="text" class="form-control" id="assetSearch" placeholder="{tab2_pholder0} ...">
-            													<button type="button" id="fapAddAsset" class="btn btn-outline-primary" title="{tab2_popup1}" data-bs-toggle="modal" data-bs-target="#modal_fapAssetSelect">
+            													<input type="text" class="form-control" id="assetSearch" placeholder="{tab1_pholder0} ...">
+            													<button type="button" id="fapAddAsset" class="btn btn-outline-primary" title="{tab1_popup0}" data-bs-toggle="modal" data-bs-target="#modal_fapAssetSelect">
             														<span class="mdi mdi-plus-circle"></span>
             													</button>
         													</div>
         												</div>
-        												<table id="tableTransfer" class="table table-hover table-striped table-center-head table-100" data-table="true" data-servertable="false" data-paging="false" data-searching="false" role="grid">
+        												<table id="tableTransfer" class="table table-hover table-striped table-center-head table-100" data-table="true" data-servertable="false" data-paging="false" data-searching="false" data-ordering="false" role="grid">
         													<thead>
         														<tr>
         															<th>#</th>
@@ -206,15 +255,13 @@
         															<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         														</div>
         														<div class="modal-body">
-        															<table id="table_fatAssetOpt" class="table table-hover table-striped table-centered" data-table="true">
+        															<table id="table_faProcureOpt" class="table table-hover table-striped table-centered" data-table="true" data-sub="" data-sub-target="" role="grid">
         																<thead>
         																	<tr>
         																		<th>#</th>
         																		<th>{tab1_mdl_th0}</th>
         																		<th>{tab1_mdl_th1}</th>
         																		<th>{tab1_mdl_th2}</th>
-        																		<th>{tab1_mdl_th3}</th>
-        																		<th>{tab1_mdl_th4}</th>
         																	</tr>
         																</thead>
         															</table>
@@ -238,7 +285,7 @@
 											<hr class="separator" />
 											<form method="post" autocomplete="off">
 												<input type="hidden" name="{csrf_name}" value="{csrf_data}" />
-												<input type="hidden" name="request-type" value="transfer|new" />
+												<input type="hidden" name="request-type" value="fatransfer|new" />
 												<input type="hidden" name="atom" value="" />
 												<hr class="separator" />
 												<div class="row">
@@ -285,12 +332,12 @@
 												<div class="form-group">
 													<div class="input-group">
     													<input type="text" class="form-control" id="assetSearch" placeholder="{tab2_pholder0} ...">
-    													<button type="button" id="fatAddAsset" class="btn btn-outline-primary" title="{tab2_popup1}" data-bs-toggle="modal" data-bs-target="#modal_fatAssetSelect">
+    													<button type="button" id="fatAddAsset" class="btn btn-outline-primary" title="{tab2_popup0}" data-bs-toggle="modal" data-bs-target="#modal_fatAssetSelect">
     														<span class="mdi mdi-plus-circle"></span>
     													</button>
 													</div>
 												</div>
-												<table id="tableTransfer" class="table table-hover table-striped table-center-head table-100" data-table="true" data-servertable="false" data-paging="false" data-searching="false" role="grid">
+												<table id="tableTransferRequest" class="table table-hover table-striped table-center-head table-100" data-table="true" data-servertable="false" data-paging="false" data-searching="false" role="grid">
 													<thead>
 														<tr>
 															<th>#</th>
@@ -326,15 +373,13 @@
 																</select> 
 															</div>
 															<hr class="separator" />
-															<table id="table_fatAssetOpt" class="table table-hover table-striped table-centered" data-table="true">
+															<table id="table_faTransferOpt" class="table table-hover table-striped table-centered" data-table="true" data-sub="" data-sub-target="" role="grid">
 																<thead>
 																	<tr>
 																		<th>#</th>
 																		<th>{tab2_mdl_th0}</th>
 																		<th>{tab2_mdl_th1}</th>
 																		<th>{tab2_mdl_th2}</th>
-																		<th>{tab2_mdl_th3}</th>
-																		<th>{tab2_mdl_th4}</th>
 																	</tr>
 																</thead>
 															</table>
@@ -356,7 +401,7 @@
 											<hr class="separator" />
 											<form method="post">
 												<input type="hidden" name="{csrf_name}" value="{csrf_data}" />
-												<input type="hidden" name="request-type" value="removal|new" />
+												<input type="hidden" name="request-type" value="faremoval|new" />
 												<input type="hidden" name="atom" value="" />
 												<hr class="separator" />
     											<div class="row">
@@ -364,7 +409,7 @@
             											<div class="form-group">
             												<label for="input-faplocopt">{tab3_label0}:</label>
             												<select name="input-faplocopt" class="form-control" required>
-																<option value="" disabled selected>---- {tab1_dsbopt1} ----</option>
+																<option value="" disabled selected>---- {tab3_dsbopt0} ----</option>
             												</select>
             											</div>
             										</div>
@@ -383,13 +428,13 @@
     											</div>
 												<div class="form-group">
 													<div class="input-group">
-    													<input type="text" class="form-control" id="assetSearch" placeholder="{tab2_pholder0} ...">
-    													<button type="button" id="farAddAsset" class="btn btn-outline-primary" title="{tab2_popup1}" data-bs-toggle="modal" data-bs-target="#modal_farAssetSelect">
+    													<input type="text" class="form-control" id="assetSearch" placeholder="{tab3_pholder0} ...">
+    													<button type="button" id="farAddAsset" class="btn btn-outline-primary" title="{tab3_popup0}" data-bs-toggle="modal" data-bs-target="#modal_farAssetSelect">
     														<span class="mdi mdi-plus-circle"></span>
     													</button>
 													</div>
 												</div>
-												<table id="tableRemoval" class="table table-hover table-striped table-center-head table-100" data-table="true" data-servertable="false" data-paging="false" data-searching="false" role="grid">
+												<table id="tableRemovalRequest" class="table table-hover table-striped table-center-head table-100" data-table="true" data-servertable="false" data-paging="false" data-searching="false" role="grid">
 													<thead>
 														<tr>
 															<th>#</th>
@@ -419,15 +464,13 @@
 															<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 														</div>
 														<div class="modal-body">
-															<table id="table_fatAssetOpt" class="table table-hover table-striped table-centered" data-table="true">
+															<table id="table_faRemovalOpt" class="table table-hover table-striped table-centered" data-table="true" data-sub="" data-sub-target="">
 																<thead>
 																	<tr>
 																		<th>#</th>
 																		<th>{tab3_mdl_th0}</th>
 																		<th>{tab3_mdl_th1}</th>
 																		<th>{tab3_mdl_th2}</th>
-																		<th>{tab3_mdl_th3}</th>
-																		<th>{tab3_mdl_th4}</th>
 																	</tr>
 																</thead>
 															</table>

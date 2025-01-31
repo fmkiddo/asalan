@@ -4,7 +4,6 @@ namespace App\Models;
 
 class Assets extends BaseModel {
     
-    
     protected $api      = "fixed-assets";
     protected $modal    = "modalAssetForm";
     protected $paramMap = array (
@@ -155,7 +154,7 @@ class Assets extends BaseModel {
      * {@inheritDoc}
      * @see \App\Models\BaseModel::createData()
      */
-    public function createData(array $data, array &$response, string $userData = ""): int {
+    public function createData (array $data, array &$response, string $userData = ""): int {
         $assetResponse  = array ();
         $convertedDate  = date_parse ($data['newfa-acquireddate']);
         $data['newfa-acquireddate'] = "{$convertedDate['year']}-{$convertedDate['month']}-{$convertedDate['day']}";
@@ -185,7 +184,7 @@ class Assets extends BaseModel {
      * {@inheritDoc}
      * @see \App\Models\BaseModel::asDataTableFormat()
      */
-    public function asDataTableFormat(array $params): array {
+    public function asDataTableFormat (array $params): array {
         $output = array ();
         $i = 1;
         

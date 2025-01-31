@@ -25,10 +25,10 @@
 							{else}
 							{endif}
 							<hr class="dropdown-divider">
-							<a class="dropdown-item">
-								<p class="p-1 mb-0 text-center">
+							<a class="dropdown-item" role="button">
+								<span class="p-1 mb-0 text-center">
 									<i class="mdi mdi-eye"></i> {top_notif_seeall}
-								</p>
+								</span>
 							</a>
 						</div>
 					</li>
@@ -45,9 +45,9 @@
 							</a>{endif}
 							<hr class="dropdown-divider">
 							<a role="button" class="dropdown-item text-center">
-								<div class="p-2 mb-0 my-0 mx-auto">
+								<span class="p-2 mb-0 my-0 mx-auto">
 									<i class="mdi mdi-email-open"></i> {top_msgs_seeall}
-								</div>
+								</span>
 							</a>
 						</div>
 					</li>
@@ -59,36 +59,36 @@
 							<h6 class="p-3 mb-0">{top_acc_heading}</h6>
 							<hr class="dropdown-divider" />
 							<a class="dropdown-item preview-item" href="#" data-redirect="profile">
-								<div class="preview-thumbnail">
+								<span class="preview-thumbnail">
 									<div class="preview-icon text-center rounded-circle">
 										<i class="mdi mdi-account-box text-green"></i>
 									</div>
-								</div>
-								<div class="preview-item-content">
+								</span>
+								<span class="preview-item-content">
 									<h6 class="preview-subject mb-0 pe-3">{top_acc_menu1}</h6>
-								</div>
+								</span>
 							</a>
 							<hr class="dropdown-divider" />
 							<a class="dropdown-item preview-item" href="#" data-redirect="about">
-								<div class="preview-thumbnail">
+								<span class="preview-thumbnail">
 									<div class="preview-icon text-center rounded-circle">
 										<i class="mdi mdi-information text-info"></i>
 									</div>
-								</div>
-								<div class="preview-item-content">
+								</span>
+								<span class="preview-item-content">
 									<h6 class="preview-subject mb-0 pe-3">{top_acc_menu2}</h6>
-								</div>
+								</span>
 							</a>
 							<hr class="dropdown-divider" />
 							<a class="dropdown-item preview-item" href="#" data-redirect="sign-out">
-								<div class="preview-thumbnail">
+								<span class="preview-thumbnail">
 									<div class="preview-icon text-center rounded-circle">
 										<i class="mdi mdi-logout text-secondary"></i>
 									</div>
-								</div>
-								<div class="preview-item-content">
+								</span>
+								<span class="preview-item-content">
 									<h6 class="preview-subject mb-0 pe-3">{top_acc_signout}</h6>
-								</div>
+								</span>
 							</a>
 						</div>
 					</li>

@@ -17,7 +17,7 @@
     											</div>
     										</div>
 										</div>
-										<table id="tableAcl" class="table table-hover table-striped table-centered" data-table="true">
+										<table id="tableAcl" class="table table-hover table-striped table-centered" role="button" data-table="true">
 											<thead>
 												<tr>
 													<th>#</th>

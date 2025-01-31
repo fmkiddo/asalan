@@ -242,9 +242,12 @@
 		
 		$(document).on ('click', '[data-redirect]', function ($evt) {
 			$evt.preventDefault ();
-			var $redirect	= $($evt.currentTarget).attr ('data-redirect');
-			if ($redirect !== 'sign-out') $.doDashboardRedirect ($redirect);
-			else {
+			var	$el			= $($evt.currentTarget),
+				$redirect	= $el.attr ('data-redirect');
+			if ($redirect !== 'sign-out') {
+				var	$payload	= $el.is ("[data-getredirect]") ? $el.attr ("data-getredirect") : "";
+				$.doDashboardRedirect ($redirect, $payload);
+			} else {
 				Swal.fire ({
 					title: $.lang ('signOutTitle'),
 					text: $.lang ('signOutText'),
@@ -295,6 +298,10 @@
 								if (currTable.is ("[data-sub]")) {
 									alv = currTable.attr ("data-sub");
 									$d.subdata = currTable.attr ("data-sub-target");
+									if (currTable.is ("[data-sub-filter]")) {
+										$d.subfilter	= currTable.attr ("data-sub-filter");
+										$d.filterType	= currTable.attr ("data-sub-type");
+									}
 								}
 								
 								$d.fetch = alv;
@@ -445,7 +452,7 @@
 		body.on ("click", "#openModalDetails", function (event) {
 			var currTarget = $(event.currentTarget),
 				rowSource = currTarget.closest ("tr"),
-				modalTarget = $($(event.target).attr ("data-bs-target"));
+				modalTarget = $($(currTarget).attr ("data-bs-target"));
 			loadDataToDetails (rowSource, modalTarget);
 		});
 		body.on ("click", "#openModalEdit", function (event) {
@@ -484,27 +491,48 @@
 				reqType = fadedContent.find ("[name=\"request-type\"]"),
 				reqTypeV = reqType.val (),
 				tReqTypeV = reqTypeV.split ("|");
-			fadedContent.children ().not (fadedTarget).fadeOut (function () {
-				if (eventOwner.closest ("form").length > 0) {
-					eventOwner.closest ("form").resetForm ();
-					tReqTypeV[1] = "new";
-				}
-				if (eventOwner.is ("[data-fade-type]")) {
-					var tr = eventOwner.parents ("tr"),
-						modalDetail = eventOwner.closest ("#modalDetail"),
-						dataRow = tr.find ("[data-row]").attr ("data-row");
-					fadedContent.find ("[name=\"atom\"]").val (dataRow);
-					fadedContent.find ("[data-readonlyonedit=\"true\"]").attr ("readonly", true);
-					tReqTypeV[1] = "edit";
-					tr.find ("[data-loadsource]").each (function () {
-						var source = $(this).attr ("data-loadsource"),
-							content = $(this).text ();
-						modalDetail.find ("[data-loadtarget=\"" + source + "\"]").val (content);
+			if (!fadedTarget.is (":visible")) {
+				fadedContent.children ().not (fadedTarget).fadeOut (function () {
+					if (eventOwner.closest ("form").length > 0) {
+						eventOwner.closest ("form").resetForm ();
+						tReqTypeV[1] = "new";
+					}
+					if (eventOwner.is ("[data-fade-type]")) {
+						var tr = eventOwner.parents ("tr"),
+							modalDetail = eventOwner.closest ("#modalDetail"),
+							dataRow = tr.find ("[data-row]").attr ("data-row");
+						fadedContent.find ("[name=\"atom\"]").val (dataRow);
+						fadedContent.find ("[data-readonlyonedit=\"true\"]").attr ("readonly", true);
+						tReqTypeV[1] = "edit";
+						tr.find ("[data-loadsource]").each (function () {
+							var source = $(this).attr ("data-loadsource"),
+								content = $(this).text ();
+							modalDetail.find ("[data-loadtarget=\"" + source + "\"]").val (content);
+						});
+					}
+					reqType.val (tReqTypeV.join ("|"));
+					fadedTarget.fadeIn (function () {
+						var ajaxLoad	= fadedTarget.find ("[data-load-ajax]");
+						if (ajaxLoad.length) {
+							var delay	= 0;
+							ajaxLoad.each (function () {
+								var el			= $(this),
+									type		= el.attr ("data-load-ajax"),
+									doFilter	= el.attr ("data-load-filter"),
+									ajaxData	= {
+										fetch: type,
+									};
+								if (doFilter === 'true') ajaxData.doFilter = true;
+								setTimeout (function () {
+									el.loadAjaxOptions (ajaxData, type);
+								}, delay);
+								delay	+= 500;
+							});
+						}
 					});
-				}
-				reqType.val (tReqTypeV.join ("|"));
-				fadedTarget.fadeIn ();
-			});
+					$.fn.dataTable.tables ({'visible': true, 'api': true}).columns.adjust ();
+				});
+			}
 		});
 		body.on ("change", "[name=\"input-proptype\"]", function (event) {
 			if ($(event.currentTarget).val () === "plist") {
@@ -513,25 +541,20 @@
 				body.find ("#plistValues").slideUp ();
 			}
 		});
-		body.on ("click", "tr", function (event) {
-			var tr = $(event.currentTarget),
-				table = tr.closest ("table"),
-				tableID = table.attr ("id");
-				
-			switch (tableID) {
-				default:
-					break;
-				case "tableLocations":
-					var target = $(event.target);
-					if (!target.is ("td")) target = target.closest ("td");
-					if (!(target.is (tr.children ().last ()))) tr.find ("#openModalDetails")[0].click ();
-					break;
-				case "tableAssets":
-					var target = $(event.target);
-					if (!target.is ("td")) target = target.closest ("td");
-					target.parent ().find ("#openModalDetails")[0].click ();
-					break;
+		body.on ("click", "tbody > tr", function (event) {
+			var tr			= $(event.currentTarget),
+				table		= tr.closest ('table'),
+				tableID		= table.prop ('id'),
+				openModal	= undefined;
+			if (tableID === 'tableAssets') openModal = tr.find ("#openModalDetails")[0];	
+			else {
+				var target	= $(event.target),
+					td		= target.closest ("td");
+				if (!td.is (tr.children ().last ())) openModal = tr.find ("#openModalDetails")[0];
+				else if (target.is ("div") && target.is (".left")) openModal = tr.find ("#openModalDetails")[0];
 			}
+			
+			if (openModal !== undefined) openModal.click ();
 		});
 		body.on ("change", "[data-toggle=\"slided\"]", function (event) {
 			var el		= $(event.currentTarget),
@@ -590,6 +613,44 @@
 				
 			});
 		});
+		$.fn.loadAjaxOptions	= function (ajaxData, type) {
+			var el = $(this);
+			if (el.is ("select")) {
+				$.ajax ({
+					url: ajaxUrl,
+					method: "post",
+					data: $.param (ajaxData),
+				}).done (function (result) {
+					if (result.length) {
+						$.each (result.data[type], function (k, v) {
+							var props = {};
+							switch (type) {
+								default:
+									props = {};
+									break;
+								case "user-locations":
+								case "locations":
+									props = {
+										value: v.uuid,
+										text: v.name + " (" + v.code + ")",
+									};
+									break;
+								case "config":
+									props	= {
+										value: v.uuid,
+										text: v.name,
+										title: v.dscript,
+									};
+									break;
+							}
+							el.createOptions (props);
+						});
+					}
+				}).fail (function () {
+					
+				});
+			}
+		};
 		$(".datepicker").each (function () {
 			$(this).datepicker ({
 				enableOnReadonly: true,
@@ -598,27 +659,24 @@
 			});
 		});
 		$(".modal").on ("shown.bs.modal", function (event) {
-
-			if ($(this).is ("#modalDetail")) {
-				var dt	= $(this).find ("[data-table=\"true\"]");
-				dt.each (function () {
-					$(this).clone ().removeAttr ("data-table").attr ("data-tableclone", "true")
-							.addClass ("d-hidden").appendTo ($(this).parent ());
-					if ($(this).is (":visible")) loadDataTable ($(this));
-				});
-				
-				$("#modalDetail .nav-link").on ("click", function (event) {
-					var el = $(event.currentTarget),
-						target = el.is ("a") ? "#" + el.attr ("href").split ("#")[1] : el.attr ("data-bs-target"),
-						targetEL = $(target),
-						cdt = targetEL.find ("[data-table=\"true\"]");
-					if (cdt.is (":visible")) {
-						var isDT = $.fn.DataTable.isDataTable (cdt);
-						if (!isDT) loadDataTable (cdt);
-						else cdt.DataTable ().ajax.reload ();
-					}
-				});
-			}
+			var dt	= $(this).find ("[data-table=\"true\"]");
+			dt.each (function () {
+				$(this).clone ().removeAttr ("data-table").attr ("data-tableclone", "true")
+						.addClass ("d-hidden").appendTo ($(this).parent ());
+				if ($(this).is (":visible")) loadDataTable ($(this));
+			});
+			
+			$("#modalDetail .nav-link").on ("click", function (event) {
+				var el = $(event.currentTarget),
+					target = el.is ("a") ? "#" + el.attr ("href").split ("#")[1] : el.attr ("data-bs-target"),
+					targetEL = $(target),
+					cdt = targetEL.find ("[data-table=\"true\"]");
+				if (cdt.is (":visible")) {
+					var isDT = $.fn.DataTable.isDataTable (cdt);
+					if (!isDT) loadDataTable (cdt);
+					else cdt.DataTable ().ajax.reload ();
+				}
+			});
 			
 			var modalForm	= $(event.currentTarget).find ("form");
 			if (!modalForm.length) return false;
@@ -675,63 +733,33 @@
 			if ($(this).is ("#modalAssetForm")) {
 				var delay = 0;
 				$(this).find ("[data-load-ajax]").each (function () {
-					var el = $(this),
-						type = el.attr ("data-load-ajax"),
+					var el 			= $(this),
+						type 		= el.attr ("data-load-ajax"),
 						ajaxData = {
 							fetch: type,
 						};
 
 					setTimeout (function () {
-						$.ajax ({
-							url: ajaxUrl,
-							method: "post",
-							data: $.param (ajaxData),
-						}).done (function (result) {
-							if (result.length) {
-								$.each (result.data[type], function (k, v) {
-									var props = {};
-									switch (type) {
-										default:
-											props = {};
-											break;
-										case "locations":
-											props = {
-												value: v.uuid,
-												text: v.name + " (" + v.code + ")",
-											};
-											break;
-										case "config":
-											props	= {
-												value: v.uuid,
-												text: v.name,
-												title: v.dscript,
-											};
-											break;
-									}
-									el.createOptions (props);
-								});
-							}
-						}).fail (function () {
-							
-						});
+						el.loadAjaxOptions (ajaxData, type);
 					}, delay);
 					delay += 500;
 				});
 			}
 		});
 		$(".modal").on ("hidden.bs.modal", function (event) {
-			if ($(this).is ("#modalDetail")) {
-				$(this).find ("[data-readonlyonedit=\"true\"]").prop ("readonly", false);
-				var dt = $(this).find ("[data-table=\"true\"]"),
-					cdt = $(this).find ("[data-tableclone=\"true\"]");
-				dt.DataTable ().clear ().destroy ();
-				dt.remove ();
-				cdt.removeClass ("d-hidden").removeAttr ("data-tableclone").attr ("data-table", "true");
-				$(this).find (".nav-link").removeClass ("active");
-				$(this).find (".tab-pane").removeClass ("active show");
-				$(this).find (".nav .nav-item:first-child .nav-link").addClass ("active");
-				$(this).find (".tab-content .tab-pane:first-child").addClass ("active show");
-			}
+			$(this).find ("[data-readonlyonedit=\"true\"]").prop ("readonly", false);
+			var dt = $(this).find ("[data-table=\"true\"]"),
+				cdt = $(this).find ("[data-tableclone=\"true\"]");
+			dt.DataTable ().clear ().destroy ();
+			dt.remove ();
+			cdt.removeClass ("d-hidden").removeAttr ("data-tableclone").attr ("data-table", "true");
+			$(this).find (".nav-link").removeClass ("active");
+			$(this).find (".tab-pane").removeClass ("active show");
+			$(this).find (".nav .nav-item:first-child .nav-link").addClass ("active");
+			$(this).find (".tab-content .tab-pane:first-child").addClass ("active show");
+			
+			$(this).find ("select[data-action=\"do-filter\"]").val ("");
+				
 			var modalForm	= $(event.target).find ("form");
 			if (!modalForm.length) return false;
 			var reqType		= modalForm.find ("[name=\"request-type\"]");

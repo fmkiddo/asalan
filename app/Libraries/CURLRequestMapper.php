@@ -10,20 +10,27 @@ use CodeIgniter\I18n\Time;
 class CURLRequestMapper {
     
     private $modelMapping   = array (
-        "users"             => "App\Models\Users",
-        "profile"           => "App\Models\Profile",
-        "master-asset"      => "App\Models\Assets",
-        "location-assets"   => "App\Models\Assets",
-        "asset-subs"        => "App\Models\Assets",
-        "acl"               => "App\Models\AccessControl",
-        "categories"        => "App\Models\ConfigItem",
-        "config"            => "App\Models\ConfigItem",
-        "attr"              => "App\Models\Attributes",
-        "attributes"        => "App\Models\Attributes",
-        "ciattributes"      => "App\Models\ConfigItemAttributes",
-        "locations"         => "App\Models\Locations",
-        "sublocations"      => "App\Models\Sublocations",
-        "sublocation"       => "App\Models\Sublocations",
+        "users"                 => "App\Models\Users",
+        "user-allocation"       => "App\Models\LocationSelect",
+        "user-locations"        => "App\Models\UserLocations",
+        "profile"               => "App\Models\Profile",
+        "master-asset"          => "App\Models\Assets",
+        "location-assets"       => "App\Models\Assets",
+        "asset-subs"            => "App\Models\Assets",
+        "asset-picks"           => "App\Models\AssetPicker",
+        "acl"                   => "App\Models\AccessControl",
+        "categories"            => "App\Models\ConfigItem",
+        "config"                => "App\Models\ConfigItem",
+        "attr"                  => "App\Models\Attributes",
+        "attributes"            => "App\Models\Attributes",
+        "ciattributes"          => "App\Models\ConfigItemAttributes",
+        "locations"             => "App\Models\Locations",
+        "sublocations"          => "App\Models\Sublocations",
+        "sublocation"           => "App\Models\Sublocations",
+        "flow-request"          => "App\Models\AssetRequest",
+        "flow-asset-procure"    => "App\Models\AssetProcure",
+        "flow-asset-out"        => "App\Models\AssetTransferOut",
+        "flow-asset-in"         => "App\Models\AssetReceive"
     );
     
     public function __construct () { }

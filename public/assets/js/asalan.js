@@ -12,9 +12,13 @@
 		var $html = $('html');
 		return $html.attr ('lang');
 	};
-	$.doDashboardRedirect = function ($target) {
-		var $url		= window.location.href;
-		if ($url.indexOf ('dashboard') >= 0) window.location.href = $.siteURL ($.getLocale () + '/dashboard?alv=' + $target);
+	$.doDashboardRedirect = function ($target, $payload="") {
+		var $url		= window.location.href,
+			$addURL		= "/dashboard?alv=" + $target;
+			
+		if ($payload !== "") $addURL += "&payload=" + $payload;
+		
+		if ($url.indexOf ('dashboard') >= 0) window.location.href = $.siteURL ($.getLocale () + $addURL);
 		else {
 			var $siteURL = $.siteURL ($.getLocale () + '/dashboard?alv=' + $target);
 			window.location.href = $siteURL;

@@ -8,17 +8,17 @@
 										</div>
 										<ul class="nav nav-tabs nav-justified">
 											<li class="nav-item">
-												<a role="tab" class="nav-link active" data-bs-toggle="tab" data-bs-target="#image-list" aria-controls="image-list-tab" aria-selected="true">
+												<a role="tab" class="nav-link active" data-bs-toggle="tab" href="#image-list" aria-controls="image-list-tab" aria-selected="true">
 													<span>{tab_images}</span>
 												</a>
 											</li>
 											<li class="nav-item">
-												<a role="tab" class="nav-link" data-bs-toggle="tab" data-bs-target="#import-data" aria-controls="imports-data-tab" aria-selected="true">
+												<a role="tab" class="nav-link" data-bs-toggle="tab" href="#import-data" aria-controls="imports-data-tab" aria-selected="true">
 													<span>{tab_imports}</span>
 												</a>
 											</li>
 											<li class="nav-item">
-												<a role="tab" class="nav-link" data-bs-toggle="tab" data-bs-target="#docs-data" aria-controls="docs-data-tab" aria-selected="true">
+												<a role="tab" class="nav-link" data-bs-toggle="tab" href="#docs-data" aria-controls="docs-data-tab" aria-selected="true">
 													<span>{tab_docs}</span>
 												</a>
 											</li>

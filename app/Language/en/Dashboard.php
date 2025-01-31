@@ -66,7 +66,8 @@ return array (
             'created'   => 'Created At',
             'na'        => 'Not Available',
             'details'   => 'Details',
-            'delete'    => 'Non-Aktifkan',
+            'deactive'  => 'Deactivate',
+            'upload'    => 'Upload',
         ),
         'users'     => array (
             'title'     => 'Pengguna',
@@ -75,7 +76,9 @@ return array (
             'tableh2'   => 'Email',
             'tableh3'   => 'Status',
             'modal'     => array (
-                'title'     => 'Update User Data',
+                'title0'    => 'Update User Data',
+                'title1'    => 'User Details',
+                'subtitle0' => 'User Allocation',
                 'label0'    => 'Username',
                 'label1'    => 'Email',
                 'label2'    => 'Confirm Email',
@@ -84,6 +87,9 @@ return array (
                 'label5'    => 'Access Level',
                 'label6'    => 'Active',
                 'disabled'  => 'Choose Access Level',
+                't_chkall'  => 'Check All',
+                'th1_0'     => 'Location Code',
+                'th1_1'     => 'Location Name',
             ),
         ),
         'controls'  => array (
@@ -202,7 +208,10 @@ return array (
             'thasset2'  => 'Description',
             'thasset3'  => 'Quantity',
             'modal'     => array (
-                'form_title0'   => 'Asset Data Update',
+                'title0'        => 'Asset Data Update',
+                'title1'        => 'Asset Details',
+                'subtitle0'     => 'Details',
+                'subtitle1'     => 'Images',
                 'fa_label0'     => 'Location',
                 'fa_label1'     => 'Sublocation',
                 'fa_label2'     => 'Configuration Item - Category',
@@ -220,14 +229,10 @@ return array (
                 ),
                 'tabs'          => array (
                     'titles'        => array (
-                        'title0'        => '',
-                        'title1'        => '',
-                        'title2'        => '',
-                    ),
-                    'tab_buttons'   => array (
                         'fa_tab0'       => 'Assets Map',
                         'fa_tab1'       => 'Procurement History',
-                        'fa_tab2'       => 'Stock Card',
+                        'fa_tab2'       => 'Removal History',
+                        'fa_tab3'       => 'Stock Card',
                     ),
                     'details0'      => array (
                         'thead0'        => 'Location',
@@ -240,6 +245,168 @@ return array (
                     'details2'      => array (
                         
                     ),
+                ),
+            ),
+        ),
+        'asset-request'         => array (
+            'titles'                => array (
+                'title'                 => array (
+                    'Asset Requests Module',
+                    'Asset Procurement Requests Form',
+                ),
+                'card'                  => array (
+                    '# of Request Documents',
+                    '# of Procuremnts',
+                    '# of Asset Transfer',
+                    '# of Asset Removal',
+                ),
+                'header'                => array (
+                    array (
+                        'Document #',
+                        'Date',
+                        'Type of Request',
+                        'Applicant',
+                        'Status'
+                    ),
+                    array (
+                        'Code',
+                        'Description',
+                        'Qty',
+                        'Remarks',
+                    ),
+                    array (
+                        'Code',
+                        'Description',
+                        'Sublocation',
+                        'Qty',
+                    ),
+                    array (
+                        'Kode',
+                        'Deskripsi',
+                        'Sublokasi',
+                        'Jumlah',
+                        'Jumlah',
+                        'Jumlah',
+                    ),
+                ),
+            ),
+            'labels'                => array (
+                'tabs'                  => array (
+                    'Request Summaries',
+                    'Asset Procurement Request',
+                    'Asset Transfer Request',
+                    'Asset Removal Request',
+                ),
+                'disabled_opts'         => array (
+                    'Choose type of procurement',
+                    'Choose locations',
+                    'Choose transfer origin',
+                    'Choose transfer destination',
+                    'Choose asset origin',
+                ),
+                'procure_type'          => array (
+                    'Unregistered Asset',
+                    'Existing/Registered Asset'
+                ),
+                'form_labels'           => array (
+                    array (
+                        'Location',
+                        'Date',
+                        'Applicant',
+                        'Name',
+                        'Description',
+                        'Approximate Price',
+                        'Qty',
+                        'Remarks',
+                        'Images',
+                        'Upload',
+                        'Clear',
+                        'Search asset',
+                    ),
+                    array (
+                        'Document #',
+                        'Date',
+                        'Applicant',
+                        'Origin',
+                        'Destination',
+                        'Remarks',
+                        'Search'
+                    ),
+                    array (
+                        'Location',
+                        'Date',
+                        'Applicant',
+                        'Search',
+                    ),
+                ),
+            ),
+        ),
+        'asset-procure'         => array (
+            'titles'                => array (
+                'title'                 => array (
+                    'Asset Procurement Requests',
+                ),
+                'card'                  => array (
+                    '# of Documents',
+                    'Waiting for Reviews',
+                    'Approved | Declined | Done'
+                ),
+            ),
+            'tableHeaders'          => array (
+                'documents'             => array (
+                    'Document #',
+                    'Date',
+                    'Applicant',
+                    'Location',
+                    'Status'
+                ),
+            ),
+        ),
+        'asset-transfer'        => array (
+            'titles'                => array (
+                'Asset Transfer'
+            ),
+            'ctitle'                => array (
+                'Total Transfer',
+                'Total Waiting',
+                'Declined | Approved | On Progress | Done',
+            ),
+            'labels'                => array (
+                'Document #',
+                'Date',
+                'Applicant',
+                'Origin',
+                'Destination',
+                'Remarks'
+            ),
+            'disabled-opts'         => array (
+                'Choose origin',
+                'Choose destination',
+                'Choose sublocation'
+            ),
+            'placeholders'          => array (
+                'Search'
+            ),
+            'table-headers'         => array (
+                'summaries'             => array (
+                    'Document #',
+                    'Date',
+                    'Applicant',
+                    'Approval',
+                    'Approval Date',
+                    'Status',
+                ),
+                'form'                  => array (
+                    'Code',
+                    'Descriptions',
+                    'Origin Sublocation',
+                    'Qty'
+                ),
+                'asset-select'          => array (
+                    'Code',
+                    'Description',
+                    'Sublocation',
+                    'Qty',
                 ),
             ),
         ),

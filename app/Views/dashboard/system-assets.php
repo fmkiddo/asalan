@@ -6,7 +6,7 @@
 									<div class="d-flex align-items-center justify-content-between">
 										<h3 class="card-title mb-0">{asset_title}</h3>
 										<div class="card-control">
-											<a role="button" href="#modalAssetForm" data-bs-toggle="modal" title="{btn_add}">
+											<a role="button" data-action="open-dialog" data-action-target="#modalAssetForm" data-action-privilege="true">
 												<i class="mdi mdi-plus"></i>
 											</a>
 											<a role="button" href="#tableAssets" data-bs-reload="table" title="{btn_reload}">
@@ -132,116 +132,203 @@
 						</div>
 					</div>
 					<div class="modal fade" id="modalDetail" role="dialog" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
-						<div class="modal-dialog modal-xl">
+						<div class="modal-dialog modal-xxl">
 							<div class="modal-content">
 								<div class="modal-header">
 									<h5 class="modal-title">{mdl_fasset_details}</h5>
 									<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 								</div>
 								<div class="modal-body">
-									<table id="tableLocationDetails" class="table table-hover table-striped" data-details="true">
-										<tbody>
-											<tr>
-												<td width="15%">{fasset_label3}</td>
-												<td width="1%">:</td>
-												<td data-loadtarget="serial"></td>
-												<td width="15%">{fasset_label2}</td>
-												<td width="1%">:</td>
-												<td data-loadtarget="config"></td>
-											</tr>
-											<tr>
-												<td>{fasset_label4}</td>
-												<td>:</td>
-												<td data-loadtarget="dscript"></td>
-												<td>{fasset_label7}</td>
-												<td>:</td>
-												<td data-loadtarget="asset_total"></td>
-											</tr>
-										</tbody>
-									</table>
-									<hr class="separator" />
-									<div id="detailNav">
-										<ul class="nav nav-tabs nav-justified">
-											<li class="nav-item">
-												<a class="nav-link active" href="#fassetLocation" data-bs-toggle="tab" aria-selected="true" tabindex="-1" role="tab">
-													{fasset_tab0}
-												</a>
-											</li>
-											<li class="nav-item">
-												<a class="nav-link" href="#fassetProcureHistory" data-bs-toggle="tab" aria-selected="false" tabindex="-1" role="tab">
-													{fasset_tab1}
-												</a>
-											</li>
-											<li class="nav-item">
-												<a class="nav-link" href="#fassetMovements" data-bs-toggle="tab" aria-selected="false" tabindex="-1" role="tab">
-													{fasset_tab2}
-												</a>
-											</li>
-										</ul>
-										<div class="tab-content">
-											<div id="fassetLocation" class="tab-pane fade active show" role="tabpanel">
-												<div class="control-section">
-													<h5 class="modal-title">{fasset_tab_title0}</h5>
-													<div>
-                										<a role="button" href="#tableAssetAllocation" data-bs-reload="table" title="{btn_reload}">
-                											<i class="mdi mdi-reload"></i>
-                										</a>
-													</div>
-												</div>
-												<hr class="separator" />
-												<table id="tableAssetAllocation" class="table table-striped table-hover table-centered w-100" data-table="true" data-sub="asset-subs" data-sub-target="">
-													<thead>
-														<tr>
-															<th>#</th>
-															<th>{fadetail0_thead0}</th>
-															<th>{fadetail0_thead1}</th>
-															<th>{fadetail0_thead2}</th>
-														</tr>
-													</thead>
-													<tbody>
-													</tbody>
-												</table>
+									<div class="row">
+										<div class="col-md-8">
+        									<div class="control-section">
+        										<h5>{subtitle0}</h5>
+        										<div>
+        											<a role="button" href="#editAssetDesc" data-bs-toggle="collapse" aria-expanded="false" aria-controls="editAssetDesc">
+        												<span class="mdi mdi-file-edit"></span>
+        											</a>
+        										</div>
+        									</div>
+        									<table id="tableLocationDetails" class="table table-hover table-striped" data-details="true">
+        										<tbody>
+        											<tr>
+        												<td width="30%">{fasset_label3}</td>
+        												<td width="1%">:</td>
+        												<td data-loadtarget="serial"></td>
+        											</tr>
+        											<tr>
+        												<td>{fasset_label2}</td>
+        												<td>:</td>
+        												<td data-loadtarget="config"></td>
+        											</tr>
+        											<tr>
+        												<td>{fasset_label4}</td>
+        												<td>:</td>
+        												<td data-loadtarget="dscript"></td>
+        											</tr>
+        											<tr>
+        												<td>{fasset_label7}</td>
+        												<td>:</td>
+        												<td data-loadtarget="asset_total"></td>
+        											</tr>
+        										</tbody>
+        									</table>
+        									<div id="editAssetDesc" class="collapse">
+        										<form method="post">
+                									<input type="hidden" name="{csrf_name}" value="{csrf_data}" />
+                									<input type="hidden" name="request-type" value="master-asset|edit" />
+                									<input type="hidden" name="atom" value="" />
+                									<div class="row">
+                										<div class="col-sm-6">
+                											<div class="form-group">
+                												<label>:</label>
+                												<input type="text" class="form-control" data-loadtarget="serial" required />
+                											</div>
+                										</div>
+                										<div class="col-sm-6">
+                											<div class="form-group">
+                												<label>:</label>
+                												<input type="text" class="form-control" data-loadtarget="dscript" required />
+                											</div>
+                										</div>
+                									</div>
+                									<hr class="separator" />
+                									<div class="text-end">
+                										<button type="submit" class="btn btn-sm btn-primary">
+                											<span class="mdi mdi-content-save"></span>
+                										</button>
+                										<button type="reset" class="btn btn-sm btn-primary" data-bs-toggle="collapse" data-bs-target="#editAssetDesc" aria-expanded="true" aria-controls="editAssetDesc">
+                											<span class="mdi mdi-close"></span>
+                										</button>
+                									</div>
+        										</form>
+        									</div>
+        									<hr class="separator" />
+        									<div id="detailNav">
+        										<ul class="nav nav-tabs nav-justified">
+        											<li class="nav-item">
+        												<a class="nav-link active" href="#fassetLocation" data-bs-toggle="tab" aria-selected="true" tabindex="-1" role="tab">
+        													{fasset_tab0}
+        												</a>
+        											</li>
+        											<li class="nav-item">
+        												<a class="nav-link" href="#fassetProcureHistory" data-bs-toggle="tab" aria-selected="false" tabindex="-1" role="tab">
+        													{fasset_tab1}
+        												</a>
+        											</li>
+        											<li class="nav-item">
+        												<a class="nav-link" href="#fassetRemovalHistory" data-bs-toggle="tab" aria-selected="false" tabindex="-1" role="tab">
+        													{fasset_tab2}
+        												</a>
+        											</li>
+        											<li class="nav-item">
+        												<a class="nav-link" href="#fassetMovements" data-bs-toggle="tab" aria-selected="false" tabindex="-1" role="tab">
+        													{fasset_tab3}
+        												</a>
+        											</li>
+        										</ul>
+        										<div class="tab-content">
+        											<div id="fassetLocation" class="tab-pane fade active show" role="tabpanel">
+        												<div class="control-section">
+        													<h5 class="modal-title">{fasset_tab_title0}</h5>
+        													<div>
+                        										<a role="button" href="#tableAssetAllocation" data-bs-reload="table" title="{btn_reload}">
+                        											<i class="mdi mdi-reload"></i>
+                        										</a>
+        													</div>
+        												</div>
+        												<hr class="separator" />
+        												<table id="tableAssetAllocation" class="table table-striped table-hover table-centered w-100" data-table="true" data-sub="asset-subs" data-sub-target="">
+        													<thead>
+        														<tr>
+        															<th>#</th>
+        															<th>{fadetail0_thead0}</th>
+        															<th>{fadetail0_thead1}</th>
+        															<th>{fadetail0_thead2}</th>
+        														</tr>
+        													</thead>
+        													<tbody>
+        													</tbody>
+        												</table>
+        											</div>
+        											<div id="fassetProcureHistory" class="tab-pane fade" role="tabpanel">
+        												<div class="control-section">
+        													<h5 class="modal-title">{fasset_tab_title1}</h5>
+        													<div>
+                        										<a role="button" href="#tableAssetPorcureHistory" data-bs-reload="table" title="{btn_reload}">
+                        											<i class="mdi mdi-reload"></i>
+                        										</a>
+        													</div>
+        												</div>
+        												<hr class="separator" />
+        												<table id="tableAssetPorcureHistory" class="table table-striped table-hover table-centered w-100" data-table="true" data-sub="" data-sub-target="">
+        													<thead>
+        														<tr>
+        															<th>#</th>
+        															<th>{fadetail1_thead0}</th>
+        															<th>{fadetail1_thead1}</th>
+        															<th>{fadetail1_thead2}</th>
+        														</tr>
+        													</thead>
+        													<tbody>
+        													</tbody>
+        												</table>
+        											</div>
+        											<div id="fassetRemovalHistory" class="tab-pane fade" role="tabpanel">
+        												<div class="control-section">
+        													<h5 class="modal-title">{fasset_tab_title2}</h5>
+        													<div>
+                        										<a role="button" href="#tableAssetRemoveHistory" data-bs-reload="table" title="{btn_reload}">
+                        											<i class="mdi mdi-reload"></i>
+                        										</a>
+        													</div>
+        												</div>
+        												<hr class="separator" />
+        												<table id="tableAssetRemoveHistory" class="table table-striped table-hover table-centered w-100" data-table="true" data-sub="" data-sub-target="">
+        													<thead>
+        													</thead>
+        													<tbody>
+        													</tbody>
+        												</table>
+        											</div>
+        											<div id="fassetMovements" class="tab-pane fade" role="tabpanel">
+        												<div class="control-section">
+        													<h5 class="modal-title">{fasset_tab_title3}</h5>
+        													<div>
+                        										<a role="button" href="#tableAssetMovementHistory" data-bs-reload="table" title="{btn_reload}">
+                        											<i class="mdi mdi-reload"></i>
+                        										</a>
+        													</div>
+        												</div>
+        												<hr class="separator" />
+        												<table id="tableAssetMovementHistory" class="table table-striped table-hover table-centered w-100" data-table="true" data-sub="" data-sub-target="">
+        													<thead>
+        													</thead>
+        													<tbody>
+        													</tbody>
+        												</table>
+        											</div>
+        										</div>
+        									</div>
+										</div>
+										<div class="col-md-4">
+											<div class="control-section">
+												<h5>{subtitle1}</h5>
 											</div>
-											<div id="fassetProcureHistory" class="tab-pane fade" role="tabpanel">
-												<div class="control-section">
-													<h5 class="modal-title">{fasset_tab_title1}</h5>
-													<div>
-                										<a role="button" href="#tableAssetPorcureHistory" data-bs-reload="table" title="{btn_reload}">
-                											<i class="mdi mdi-reload"></i>
-                										</a>
-													</div>
-												</div>
-												<hr class="separator" />
-												<table id="tableAssetPorcureHistory" class="table table-striped table-hover table-centered w-100" data-table="true" data-sub="" data-sub-target="">
-													<thead>
-														<tr>
-															<th>#</th>
-															<th>{fadetail1_thead0}</th>
-															<th>{fadetail1_thead1}</th>
-															<th>{fadetail1_thead2}</th>
-														</tr>
-													</thead>
-													<tbody>
-													</tbody>
-												</table>
+											<div role="button" id="assetPictures" class="pict-preview mb-2" data-pick-target="#assetImages">
 											</div>
-											<div id="fassetMovements" class="tab-pane fade" role="tabpanel">
-												<div class="control-section">
-													<h5 class="modal-title">{fasset_tab_title2}</h5>
-													<div>
-                										<a role="button" href="#tableAssetMovementHistory" data-bs-reload="table" title="{btn_reload}">
-                											<i class="mdi mdi-reload"></i>
-                										</a>
-													</div>
-												</div>
-												<hr class="separator" />
-												<table id="tableAssetMovementHistory" class="table table-striped table-hover table-centered w-100" data-table="true" data-sub="" data-sub-target="">
-													<thead>
-													</thead>
-													<tbody>
-													</tbody>
-												</table>
-											</div>
+											<form method="post" enctype="multipart/form-data">
+            									<input type="hidden" name="{csrf_name}" value="{csrf_data}" />
+            									<input type="hidden" name="request-type" value="asset-images|new" />
+            									<input type="hidden" name="atom" value="" />
+            									<input id="assetImages" type="file" class="d-hidden" name="asset-images" accept="image/jpeg,image/jpg,image/png,image/webp" multiple required />
+            									<button type="button" class="btn btn-primary btn-block">
+            										<span class="mdi mdi-upload"></span>&nbsp;<span>{btn_upload}</span>
+            									</button>
+            									<button type="reset" class="btn btn-primary btn-block">
+            										<span class="mdi mdi-reload"></span>&nbsp;<span>{btn_reload}</span>
+            									</button>
+											</form>
 										</div>
 									</div>
 								</div>

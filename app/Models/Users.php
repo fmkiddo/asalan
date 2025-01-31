@@ -88,11 +88,11 @@ class Users extends BaseModel {
             $content        = ($row['active'] ? "<i class=\"mdi mdi-check-circle text-success\"></i>" : "<i class=\"mdi mdi-close-circle text-danger\"></i>");
             $output[$k]  = array (
                 $this->generateFirstColumn ($i, base64_encode($row['uuid'])),
-                "<span data-loadsource=\"username\">{$row['username']}</span>",
-                "<span data-loadsource=\"usergroup\" class=\"d-hidden\">{$base64_groupID}</span>{$row['group_name']}",
+                "<span class=\"d-hidden\">{$row['locations']}</span><span data-loadsource=\"username\">{$row['username']}</span>",
+                "<span data-loadsource=\"usergroup\" class=\"d-hidden\">{$base64_groupID}</span><span data-loadsource=\"usergroupname\">{$row['group_name']}</span",
                 "<span data-loadsource=\"useremail\">{$row['email']}</span>",
                 "<span data-loadsource=\"active\" class=\"d-hidden\">{$activeUser}</span>{$content}",
-                $this->generateCreatedColumn($row['uuid'], $row['created_at'], FALSE, FALSE),
+                $this->generateCreatedColumn ($row['uuid'], $row['created_at'], TRUE, FALSE),
             );
             $i++;
         }

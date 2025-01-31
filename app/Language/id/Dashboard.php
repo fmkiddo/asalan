@@ -66,7 +66,8 @@ return array (
             'created'   => 'Dibuat',
             'na'        => 'Belum Tersedia',
             'details'   => 'Rincian',
-            'delete'    => 'Non-Aktifkan',
+            'deactive'  => 'Non-Aktifkan',
+            'upload'    => 'Unggah',
         ),
         'users'     => array (
             'title'     => 'Pengguna',
@@ -75,7 +76,9 @@ return array (
             'tableh2'   => 'Email',
             'tableh3'   => 'Status',
             'modal'     => array (
-                'title'     => 'Perbarui Data Pengguna',
+                'title0'    => 'Perbarui Data Pengguna',
+                'title1'    => 'Detail Data Pengguna',
+                'subtitle0' => 'Alokasi Pengguna',
                 'label0'    => 'Nama Pengguna',
                 'label1'    => 'Alamat Email',
                 'label2'    => 'Konfirmasi Email',
@@ -84,6 +87,9 @@ return array (
                 'label5'    => 'Level Akses',
                 'label6'    => 'Aktif',
                 'disabled'  => 'Pilih Level Akses',
+                't_chkall'  => 'Centang Semua',
+                'th1_0'     => 'Kode Lokasi',
+                'th1_1'     => 'Nama Lokasi',
             ),
         ),
         'controls'  => array (
@@ -104,16 +110,16 @@ return array (
                 'label5'    => 'Pemindahan',
                 'label6'    => 'Hak Akses',
                 'label7'    => 'Akses Penuh',
-                'label8'    => 'Alamat Email',
-                'label9'    => 'Konfirmasi Email',
-                'label10'    => 'Kata Sandi',
-                'label11'    => 'Konfirmasi Kata Sandi',
-                'label12'    => 'Nama Pengguna',
-                'label13'    => 'Alamat Email',
-                'label14'    => 'Konfirmasi Email',
-                'label15'    => 'Kata Sandi',
-                'label16'    => 'Konfirmasi Kata Sandi',
-                'label17'    => 'Level Akses',
+                'label8'    => 'Membuat Aset Baru',
+                'label9'    => 'Membuat Lokasi Baru',
+                'label10'    => 'Pengadaan Aset',
+                'label11'    => 'Mutasi Aset',
+                'label12'    => 'Pemusnahan Aset',
+                'label13'    => 'Pemeliharaan',
+                'label14'    => 'Kategori',
+                'label15'    => 'Konfigurasi',
+                'label16'    => 'Membuat Grup Pengguna',
+                'label17'    => 'Membuat Pengguna Baru',
                 'label18'    => 'Aktif',
                 'label19'    => 'Nama Pengguna',
                 'label20'    => 'Alamat Email',
@@ -203,7 +209,10 @@ return array (
             'thasset2'  => 'Deskripsi',
             'thasset3'  => 'Jumlah',
             'modal'     => array (
-                'form_title0'   => 'Pembaruan Data Aset',
+                'title0'        => 'Pembaruan Data Aset',
+                'title1'        => 'Rincian Aset',
+                'subtitle0'     => 'Rincian',
+                'subtitle1'     => 'Gambar',
                 'fa_label0'     => 'Lokasi',
                 'fa_label1'     => 'Sublokasi',
                 'fa_label2'     => 'Konfigurasi - Kategori',
@@ -221,14 +230,10 @@ return array (
                 ),
                 'tabs'          => array (
                     'titles'        => array (
-                        'title0'        => '',
-                        'title1'        => '',
-                        'title2'        => '',
-                    ),
-                    'tab_buttons'   => array (
                         'fa_tab0'       => 'Peta Aset',
                         'fa_tab1'       => 'Riwayat Pengadaan',
-                        'fa_tab2'       => 'Kartu Stok Aset',
+                        'fa_tab2'       => 'Riwayat Penghapusan',
+                        'fa_tab3'       => 'Kartu Stok Aset',
                     ),
                     'details0'      => array (
                         'thead0'        => 'Lokasi',
@@ -243,6 +248,168 @@ return array (
                     ),
                 ),
             ),
+        ),
+        'asset-request'         => array (
+            'titles'                => array (
+                'title'                 => array (
+                    'Modul Proses Permohonan Aset',
+                    'Form Permohonan Pengadaan Aset Baru',
+                ),
+                'card'                  => array (
+                    'Total Dokumen Permohonan',
+                    'Permohonan Pengadaan',
+                    'Permohonan Pindah Aset',
+                    'Permohonan Pemusnahan',
+                ),
+                'header'                => array (
+                    array (
+                        'Document #',
+                        'Date',
+                        'Type of Request',
+                        'Applicant',
+                        'Status'
+                    ),
+                    array (
+                        'Kode',
+                        'Deskripsi',
+                        'Jumlah',
+                        'Keterangan',
+                    ),
+                    array (
+                        'Kode',
+                        'Deskripsi',
+                        'Sublokasi',
+                        'Jumlah',
+                    ),
+                    array (
+                        '',
+                        'Deskripsi',
+                        'Sublokasi',
+                        'Jumlah',
+                        'Jumlah',
+                        'Jumlah',
+                    ),
+                ),
+            ),
+            'labels'                => array (
+                'tabs'                  => array (
+                    'Ringkasan Permohonan',
+                    'Permohonan Pengadaan Aset Baru',
+                    'Permohonan Perpindahan Aset',
+                    'Permohonan Pemusnahan Aset',
+                ),
+                'disabled_opts'         => array (
+                    'Pilih tipe aset',
+                    'Pilih lokasi',
+                    'Pilih lokasi asal',
+                    'Pilih lokasi tujuan',
+                    'Pilih lokasi aset',
+                ),
+                'procure_type'          => array (
+                    'Aset Tidak Teregistrasi',
+                    'Aset Teregistrasi'
+                ),
+                'form_labels'           => array (
+                    array (
+                        'Lokasi',
+                        'Tanggal',
+                        'Pemohon',
+                        'Nama Barang',
+                        'Deskripsi',
+                        'Estimasi Harga',
+                        'Qty',
+                        'Keterangan',
+                        'Gambar',
+                        'Unggah',
+                        'Hapus',
+                        'Cari aset',
+                    ),
+                    array (
+                        'No. Dokumen',
+                        'Tanggal',
+                        'Pemohon',
+                        'Lokasi Asal',
+                        'Lokasi Tujuan',
+                        'Keterangan',
+                        'Cari aset',
+                    ),
+                    array (
+                        'Lokasi',
+                        'Tanggal',
+                        'Pemohon',
+                        'Cari aset',
+                    ),
+                ),
+            ),
+        ),
+        'asset-procure'         => array (
+            'titles'                => array (
+                'title'                 => array (
+                    'Permintaan Pengadaan Aset',
+                ),
+                'card'                  => array (
+                    'Total Dokumen',
+                    'Menunggu Review',
+                    'Disetujui | Ditolak | Selesai'
+                ),
+            ),
+            'tableHeaders'          => array (
+                'documents'             => array (
+                    'No. Dokumen',
+                    'Tanggal',
+                    'Pemohon',
+                    'Lokasi',
+                    'Status'
+                ),
+            ),
+        ),
+        'asset-transfer'        => array (
+            'titles'                => array (
+                'Pemindahan Aset',
+            ),
+            'ctitle'                => array (
+                'Total Transfer',
+                'Total Menunggu Persetujuan',
+                'Ditolak | Disetujui | Proses | Selesai',
+            ),
+            'labels'                => array (
+                'No. Dokumen',
+                'Tgl. Dokumen',
+                'Pemohon',
+                'Lokasi Asal',
+                'Lokasi Tujuan',
+                'Keterangan'
+            ),
+            'disabled-opts'         => array (
+                'Pilih lokasi asal',
+                'Pilih lokasi tujuan',
+                'Pilih sublokasi'
+            ),
+            'placeholders'          => array (
+                'Cari'
+            ),
+            'table-headers'         => array (
+                'summaries'             => array (
+                    'No. Dokumen',
+                    'Tanggal',
+                    'Pemohon',
+                    'Approval',
+                    'Tgl. Keputusan',
+                    'Status',
+                ),
+                'form'                  => array (
+                    'Kode',
+                    'Deskripsi',
+                    'Sublokasi Asal',
+                    'Qty'
+                ),
+                'asset-select'          => array (
+                    'Kode',
+                    'Deskripsi',
+                    'Sublokasi',
+                    'Qty',
+                ),
+            )
         ),
     ),
     'Errors'    => array (

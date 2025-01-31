@@ -8,6 +8,7 @@ use CodeIgniter\HTTP\Files\UploadedFile;
 
 class Profile extends BaseModel {
     
+    
     protected $api      = "user-profile";
     protected $modal    = "profileForm";
     protected $paramMap = array (
@@ -83,16 +84,28 @@ class Profile extends BaseModel {
      * {@inheritDoc}
      * @see \App\Models\BaseModel::createParams()
      */
-    public function createParams(RequestInterface|CLIRequest $request) {
+    public function createParams (RequestInterface|CLIRequest $request) {
         // TODO Auto-generated method stub
-        $params = parent::createParams($request);
+        $params = parent::createParams ($request);
         /**
          *
          * @var UploadedFile $file
          */
         $file   = $request->getFile ('input-urpic');
-        $params['user-image'] = _from_random (32, __SYS_ALPHA_NUMERIC__) . ".{$file->getExtension()}";
+        $params['user-image'] = '';
+        if ($file->getFilename() !== '') $params['user-image'] = _from_random (32, __SYS_ALPHA_NUMERIC__) . ".{$file->getExtension()}";
         return $params;
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see \App\Models\BaseModel::updateData()
+     */
+    public function updateData (array $data, array &$response, string $param, string $userData = ""): int {
+        $status = $this->getData($response, array (), $userData);
+        if ($status === 200 && count ($response) === 0) $status = $this->createData ($data, $response, $userData);
+        else $status = parent::updateData ($data, $response, $param, $userData);
+        return $status;
     }
     
     /**

@@ -43,7 +43,7 @@ abstract class BaseModel {
      * @return string
      */
     protected function generateFirstColumn ($num=1, $data="") {
-        return "<span data-row=\"{$data}\"></span>{$num}";
+        return "<span data-row=\"{$data}\" class=\"d-hidden\" data-loadsource=\"key\">{$data}</span>{$num}";
     }
     
     /**
@@ -134,17 +134,19 @@ abstract class BaseModel {
      */
     public function getData (array &$payload, array $param, string $userData="", bool $toDataTable=FALSE): int {
         $url    = "";
-        if (!count ($param)) $url = $this->getServerURL ("{$this->api}?{$this->getUserKeyname($userData)}");
+        if (!count ($param)) $url = $this->getServerURL ("{$this->api}?{$this->getUserKeyname ($userData)}");
         else {
             $searchVal  = array_key_exists ("search", $param) ? $param["search"]["value"] : "";
             if ($searchVal === "") $url = $this->getServerURL ("{$this->api}?{$this->getUserKeyname($userData)}");
             else {
                 $sortTarget = 0;
                 $sort       = "";
-                $column     = $param["order"][0]["column"];
-                if (array_key_exists ("order", $param) && $column !== 0) {
-                    $sortTarget = $this->columns[$column-1];
-                    $sort       = $param["order"][0]["dir"];
+                if (array_key_exists ("order", $param)) {
+                    $column     = $param["order"][0]["column"];
+                    if ($column !== 0) {
+                        $sortTarget = $this->columns[$column-1];
+                        $sort       = $param["order"][0]["dir"];
+                    }
                 }
                 $get        = "find%23{$searchVal}&colsort={$sortTarget}&typesort={$sort}";
                 $url        = $this->getServerURL ("{$this->api}?payload={$get}&{$this->getUserKeyname($userData)}");
@@ -152,6 +154,7 @@ abstract class BaseModel {
         }
         
         if (array_key_exists ("subdata", $param)) $url .= "&joint={$param["subdata"]}";
+        if (array_key_exists('filterType', $param)) $url .= "&ref={$param['filterType']}&refdata={$param['subfilter']}";
         
         $serverResponse = json_decode ($this->curl->request ("get", $url, $this->curlOpts)->getBody (), TRUE);
         if ($serverResponse['status'] === 200 && array_key_exists ('data', $serverResponse)) {

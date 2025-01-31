@@ -70,7 +70,7 @@ class Pooling extends BaseController {
             'data'      => array ()
         );
         foreach ($toLoad as $fetch) {
-            if (!array_key_exists($fetch, $retVal['data'])) $retVal['data'][$fetch] = array ();
+            if (!array_key_exists ($fetch, $retVal['data'])) $retVal['data'][$fetch] = array ();
             $modelName  = $mapper->getTargetModelName ($fetch);
             $model      = new $modelName ($this->__readLicFile(), $this->request);
             $payloads   = array ();
