@@ -116,7 +116,7 @@
 													</div>
 													<div class="form-group">
     													<label for="input-fatlocori">{label3}:</label>
-    													<select id="locationSource" class="form-control" name="input-fatlocori" data-load-ajax="user-locations" data-load-subajax="sublocations" data-subajax-target="#select_fatAsset" required>
+    													<select id="locationSource" class="form-control" name="input-fatlocori" data-load-ajax="user-locations" data-load-subajax="sublocations" data-subajax-target="#select_fatAsset" data-action="reset-table" data-reset-target="#tableAssetTransfer" required>
     														<option value="" disabled selected>---- {dsbopt0} ----</option>
     													</select>
 													</div>
@@ -141,10 +141,9 @@
 													</button>
 												</div>
 											</div>
-											<table id="tableAssetTransfer" class="table table-hover table-striped table-center-head table-100" data-table="true" data-servertable="false" data-paging="false" data-searching="false" role="grid">
+											<table id="tableAssetTransfer" class="table table-hover table-striped table-center-head center-side-columns table-100" data-table="true" data-servertable="false" data-paging="false" data-searching="false" data-ordering="false" role="grid">
 												<thead>
 													<tr>
-														<th>#</th>
 														<th>{form_th0}</th>
 														<th>{form_th1}</th>
 														<th>{form_th2}</th>
@@ -190,9 +189,6 @@
 														</table>
 													</div>
 													<div class="modal-footer text-end">
-														<button type="button" id="add_fatAsset" class="btn btn-primary">
-															<i class="mdi mdi-plus-circle"></i>
-														</button>
 														<button type="button" class="btn btn-primary" data-bs-dismiss="modal">
 															<i class="mdi mdi-close"></i>
 														</button>

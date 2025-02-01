@@ -187,34 +187,37 @@ class Assets extends BaseModel {
     public function asDataTableFormat (array $params): array {
         $output = array ();
         $i = 1;
-        
+        $isJoint = FALSE;
         foreach ($params as $k => $row) {
-            $assetCode  = $row['asset_code'];
-            if (count ($params[0]) === 4) 
-                $output[$k] = array (
-                    $this->generateFirstColumn ($i, $assetCode),
-                    "<span data-loadsource=\"config\">{$row['asset_config']}</span>",
-                    "<a id=\"openModalDetails\" class=\"d-hidden\" data-bs-target=\"#modalDetail\" data-bs-toggle=\"modal\" data-target=\"{$row['asset_code']}\"></a><span data-loadsource=\"serial\">{$row['asset_code']}</span>",
-                    "<span data-loadsource=\"dscript\">{$row['asset_dscript']}</span>",
-                    "<span data-loadsource=\"asset_total\">{$row['asset_total']}</span>",
-                );
-            elseif (!array_key_exists ('asset_location', $row))
-                $output[$k] = array (
-                    $this->generateFirstColumn ($i, $assetCode),
-                    "<span data-loadsource=\"serial\">{$row['asset_code']}</span>",
-                    "<span data-loadsource=\"dscript\">{$row['asset_dscript']}</span>",
-                    "<span data-loadsource=\"config\">{$row['asset_config']}</span>",
-                    "<span data-loadsource=\"sublocation\">{$row['asset_subloc']}</span>",
-                    "<span data-loadsource=\"asset_total\">{$row['asset_total']}</span>",
-                );
-            else
-                $output[$k] = array (
-                    $this->generateFirstColumn ($i, $assetCode),
-                    "<span data-loadsource=\"sublocation\">{$row['asset_location']}</span>",
-                    "<span data-loadsource=\"sublocation\">{$row['asset_subloc']}</span>",
-                    "<span data-loadsource=\"asset_total\">{$row['asset_total']}</span>",
-                );
-            $i++;
+            if ($k === 'joint') $isJoint = $row;
+            else {
+                $assetCode  = $row['asset_code'];
+                if (!$isJoint) 
+                    $output[$k] = array (
+                        $this->generateFirstColumn ($i, $assetCode),
+                        "<span data-loadsource=\"config\">{$row['asset_config']}</span>",
+                        "<a id=\"openModalDetails\" class=\"d-hidden\" data-bs-target=\"#modalDetail\" data-bs-toggle=\"modal\" data-target=\"{$row['asset_code']}\"></a><span data-loadsource=\"serial\">{$row['asset_code']}</span>",
+                        "<span data-loadsource=\"dscript\">{$row['asset_dscript']}</span>",
+                        "<span data-loadsource=\"asset_total\">{$row['asset_total']}</span>",
+                    );
+                elseif (!array_key_exists ('asset_location', $row))
+                    $output[$k] = array (
+                        $this->generateFirstColumn ($i, $assetCode),
+                        "<span data-loadsource=\"serial\">{$row['asset_code']}</span>",
+                        "<span data-loadsource=\"dscript\">{$row['asset_dscript']}</span>",
+                        "<span data-loadsource=\"config\">{$row['asset_config']}</span>",
+                        "<span data-loadsource=\"sublocation\">{$row['asset_subloc']}</span>",
+                        "<span data-loadsource=\"asset_total\">{$row['asset_total']}</span>",
+                    );
+                else
+                    $output[$k] = array (
+                        $this->generateFirstColumn ($i, $assetCode),
+                        "<span data-loadsource=\"location\">{$row['asset_location']}</span>",
+                        "<span data-loadsource=\"sublocation\">{$row['asset_subloc']}</span>",
+                        "<span data-loadsource=\"asset_total\">{$row['asset_total']}</span>",
+                    );
+                $i++;
+            }
         }
         return $output;
     }
