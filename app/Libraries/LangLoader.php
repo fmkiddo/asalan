@@ -311,6 +311,8 @@ class LangLoader {
         ),
         'flow-asset-out'        => array (
             'title0'                => 'Dashboard.texts.asset-transfer.titles.0',
+            'mdlTitle0'             => 'Dashboard.texts.asset-transfer.titles.1',
+            'mdlTitle1'             => 'Dashboard.texts.asset-transfer.titles.2',
             'ctitle_0'              => 'Dashboard.texts.asset-transfer.ctitle.0',
             'ctitle_1'              => 'Dashboard.texts.asset-transfer.ctitle.1',
             'ctitle_2'              => 'Dashboard.texts.asset-transfer.ctitle.2',

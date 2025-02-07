@@ -52,7 +52,7 @@
 											</div>
 										</div>
 										<hr class="separator" />
-										<table id="tableFATransfer" class="table table-striped table-hover table-centered" data-table="true" data-page-length="50">
+										<table id="tableFATransfer" class="table table-striped table-hover table-centered" role="button" data-table="true" data-page-length="50">
 											<thead>
 												<tr>
 													<th>#</th>
@@ -71,6 +71,7 @@
 											<div class="modal-dialog modal-xl">
 												<div class="modal-content">
 													<div class="modal-header">
+														<h5 class="modal-title">{mdlTitle0}</h5>
 														<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 													</div>
 													<div class="modal-body">
@@ -87,7 +88,7 @@
 										</div>
 									</div>
 									<div id="fatransfer-form">
-										<form method="post">
+										<form method="post" data-alert="" data-alerttitle="">
 											<input type="hidden" name="{csrf_name}" value="{csrf_data}" />
 											<input type="hidden" name="request-type" value="fatransfer|new" />
 											<input type="hidden" name="atom" value="" />
@@ -97,7 +98,7 @@
     												<div class="form-group">
     													<label for="input-fatdocnum">{label0}:</label>
     													<div class="input-group">
-    														<input type="text" class="form-control" name="input-fatdocnum" />
+    														<input type="text" class="form-control" name="input-fatdocnum" value="[AUTO]" data-reset="false" />
         													<button type="button" id="fatDocSearch" class="btn btn-outline-primary" title="{tab2_popup0}">
         														<span class="mdi mdi-magnify"></span>
         													</button>
@@ -105,18 +106,18 @@
     												</div>
     												<div class="form-group">
     													<label for="input-fatdocdate">{label1}:</label>
-    													<input type="text" class="form-control" name="input-fatdocdate" value="{now}" readonly />
+    													<input type="text" class="form-control" name="input-fatdocdate" value="{now}" data-reset="false" readonly />
     												</div>
 												</div>
 												<div class="col-md-8">
 													<div class="form-group">
     													<label for="input-fatapplicant">{label2}:</label>
     													<input type="hidden" name="input-fatapplicant" value="{supplicant}" />
-    													<input type="text" class="form-control" id="transferApplicant" value="{fullname}" title="{username}" readonly />
+    													<input type="text" class="form-control" id="transferApplicant" value="{fullname}" title="{username}" data-reset="false" readonly />
 													</div>
 													<div class="form-group">
     													<label for="input-fatlocori">{label3}:</label>
-    													<select id="locationSource" class="form-control" name="input-fatlocori" data-load-ajax="user-locations" data-load-subajax="sublocations" data-subajax-target="#select_fatAsset" data-action="reset-table" data-reset-target="#tableAssetTransfer" required>
+    													<select id="locationSource" class="form-control" name="input-fatlocori" data-loadsource="location" data-load-ajax="user-locations" data-load-subajax="sublocations" data-subajax-target="#select_fatAsset" data-action="reset-table" data-reset-target="#tableAssetTransfer" required>
     														<option value="" disabled selected>---- {dsbopt0} ----</option>
     													</select>
 													</div>
@@ -154,7 +155,8 @@
 											</table>
 											<hr class="separator" />
 											<div class="text-end">
-												<button type="submit" class="btn btn-primary">
+												<button class="d-hidden" type="submit" id="submitform"></button>
+												<button type="button" class="btn btn-primary" data-action="submitFATForm" data-target="#submitform">
 													<span class="mdi mdi-content-save"></span>
 												</button>
 												<button type="button" class="btn btn-primary" data-action="fade" data-fade-target="#fadeTransferRequest" data-faded-target="#fatransfer-table">
@@ -166,7 +168,7 @@
 											<div class="modal-dialog modal-xl">
 												<div class="modal-content">
 													<div class="modal-header">
-														<h5>{mdlTitle0}</h5>
+														<h5 class="modal-title">{mdlTitle1} <span data-loadtarget="location"></span></h5>
 														<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 													</div>
 													<div class="modal-body">

@@ -238,7 +238,7 @@
         													</div>
         												</div>
         												<hr class="separator" />
-        												<table id="tableAssetAllocation" class="table table-striped table-hover table-centered w-100" data-table="true" data-sub="asset-subs" data-sub-target="">
+        												<table id="tableAssetAllocation" class="table table-striped table-hover table-centered w-100" data-table="true" data-sub="asset-map" data-sub-target="">
         													<thead>
         														<tr>
         															<th>#</th>

@@ -15,8 +15,8 @@ class CURLRequestMapper {
         "user-locations"        => "App\Models\UserLocations",
         "profile"               => "App\Models\Profile",
         "master-asset"          => "App\Models\Assets",
-        "location-assets"       => "App\Models\Assets",
-        "asset-subs"            => "App\Models\Assets",
+        "location-assets"       => "App\Models\AssetLocation",
+        "asset-map"             => "App\Models\AssetMap",
         "asset-picks"           => "App\Models\AssetPicker",
         "acl"                   => "App\Models\AccessControl",
         "categories"            => "App\Models\ConfigItem",
@@ -30,6 +30,7 @@ class CURLRequestMapper {
         "flow-request"          => "App\Models\AssetRequest",
         "flow-asset-procure"    => "App\Models\AssetProcure",
         "flow-asset-out"        => "App\Models\AssetTransferOut",
+        "fatransfer"            => "App\Models\AssetTransferOut",
         "flow-asset-in"         => "App\Models\AssetReceive"
     );
     

@@ -18,10 +18,10 @@ abstract class BaseModel {
     protected $modal;
     protected $fadeTarget='';
     protected $paramMap;
+    protected $locale;
     
     private $serverURL;
     private $userKeyName;
-    private $locale;
     
     /**
      * 
@@ -93,6 +93,15 @@ abstract class BaseModel {
     
     protected function getRequestLocale () {
         return $this->locale;
+    }
+    
+    protected function convertDate ($format, $originDate) {
+        $timestamp  = strtotime ($originDate);
+        if ($timestamp) {
+            $newTimeFormat  = new Time ($originDate);
+            return $newTimeFormat->toLocalizedString ($format);
+        }
+        return FALSE;
     }
     
     public function __construct (string $licData, IncomingRequest $request, $keyName="atom") {

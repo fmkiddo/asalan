@@ -54,6 +54,14 @@ return array (
         ),
         'topbar'        => 'Warna Bar'
     ),
+    'status'    => array (
+        'Menunggu',
+        'Disetujui',
+        'Dikirim',
+        'Diterima',
+        'Disalurkan',
+        'Ditolak',
+    ),
     'texts'     => array (
         'common'   => array (
             'add'       => 'Tambah',
@@ -68,6 +76,7 @@ return array (
             'details'   => 'Rincian',
             'deactive'  => 'Non-Aktifkan',
             'upload'    => 'Unggah',
+            'user'      => 'Pengguna: {0}',
         ),
         'users'     => array (
             'title'     => 'Pengguna',
@@ -220,7 +229,7 @@ return array (
                 'fa_label4'     => 'Deskripsi',
                 'fa_label5'     => 'Tanggal Pengadaan',
                 'fa_label6'     => 'Nilai Pengadaan (IDR)',
-                'fa_label7'     => 'Jumlah',
+                'fa_label7'     => 'Total Aset',
                 'fa_label8'     => 'Masa Pakai (Tahun)',
                 'fa_label9'     => 'Catatan',
                 'disabled'      => array (
@@ -366,6 +375,8 @@ return array (
         'asset-transfer'        => array (
             'titles'                => array (
                 'Pemindahan Aset',
+                'Rincian Dokumen',
+                'Daftar Aset di',
             ),
             'ctitle'                => array (
                 'Total Transfer',
@@ -393,9 +404,9 @@ return array (
                     'No. Dokumen',
                     'Tanggal',
                     'Pemohon',
-                    'Approval',
-                    'Tgl. Keputusan',
                     'Status',
+                    'Persetujuan',
+                    'Tgl. Keputusan',
                 ),
                 'form'                  => array (
                     'Kode',

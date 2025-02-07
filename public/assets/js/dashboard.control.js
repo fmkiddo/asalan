@@ -9,7 +9,7 @@
 				text: $(dataSources[1]).text (),
 			}).append ($("<input/>", {
 				type: "hidden",
-				name: "fat-assetuuid[]",
+				name: "input-assetuuid[]",
 				value: data,
 			})).prop ("outerHTML"),
 			$(dataSources[2]).text (),
@@ -17,7 +17,7 @@
 			$("<span/>").append ($("<input/>", {
 				type: "hidden",
 				"data-target": "change-qty",
-				name: "fat-assetqty",
+				name: "input-assetqty[]",
 				value: $(dataSources[4]).text (),
 				min: 1,
 				max: $(dataSources[4]).text (),
@@ -53,26 +53,6 @@
 			$.fn.dataTable.tables ({'visible': true, 'api': true}).columns.adjust ();
 		});
 	});
-	body.on ("change", "[data-action]", function (event) {
-		var el		= $(event.currentTarget),
-			action	= el.attr ("data-action");
-		switch (action) {
-			case "do-filter":
-				var	target	= $(el.attr ("data-filter-target"));
-				if (target.is ("[data-table=\"true\"]")) {
-					target.attr ("data-sub-filter", el.val ());
-					target.DataTable ().ajax.reload ();
-				}
-				break;
-			case "reset-table":
-				var target = $(el.attr ("data-reset-target"));
-				if (DataTable.isDataTable (target)) {
-					var	dt	= target.DataTable ();
-					dt.clear ().draw ();
-				}
-				break;
-		}
-	});
 	body.on ("change", "#checkAll", function (event) {
 		var el		= $(event.currentTarget),
 			target	= $(el.attr ("data-target"));
@@ -104,6 +84,26 @@
 				if ($(tel).is ("[data-readonlyonedit=\"true\"]")) $(tel).attr ("readonly", true);
 				if ($(tel).is ("input")) $(tel).val (value);
 			});
+		}
+	});
+	body.on ("change", "[data-action]", function (event) {
+		var el		= $(event.currentTarget),
+			action	= el.attr ("data-action");
+		switch (action) {
+			case "do-filter":
+				var	target	= $(el.attr ("data-filter-target"));
+				if (target.is ("[data-table=\"true\"]")) {
+					target.attr ("data-sub-filter", el.val ());
+					target.DataTable ().ajax.reload ();
+				}
+				break;
+			case "reset-table":
+				var target = $(el.attr ("data-reset-target"));
+				if (DataTable.isDataTable (target)) {
+					var	dt	= target.DataTable ();
+					dt.clear ().draw ();
+				}
+				break;
 		}
 	});
 	body.on ("click", "[data-action]", function (event) {
@@ -138,6 +138,25 @@
 				} else {
 					
 				}
+				break;
+			case "submitFATForm":
+				var	el		= $(event.target),
+					target	= $(el.attr ("data-target")),
+					form	= el.closest ("form"),
+					table	= form.find ("[data-table]");
+				if (!DataTable.isDataTable (table)) return false;
+				var	tdt		= table.DataTable ();
+				if (tdt.rows ().count () === 0) {
+					var	msg		= form.attr ("data-alert"),
+						ttl		= form.attr ("data-alerttitle");
+					Swal.fire ({
+						title: ttl,
+						text: msg,
+						icon: "warning"
+					});
+					return false;
+				} 
+				target.click ();
 				break;
 		}
 	});

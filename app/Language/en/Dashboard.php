@@ -54,6 +54,14 @@ return array (
         ),
         'topbar'        => 'Bar Color'
     ),
+    'status'    => array (
+        'Pending',
+        'Approved',
+        'Sent',
+        'Received',
+        'Distributed',
+        'Declined',
+    ),
     'texts'     => array (
         'common'   => array (
             'add'       => 'Add',
@@ -68,6 +76,7 @@ return array (
             'details'   => 'Details',
             'deactive'  => 'Deactivate',
             'upload'    => 'Upload',
+            'user'      => 'Username: {0}',
         ),
         'users'     => array (
             'title'     => 'Pengguna',
@@ -219,7 +228,7 @@ return array (
                 'fa_label4'     => 'Description',
                 'fa_label5'     => 'Acquisition Date',
                 'fa_label6'     => 'Acquisition Cost (IDR)',
-                'fa_label7'     => 'Quantity',
+                'fa_label7'     => 'Total Assets',
                 'fa_label8'     => 'Lifespan (Year)',
                 'fa_label9'     => 'Remarks',
                 'disabled'      => array (
@@ -364,7 +373,9 @@ return array (
         ),
         'asset-transfer'        => array (
             'titles'                => array (
-                'Asset Transfer'
+                'Asset Transfer',
+                'Document Details',
+                'Asset List at',
             ),
             'ctitle'                => array (
                 'Total Transfer',
@@ -392,9 +403,9 @@ return array (
                     'Document #',
                     'Date',
                     'Applicant',
+                    'Status',
                     'Approval',
                     'Approval Date',
-                    'Status',
                 ),
                 'form'                  => array (
                     'Code',

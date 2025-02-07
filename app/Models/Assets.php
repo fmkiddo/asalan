@@ -6,6 +6,7 @@ class Assets extends BaseModel {
     
     protected $api      = "fixed-assets";
     protected $modal    = "modalAssetForm";
+    protected $showType = 1;
     protected $paramMap = array (
         'input-optlocation'     => 'newfa-locationcode',
         'input-optsubloc'       => 'newfa-sublocationcode',
@@ -152,6 +153,43 @@ class Assets extends BaseModel {
     
     /**
      * {@inheritDoc}
+     * @see \App\Models\BaseModel::getData()
+     */
+    public function getData(array &$payload, array $param, string $userData = "", bool $toDataTable = FALSE): int {
+        $url    = "";
+        if (!count ($param)) $url = $this->getServerURL ("{$this->api}?{$this->getUserKeyname ($userData)}");
+        else {
+            $searchVal  = array_key_exists ("search", $param) ? $param["search"]["value"] : "";
+            if ($searchVal === "") $url = $this->getServerURL ("{$this->api}?{$this->getUserKeyname($userData)}");
+            else {
+                $sortTarget = 0;
+                $sort       = "";
+                if (array_key_exists ("order", $param)) {
+                    $column     = $param["order"][0]["column"];
+                    if ($column !== 0) {
+                        $sortTarget = $this->columns[$column-1];
+                        $sort       = $param["order"][0]["dir"];
+                    }
+                }
+                $get        = "find%23{$searchVal}&colsort={$sortTarget}&typesort={$sort}";
+                $url        = $this->getServerURL ("{$this->api}?payload={$get}&{$this->getUserKeyname($userData)}");
+            }
+        }
+        
+        $url    .= "&showType={$this->showType}";
+        if (array_key_exists ("subdata", $param)) $url .= "&joint={$param["subdata"]}";
+        if (array_key_exists ('filterType', $param)) $url .= "&ref={$param['filterType']}&refdata={$param['subfilter']}";
+        //var_dump ($url);
+        $serverResponse = json_decode ($this->curl->request ("get", $url, $this->curlOpts)->getBody (), TRUE);
+        if ($serverResponse['status'] === 200 && array_key_exists ('data', $serverResponse)) {
+           $payload        = unserialize (base64_decode ($serverResponse['data']['payload']));
+           if ($toDataTable) $payload = $this->asDataTableFormat ($payload);
+        }
+        return $serverResponse['status'];
+    }
+    
+    /**
+     * {@inheritDoc}
      * @see \App\Models\BaseModel::createData()
      */
     public function createData (array $data, array &$response, string $userData = ""): int {
@@ -186,39 +224,18 @@ class Assets extends BaseModel {
      */
     public function asDataTableFormat (array $params): array {
         $output = array ();
-        $i = 1;
-        $isJoint = FALSE;
-        foreach ($params as $k => $row) {
-            if ($k === 'joint') $isJoint = $row;
-            else {
-                $assetCode  = $row['asset_code'];
-                if (!$isJoint) 
-                    $output[$k] = array (
-                        $this->generateFirstColumn ($i, $assetCode),
-                        "<span data-loadsource=\"config\">{$row['asset_config']}</span>",
-                        "<a id=\"openModalDetails\" class=\"d-hidden\" data-bs-target=\"#modalDetail\" data-bs-toggle=\"modal\" data-target=\"{$row['asset_code']}\"></a><span data-loadsource=\"serial\">{$row['asset_code']}</span>",
-                        "<span data-loadsource=\"dscript\">{$row['asset_dscript']}</span>",
-                        "<span data-loadsource=\"asset_total\">{$row['asset_total']}</span>",
-                    );
-                elseif (!array_key_exists ('asset_location', $row))
-                    $output[$k] = array (
-                        $this->generateFirstColumn ($i, $assetCode),
-                        "<span data-loadsource=\"serial\">{$row['asset_code']}</span>",
-                        "<span data-loadsource=\"dscript\">{$row['asset_dscript']}</span>",
-                        "<span data-loadsource=\"config\">{$row['asset_config']}</span>",
-                        "<span data-loadsource=\"sublocation\">{$row['asset_subloc']}</span>",
-                        "<span data-loadsource=\"asset_total\">{$row['asset_total']}</span>",
-                    );
-                else
-                    $output[$k] = array (
-                        $this->generateFirstColumn ($i, $assetCode),
-                        "<span data-loadsource=\"location\">{$row['asset_location']}</span>",
-                        "<span data-loadsource=\"sublocation\">{$row['asset_subloc']}</span>",
-                        "<span data-loadsource=\"asset_total\">{$row['asset_total']}</span>",
-                    );
-                $i++;
-            }
+        foreach ($params as $k => $asset) {
+            $assetCode  = $asset['code'];
+            $codeCol    = "<a id=\"openModalDetails\" class=\"d-hidden\" data-bs-toggle=\"modal\" data-bs-target=\"#modalDetail\"></a><span data-loadsource=\"serial\">{$assetCode}</span>";
+            $output[$k] = array (
+                $this->generateFirstColumn (($k+1), $assetCode),
+                "<span data-loadsource=\"config\">{$asset['config']['dscript']}</span>",
+                $codeCol,
+                "<span data-loadsource=\"dscript\">{$asset['name']}</span>",
+                "<span data-loadsource=\"asset_total\">{$asset['qty']}</span>",
+            );
         }
+        
         return $output;
     }
     

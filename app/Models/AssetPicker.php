@@ -11,17 +11,15 @@ class AssetPicker extends Assets {
     public function asDataTableFormat (array $params): array {
         $output = array ();
         foreach ($params as $k => $row) {
-            if ($k === 'joint') ;
-            else {
-                $uuid  = base64_encode ($row['asset_uuid']);
-                $output[$k] = array (
-                    $this->generateFirstColumn (($k+1), $uuid),
-                    "<span data-loadsource=\"code\">{$row['asset_code']}</span>",
-                    "<span data-loadsource=\"name\">{$row['asset_dscript']}</span>",
-                    "<span data-loadsource=\"sublocation\">{$row['asset_subloc']}</span>",
-                    "<span data-loadsource=\"qty\">{$row['asset_total']}</span>",
-                );
-            }
+            $i  = $k+1;
+            $uuid       = base64_encode ($row['uuid']);
+            $output[$k] = array (
+                $this->generateFirstColumn ($i, $uuid),
+                "<span data-loadsource=\"code\">{$row['code']}</span>",
+                "<span data-loadsource=\"name\">{$row['name']}</span>",
+                "<span data-loadsource=\"sublocation\">{$row['sublocation']['name']}</span>",
+                "<span data-loadsource=\"qty\">{$row['qty']}</span>",
+            );
         }
         return $output;
     }
