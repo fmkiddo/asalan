@@ -20,6 +20,12 @@ abstract class BaseModel {
     protected $paramMap;
     protected $locale;
     
+    /**
+     * 
+     * @var IncomingRequest $request
+     */
+    protected $request;
+    
     private $serverURL;
     private $userKeyName;
     
@@ -110,6 +116,7 @@ abstract class BaseModel {
          * @var Server $serverConfig
          */
         $serverConfig       = config ("Server");
+        $this->request      = $request;
         $this->locale       = $request->getLocale ();
         $this->serverURL    = "{$serverConfig->server_url}{$serverConfig->infix_url}{$serverConfig->postfix_url}";
         $this->userKeyName  = $keyName;
@@ -204,11 +211,10 @@ abstract class BaseModel {
     
     /**
      * 
-     * @param RequestInterface|CLIRequest $request
      * @return array
      */
-    public function createParams (RequestInterface|CLIRequest $request) {
-        $post   = $request->getPost ();
+    public function createParams () {
+        $post   = $this->request->getPost ();
         $params = array ();
         foreach ($this->paramMap as $key => $value) 
             $params[$value] = (array_key_exists ($key, $post) ?  ($post[$key] === 'true' ? TRUE : $post[$key]) : FALSE);

@@ -23,12 +23,12 @@
         											<a role="button" href="#modalCompForm" data-bs-toggle="modal">
         												<i class="mdi mdi-plus"></i>
         											</a>
-        											<a role="button" href="#listAttributes" data-bs-reload="list" data-loadtarget="#modalCompForm" data-clickonload="true">
+        											<a role="button" href="#listAttributes" data-action="reload-list" data-action-target="#listAttributes" data-clickonload="true">
         												<i class="mdi mdi-refresh" title=""></i>
     												</a>
     											</div>
         									</div>
-        									<ul id="listAttributes" class="component-list" data-fetch="attributes">
+        									<ul id="listAttributes" class="component-list" data-load-ajax="attributes">
         										<li class="empty d-none">{empty_list}</li>
         									</ul>
         									<div class="modal fade" id="modalCompForm" role="dialog" tabindex="-1">

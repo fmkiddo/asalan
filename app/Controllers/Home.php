@@ -163,9 +163,16 @@ class Home extends BaseController {
             ->addAssetResource ('assets/vendors/bootstrap-datepicker-1.10.0/locales/bootstrap-datepicker.id.min.js', AssetType::SCRIPT)
             ->addAssetResource ('assets/vendors/bootstrap-datepicker-1.10.0/locales/bootstrap-datepicker.en-US.min.js', AssetType::SCRIPT)
             ->addAssetResource ('assets/vendors/bootstrap-datepicker-1.10.0/locales/bootstrap-datepicker.fr.min.js', AssetType::SCRIPT)
-            ->addAssetResource ('assets/js/dashboard.bundle.js', AssetType::SCRIPT)
-            ->addAssetResource ('assets/js/dashboard.control.js', AssetType::SCRIPT);
+            ->addAssetResource ('assets/js/asalan.init.js', AssetType::SCRIPT)
+            ->addAssetResource ('assets/js/asalan.offcanvas.js', AssetType::SCRIPT)
+            ->addAssetResource ('assets/js/asalan.settings.js', AssetType::SCRIPT)
+            ->addAssetResource ('assets/js/asalan.dashboard.js', AssetType::SCRIPT)
+            ->addAssetResource ('assets/js/asalan.dashboard.data-load.js', AssetType::SCRIPT)
+            ->addAssetResource ('assets/js/asalan.dashboard.controls.js', AssetType::SCRIPT)
+            ->addAssetResource ('assets/js/asalan.dashboard.modal.js', AssetType::SCRIPT);
             
+        $this->loadPrivilegeData ();
+        
         if ($route !== '') {
             $var        = $langLoader->getVariableMapping ($route);
             if ($var !== FALSE) $this->addViewData ($var, array ($langLoader->getLanguage ($route)));
@@ -195,6 +202,11 @@ class Home extends BaseController {
             $dcVal3     = 0;
             $this->addViewData ('openProcure', $payload)->addViewData ('dc_value3', $dcVal3);
         }
+    }
+    
+    private function loadPrivilegeData () {
+        $this->addViewData ('canAddAsset', 'true')
+            ->addViewData ('canAddLocation', 'true');
     }
     
     private function processPost () {
@@ -230,9 +242,10 @@ class Home extends BaseController {
         }
         
         $validation = $this->validate ($rules);
+        var_dump ($validation);
         if (!$validation) {
         } else {
-            $json       = $model->createParams ($this->request);
+            $json       = $model->createParams ();
             if (!($json && $modelName)) {
             } else {
                 $response   = array ();

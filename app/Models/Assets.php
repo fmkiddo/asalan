@@ -4,8 +4,8 @@ namespace App\Models;
 
 class Assets extends BaseModel {
     
-    protected $api      = "fixed-assets";
-    protected $modal    = "modalAssetForm";
+    protected $api      = 'fixed-assets';
+    protected $modal    = 'modalAssetForm';
     protected $showType = 1;
     protected $paramMap = array (
         'input-optlocation'     => 'newfa-locationcode',
@@ -179,11 +179,11 @@ class Assets extends BaseModel {
         $url    .= "&showType={$this->showType}";
         if (array_key_exists ("subdata", $param)) $url .= "&joint={$param["subdata"]}";
         if (array_key_exists ('filterType', $param)) $url .= "&ref={$param['filterType']}&refdata={$param['subfilter']}";
-        //var_dump ($url);
+        
         $serverResponse = json_decode ($this->curl->request ("get", $url, $this->curlOpts)->getBody (), TRUE);
         if ($serverResponse['status'] === 200 && array_key_exists ('data', $serverResponse)) {
-           $payload        = unserialize (base64_decode ($serverResponse['data']['payload']));
-           if ($toDataTable) $payload = $this->asDataTableFormat ($payload);
+            $payload        = unserialize (base64_decode ($serverResponse['data']['payload']));
+            if ($toDataTable) $payload = $this->asDataTableFormat ($payload);
         }
         return $serverResponse['status'];
     }
@@ -226,7 +226,7 @@ class Assets extends BaseModel {
         $output = array ();
         foreach ($params as $k => $asset) {
             $assetCode  = $asset['code'];
-            $codeCol    = "<a id=\"openModalDetails\" class=\"d-hidden\" data-bs-toggle=\"modal\" data-bs-target=\"#modalDetail\"></a><span data-loadsource=\"serial\">{$assetCode}</span>";
+            $codeCol    = "<a class=\"d-hidden\" data-action=\"open-dialog\" data-action-target=\"#modalDetail\"></a><span data-loadsource=\"serial\">{$assetCode}</span>";
             $output[$k] = array (
                 $this->generateFirstColumn (($k+1), $assetCode),
                 "<span data-loadsource=\"config\">{$asset['config']['dscript']}</span>",

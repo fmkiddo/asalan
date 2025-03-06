@@ -52,7 +52,17 @@ return array (
             'dark'          => 'Tema Gelap',
             'light'         => 'Tema Terang'
         ),
-        'topbar'        => 'Warna Bar'
+        'topbar'        => 'Warna Bar',
+        'topbar_color'  => array (
+            'green'         => 'Hijau',
+            'yellow'        => 'Kuning',
+            'red'           => 'Merah',
+            'white'         => 'Putih',
+            'blue'          => 'Biru',
+            'black'         => 'Hitam',
+            'theme'         => 'Utama',
+            'default'       => 'Standar',
+        ),
     ),
     'status'    => array (
         'Menunggu',
@@ -61,6 +71,22 @@ return array (
         'Diterima',
         'Disalurkan',
         'Ditolak',
+        'Diperoleh',
+    ),
+    'reqtype'   => array (
+        'Tidak diketahui',
+        'Permintaan Pemindahan',
+        'Permintaan Pemusnahan',
+        'Permintaan Pengadaan',
+    ),
+    'alerts'  => array (
+        'titles'    => array (
+            'Galat',
+        ),
+        'messages'  => array (
+            'Maaf, mohon pilih lokasi terlebih dahulu!',
+            'Maaf, mohon pilih lokasi awal terlebih dahulu!'
+        )
     ),
     'texts'     => array (
         'common'   => array (
@@ -272,15 +298,16 @@ return array (
                 ),
                 'header'                => array (
                     array (
-                        'Document #',
-                        'Date',
-                        'Type of Request',
-                        'Applicant',
+                        'No. Dokumen',
+                        'Tanggal',
+                        'Jenis Permintaan',
+                        'Pemohon',
                         'Status'
                     ),
                     array (
                         'Kode',
                         'Deskripsi',
+                        'Est. Harga',
                         'Jumlah',
                         'Keterangan',
                     ),
@@ -291,12 +318,11 @@ return array (
                         'Jumlah',
                     ),
                     array (
-                        '',
+                        'Kategori',
+                        'Kode',
                         'Deskripsi',
                         'Sublokasi',
-                        'Jumlah',
-                        'Jumlah',
-                        'Jumlah',
+                        'Jumlah'
                     ),
                 ),
             ),
@@ -312,6 +338,7 @@ return array (
                     'Pilih lokasi',
                     'Pilih lokasi asal',
                     'Pilih lokasi tujuan',
+                    'Pilih sublokasi',
                     'Pilih lokasi aset',
                 ),
                 'procure_type'          => array (
@@ -375,7 +402,7 @@ return array (
         'asset-transfer'        => array (
             'titles'                => array (
                 'Pemindahan Aset',
-                'Rincian Dokumen',
+                'Rincian Dokumen Transfer Aset',
                 'Daftar Aset di',
             ),
             'ctitle'                => array (

@@ -1,6 +1,6 @@
     	<div class="container-fluid page-body-wrapper"><!-- Start of configuration panel on the right side of the screen -->
             <div class="theme-setting-wrapper">
-                <div id="settings-trigger">
+                <div id="settings-trigger" role="button">
                 	<i class="mdi mdi-cog"></i>
             	</div>{config}
                 <div id="theme-settings" class="settings-panel">
@@ -32,24 +32,24 @@
                 	</div>
                     <p class="settings-heading mt-2">{primary_text}</p>
                     <div class="color-tiles mx-0 px-4">
-                        <div class="tiles success"></div>
-                        <div class="tiles warning"></div>
-                        <div class="tiles danger"></div>
-                        <div class="tiles light"></div>
-                        <div class="tiles info"></div>
-                        <div class="tiles dark"></div>
-                        <div class="tiles primary"></div>
-                        <div class="tiles default"></div>
+                        <div class="tiles success" role="button" title="{color_green}"></div>
+                        <div class="tiles warning" role="button" title="{color_yellow}"></div>
+                        <div class="tiles danger" role="button" title="{color_red}"></div>
+                        <div class="tiles light" role="button" title="{color_white}"></div>
+                        <div class="tiles info" role="button" title="{color_blue}"></div>
+                        <div class="tiles dark" role="button" title="{color_black}"></div>
+                        <div class="tiles primary" role="button" title="{color_primary}"></div>
+                        <div class="tiles default" role="button" title="{color_default}"></div>
                     </div>
                 </div>
             </div>{/config}<!-- Start of sidebar -->
     		<nav id="sidebar" class="sidebar sidebar-offcanvas">
     			<ul class="nav">
     				<li class="nav-item text-light">
-    					<a role="button" class="navbar-brand brand-logo-mini" data-rediret="welcome">
+    					<a role="button" class="navbar-brand brand-logo-mini" data-action="home">
     						<img src="" alt="logo" />	
     					</a>
-    					<a role="button" class="navbar-brand brand-logo" data-rediret="welcome">
+    					<a role="button" class="navbar-brand brand-logo" data-action="home">
     						<img src="" alt="logo" />
     					</a>
     				</li>{sidebar}

@@ -84,14 +84,14 @@ class Profile extends BaseModel {
      * {@inheritDoc}
      * @see \App\Models\BaseModel::createParams()
      */
-    public function createParams (RequestInterface|CLIRequest $request) {
+    public function createParams () {
         // TODO Auto-generated method stub
-        $params = parent::createParams ($request);
+        $params = parent::createParams ();
         /**
          *
          * @var UploadedFile $file
          */
-        $file   = $request->getFile ('input-urpic');
+        $file   = $this->request->getFile ('input-urpic');
         $params['user-image'] = '';
         if ($file->getFilename() !== '') $params['user-image'] = _from_random (32, __SYS_ALPHA_NUMERIC__) . ".{$file->getExtension()}";
         return $params;

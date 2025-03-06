@@ -6,7 +6,7 @@
 												</a>
 												<ul class="dropdown-menu function-menu" style="overflow: auto;">
 													<li>
-														<a class="dropdown-item" role="button" href="#{modal_target}" data-target="{uuid}" data-open-form="true" data-action="fade" data-fade-target="#{fade_target}">
+														<a class="dropdown-item" role="button" href="#{modal_target}" data-target="{uuid}" data-edit-form="true" data-action="fade" data-fade-target="#{fade_target}">
 															<i class="mdi mdi-content-save-edit"></i> <span>{btn_update}</span>
 														</a> 
 													</li>

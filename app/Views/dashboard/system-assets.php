@@ -6,10 +6,10 @@
 									<div class="d-flex align-items-center justify-content-between">
 										<h3 class="card-title mb-0">{asset_title}</h3>
 										<div class="card-control">
-											<a role="button" data-action="open-dialog" data-action-target="#modalAssetForm" data-action-privilege="true">
+											<a role="button" data-action="open-dialog" data-action-target="#modalAssetForm">
 												<i class="mdi mdi-plus"></i>
 											</a>
-											<a role="button" href="#tableAssets" data-bs-reload="table" title="{btn_reload}">
+											<a role="button" href="#tableAssets" data-action="reload-table" title="{btn_reload}">
 												<i class="mdi mdi-reload"></i>
 											</a>
 										</div>
@@ -31,7 +31,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="modal fade" id="modalAssetForm" role="dialog" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+					<div class="modal fade" id="modalAssetForm" role="dialog" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" data-action-privilege="{canAddAsset}">
 						<div class="modal-dialog modal-xl">
 							<div class="modal-content">
 								<div class="modal-header">
@@ -144,7 +144,7 @@
         									<div class="control-section">
         										<h5>{subtitle0}</h5>
         										<div>
-        											<a role="button" href="#editAssetDesc" data-bs-toggle="collapse" aria-expanded="false" aria-controls="editAssetDesc">
+        											<a role="button" href="#editAssetDesc" data-action="open-editdialog" data-action-target="#editAssetDesc" data-bs-toggle="collapse" aria-expanded="false" aria-controls="editAssetDesc">
         												<span class="mdi mdi-file-edit"></span>
         											</a>
         										</div>
@@ -154,12 +154,12 @@
         											<tr>
         												<td width="30%">{fasset_label3}</td>
         												<td width="1%">:</td>
-        												<td data-loadtarget="serial"></td>
+        												<td data-loadtarget="serial" data-loadsource="serial"></td>
         											</tr>
         											<tr>
         												<td>{fasset_label2}</td>
         												<td>:</td>
-        												<td data-loadtarget="config"></td>
+        												<td data-loadtarget="config" data-loadtarget="config"></td>
         											</tr>
         											<tr>
         												<td>{fasset_label4}</td>
@@ -173,21 +173,15 @@
         											</tr>
         										</tbody>
         									</table>
-        									<div id="editAssetDesc" class="collapse">
+        									<div id="editAssetDesc" class="collapse mt-3">
         										<form method="post">
                 									<input type="hidden" name="{csrf_name}" value="{csrf_data}" />
                 									<input type="hidden" name="request-type" value="master-asset|edit" />
                 									<input type="hidden" name="atom" value="" />
                 									<div class="row">
-                										<div class="col-sm-6">
+                										<div class="col-sm-12">
                 											<div class="form-group">
-                												<label>:</label>
-                												<input type="text" class="form-control" data-loadtarget="serial" required />
-                											</div>
-                										</div>
-                										<div class="col-sm-6">
-                											<div class="form-group">
-                												<label>:</label>
+                												<label>{fasset_label4}:</label>
                 												<input type="text" class="form-control" data-loadtarget="dscript" required />
                 											</div>
                 										</div>
@@ -232,7 +226,7 @@
         												<div class="control-section">
         													<h5 class="modal-title">{fasset_tab_title0}</h5>
         													<div>
-                        										<a role="button" href="#tableAssetAllocation" data-bs-reload="table" title="{btn_reload}">
+                        										<a role="button" href="#tableAssetAllocation" data-action="reload-table" title="{btn_reload}">
                         											<i class="mdi mdi-reload"></i>
                         										</a>
         													</div>
@@ -255,7 +249,7 @@
         												<div class="control-section">
         													<h5 class="modal-title">{fasset_tab_title1}</h5>
         													<div>
-                        										<a role="button" href="#tableAssetPorcureHistory" data-bs-reload="table" title="{btn_reload}">
+                        										<a role="button" href="#tableAssetPorcureHistory" data-action="reload-table" title="{btn_reload}">
                         											<i class="mdi mdi-reload"></i>
                         										</a>
         													</div>
@@ -278,7 +272,7 @@
         												<div class="control-section">
         													<h5 class="modal-title">{fasset_tab_title2}</h5>
         													<div>
-                        										<a role="button" href="#tableAssetRemoveHistory" data-bs-reload="table" title="{btn_reload}">
+                        										<a role="button" href="#tableAssetRemoveHistory" data-action="reload-table" title="{btn_reload}">
                         											<i class="mdi mdi-reload"></i>
                         										</a>
         													</div>
@@ -295,7 +289,7 @@
         												<div class="control-section">
         													<h5 class="modal-title">{fasset_tab_title3}</h5>
         													<div>
-                        										<a role="button" href="#tableAssetMovementHistory" data-bs-reload="table" title="{btn_reload}">
+                        										<a role="button" href="#tableAssetMovementHistory" data-action="reload-table" title="{btn_reload}">
                         											<i class="mdi mdi-reload"></i>
                         										</a>
         													</div>

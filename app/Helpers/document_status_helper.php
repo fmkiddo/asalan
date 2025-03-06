@@ -8,10 +8,6 @@ if (! function_exists ('mutating_document_status')) {
                 $text   = lang ("Dashboard.status.0", [], $lang); // Pending
                 $string = "<span class=\"text-warning fw-bold\"><i class=\"mdi mdi-update\"></i> {$text}</span>";
                 break;
-            case -1:
-                $text   = lang ("Dashboard.status.5", [], $lang); // Declined
-                $string = "<span class=\"text-danger fw-bold\"><i class=\"mdi mdi-close-circle\"></i> {$text}</span>";
-                break;
             case 1:
                 $text   = lang ("Dashboard.status.1", [], $lang); // Approved
                 $string = "<span class=\"text-success fw-bold\"><i class=\"mdi mdi-check-decagram\"></i> {$text}</span>";
@@ -27,6 +23,14 @@ if (! function_exists ('mutating_document_status')) {
             case 4:
                 $text   = lang ("Dashboard.status.4", [], $lang); // Distributed
                 $string = "<span class=\"text-success fw-bold\"><i class=\"mdi mdi-warehouse\"></i> {$text}</span>";
+                break;
+            case 5:
+                $text   = lang ("Dashboard.status.5", [], $lang); // Declined
+                $string = "<span class=\"text-danger fw-bold\"><i class=\"mdi mdi-close-circle\"></i> {$text}</span>";
+                break;
+            case 6:
+                $text   = lang ("Dashboard.status.6", [], $lang); // Declined
+                $string = "<span class=\"text-success fw-bold\"><i class=\"mdi mdi-list-status\"></i> {$text}</span>";
                 break;
         }
         return $string;

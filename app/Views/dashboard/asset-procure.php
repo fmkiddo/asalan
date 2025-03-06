@@ -8,7 +8,7 @@
 										<a role="button" data-redirect="flow-request" data-getredirect="procure">
 											<span class="mdi mdi-plus"></span>
 										</a>
-										<a role="button" href="#tableFAProcurement" data-bs-reload="table" title="{tooltip0}">
+										<a role="button" href="#tableFAProcurement" data-action="reload-table" title="{tooltip0}">
 											<span class="mdi mdi-refresh"></span>
 										</a>
 									</div>
@@ -52,7 +52,7 @@
 									</div>
 								</div>
 								<hr class="separator" />
-								<table id="tableFAProcurement" class="table table-hover table-striped table-centered" data-table="true">
+								<table id="tableFAProcurement" class="table table-hover table-striped table-centered" data-table="true" role="button">
 									<thead>
 										<tr>
 											<th>#</th>

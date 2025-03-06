@@ -52,7 +52,17 @@ return array (
             'dark'          => 'Dark',
             'light'         => 'Light'
         ),
-        'topbar'        => 'Bar Color'
+        'topbar'        => 'Bar Color',
+        'topbar_color'  => array (
+            'green'         => 'Green',
+            'yellow'        => 'Yellow',
+            'red'           => 'Red',
+            'white'         => 'White',
+            'blue'          => 'Blue',
+            'black'         => 'Black',
+            'theme'         => 'Primary',
+            'default'       => 'Default',
+        ),
     ),
     'status'    => array (
         'Pending',
@@ -61,6 +71,22 @@ return array (
         'Received',
         'Distributed',
         'Declined',
+        'Procured',
+    ),
+    'reqtype'   => array (
+        'Unknown',
+        'Transfer Request',
+        'Removal Request',
+        'Procurement Request',
+    ),
+    'alerts'  => array (
+        'titles'    => array (
+            'Error',
+        ),
+        'messages'  => array (
+            'Please, pick location first!',
+            'Please, pick location of origin first!'
+        )
     ),
     'texts'     => array (
         'common'   => array (
@@ -280,6 +306,7 @@ return array (
                     array (
                         'Code',
                         'Description',
+                        'Est. Price',
                         'Qty',
                         'Remarks',
                     ),
@@ -290,12 +317,11 @@ return array (
                         'Qty',
                     ),
                     array (
-                        'Kode',
-                        'Deskripsi',
-                        'Sublokasi',
-                        'Jumlah',
-                        'Jumlah',
-                        'Jumlah',
+                        'Category',
+                        'Code',
+                        'Description',
+                        'Sublocation',
+                        'Qty'
                     ),
                 ),
             ),
@@ -311,6 +337,7 @@ return array (
                     'Choose locations',
                     'Choose transfer origin',
                     'Choose transfer destination',
+                    'Choose sublocation',
                     'Choose asset origin',
                 ),
                 'procure_type'          => array (
@@ -374,7 +401,7 @@ return array (
         'asset-transfer'        => array (
             'titles'                => array (
                 'Asset Transfer',
-                'Document Details',
+                'Asset Transfer Document Details',
                 'Asset List at',
             ),
             'ctitle'                => array (

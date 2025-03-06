@@ -5,10 +5,10 @@
 								<div class="d-flex align-items-center justify-content-between border-bottom border-grayl pb-2 mb-2">
 									<h3 class="card-title">{title0}</h3>
 									<div class="card-control">
-										<a role="button" href="#modalLocationForm" data-bs-toggle="modal">
+										<a role="button" href="#modalLocationForm" data-action="open-dialog">
 											<i class="mdi mdi-plus"></i>
 										</a>
-										<a role="button" href="#tableLocations" data-bs-reload="table" title="{btn_reload}">
+										<a role="button" href="#tableLocations" data-action="reload-table" title="{btn_reload}">
 											<i class="mdi mdi-reload"></i>
 										</a>
 									</div>
@@ -30,7 +30,7 @@
 									<tbody>
 									</tbody>
 								</table>
-								<div class="modal fade" id="modalLocationForm" role="dialog" tabindex="-1">
+								<div class="modal fade" id="modalLocationForm" role="dialog" tabindex="-1" data-action-privilege="{canAddLocation}">
 									<div class="modal-dialog modal-lg">
 										<div class="modal-content">
     										<div class="modal-header">
@@ -150,7 +150,7 @@
                                     										<a role="button" data-action="fade" data-fade-target="#faded-sublocations" href="#sublocationForm">
                                     											<i class="mdi mdi-plus"></i>
                                     										</a>
-                                    										<a role="button" href="#sublocationTable" data-bs-reload="table" title="{btn_reload}">
+                                    										<a role="button" href="#sublocationTable" data-action="reload-table" title="{btn_reload}">
                                     											<i class="mdi mdi-reload"></i>
                                     										</a>
         																</div>
@@ -192,7 +192,7 @@
         																	<button type="submit" class="btn btn-primary">
         																		<i class="mdi mdi-content-save"></i>
         																	</button>
-        																	<button type="button" class="btn btn-primary" data-action="fade" data-cancel-form="true" data-fade-target="#faded-sublocations" data-faded-target="#sublocationDataTable">
+        																	<button type="button" class="btn btn-primary" data-action="fade" data-cancel-form="true" data-fade-target="#faded-sublocations" data-action-target="#sublocationDataTable">
         																		<i class="mdi mdi-close"></i>
         																	</button>
         																</div>
@@ -204,7 +204,7 @@
 															<div class="control-section">
 																<h5>{title3}</h5>
                             									<div>
-                            										<a role="button" href="#fixedAssetsTable" data-bs-reload="table" title="{btn_reload}">
+                            										<a role="button" href="#fixedAssetsTable" data-action="reload-table" title="{btn_reload}">
                             											<i class="mdi mdi-reload"></i>
                             										</a>
                             									</div>

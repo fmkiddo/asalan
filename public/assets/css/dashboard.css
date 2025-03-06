@@ -451,6 +451,15 @@ ul.dropdown-menu.function-menu li:last-child a.dropdown-item {
 
 .form-image .form-image-container {
 	width: 100%;
+}
+
+.form-image .form-image-container.carousel .carousel-inner {
+	width: 100%;
+}
+
+.form-image .form-image-container.carousel .carousel-inner .carousel-item {
+	width: 100%;
+	background: no-repeat 50% / 100%;
 	padding-top: 100%;
 }
 
